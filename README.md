@@ -12,8 +12,8 @@ Inspired by GEPA's optimize_anything API. Uses Claude as both the proposer (to g
 
 | Document | Description |
 |----------|-------------|
-| [Design Document](docs/plans/2026-03-02-optimize-anything-design.md) | Architecture decisions, component specs, data model |
-| [Implementation Plan](docs/plans/2026-03-02-implementation-plan.md) | 12-task build plan with full code listings |
+| [Design Document](docs/plans/optimize-anything-design.md) | Architecture decisions, component specs, data model |
+| [Implementation Plan](docs/plans/implementation-plan.md) | 12-task build plan with full code listings |
 | [Skill Optimization Demo](scripts/optimize_skill.py) | Example: optimizing a Claude Code skill from 91% to 100% |
 
 ## How It Works
