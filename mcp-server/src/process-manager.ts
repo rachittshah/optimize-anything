@@ -1,9 +1,13 @@
 // mcp-server/src/process-manager.ts
 import { spawn, ChildProcess } from 'child_process';
 import { readFileSync, existsSync, writeFileSync, mkdirSync, readdirSync } from 'fs';
-import { join } from 'path';
+import { join, dirname } from 'path';
 import { homedir } from 'os';
 import { randomUUID } from 'crypto';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 export interface RunConfig {
   seed_candidate?: Record<string, string>;

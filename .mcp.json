@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "optimize-anything": {
+      "command": "node",
+      "args": ["/Users/rshah/optimize-anything/mcp-server/dist/index.js"]
+    }
+  }
+}
