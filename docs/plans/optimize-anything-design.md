@@ -1,9 +1,5 @@
 # optimize_anything Design Document
 
-**Date:** 2026-03-02
-**Author:** Claude Opus 4.6 + rshah
-**Status:** Approved
-
 ## Overview
 
 A standalone universal optimization system inspired by GEPA's `optimize_anything` API. Optimizes any text artifact (prompts, code, configs, agent architectures, SVGs) through iterative LLM-powered search with evaluation feedback. Exposes as a Python CLI/library, TypeScript MCP server, and Claude Code skill.
@@ -269,3 +265,4 @@ Mode: Multi-task (multiple scenarios)
 - No multi-provider LLM support (Claude only)
 - No distributed/concurrent optimization
 - No image ASI support (text-only v1)
+
