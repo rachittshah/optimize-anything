@@ -4,6 +4,18 @@ A universal optimization system that improves any text artifact — prompts, cod
 
 Inspired by GEPA's optimize_anything API. Uses Claude as both the proposer (to generate improvements) and optionally as an evaluator (LLM-as-judge).
 
+## Architecture
+
+![Architecture](docs/images/architecture.png)
+
+## Documentation
+
+| Document | Description |
+|----------|-------------|
+| [Design Document](docs/plans/2026-03-02-optimize-anything-design.md) | Architecture decisions, component specs, data model |
+| [Implementation Plan](docs/plans/2026-03-02-implementation-plan.md) | 12-task build plan with full code listings |
+| [Skill Optimization Demo](scripts/optimize_skill.py) | Example: optimizing a Claude Code skill from 91% to 100% |
+
 ## How It Works
 
 ```

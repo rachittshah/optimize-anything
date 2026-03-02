@@ -1,0 +1,70 @@
+%%{init: {'theme': 'dark', 'themeVariables': {'primaryColor': '#6366f1', 'primaryTextColor': '#fff', 'primaryBorderColor': '#818cf8', 'lineColor': '#94a3b8', 'secondaryColor': '#1e293b', 'tertiaryColor': '#0f172a', 'background': '#0f172a', 'mainBkg': '#1e293b', 'nodeBorder': '#818cf8', 'clusterBkg': '#1e293b', 'titleColor': '#e2e8f0', 'edgeLabelBackground': '#1e293b'}}}%%
+
+flowchart TB
+    subgraph USER["User / Claude Code"]
+        A["Seed Candidate<br/>(prompt, code, config)"]
+        B["Evaluator Config<br/>(Python / Shell / LLM Judge)"]
+        C["Objective<br/>(natural language goal)"]
+    end
+
+    subgraph ENGINE["Python Optimization Engine"]
+        D["Initialize State<br/>+ Pareto Frontier"]
+        E["SELECT parent<br/>from frontier"]
+        F["SAMPLE minibatch<br/>from dataset"]
+        G["EVALUATE parent<br/>→ score + ASI"]
+        H["REFLECT on ASI<br/>+ build prompt"]
+        I["PROPOSE improvement<br/>via Claude API"]
+        J["EVALUATE new<br/>candidate"]
+        K{"Better than<br/>parent?"}
+        L["UPDATE Pareto<br/>frontier"]
+        M{"Budget<br/>exhausted?"}
+        N["CHECKPOINT<br/>to disk"]
+        O["Return best<br/>candidate + history"]
+    end
+
+    subgraph EVALUATORS["Evaluator Types"]
+        P["Python Evaluator<br/>(subprocess)"]
+        Q["Shell Evaluator<br/>(command + regex)"]
+        R["LLM Judge<br/>(Claude Sonnet)"]
+    end
+
+    subgraph MCP["TypeScript MCP Server"]
+        S["optimize_anything"]
+        T["check_optimization"]
+        U["get_best_candidate"]
+        V["stop_optimization"]
+        W["list_optimization_runs"]
+    end
+
+    A --> D
+    B --> D
+    C --> D
+    D --> E
+    E --> F
+    F --> G
+    G --> H
+    H --> I
+    I --> J
+    J --> K
+    K -->|Yes| L
+    K -->|No| M
+    L --> M
+    M -->|No| E
+    M -->|Yes| O
+    E -.->|every N iters| N
+
+    G --> P & Q & R
+    J --> P & Q & R
+
+    S -->|spawns| D
+    T -->|reads| N
+    U -->|reads| O
+    V -->|kills| ENGINE
+    W -->|lists| N
+
+    style USER fill:#1e293b,stroke:#6366f1,color:#e2e8f0
+    style ENGINE fill:#0f172a,stroke:#818cf8,color:#e2e8f0
+    style EVALUATORS fill:#1e293b,stroke:#6366f1,color:#e2e8f0
+    style MCP fill:#1e293b,stroke:#6366f1,color:#e2e8f0
+    style K fill:#6366f1,stroke:#818cf8,color:#fff
+    style M fill:#6366f1,stroke:#818cf8,color:#fff
