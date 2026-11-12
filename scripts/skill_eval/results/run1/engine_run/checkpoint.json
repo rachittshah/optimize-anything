@@ -1,0 +1,244 @@
+{
+  "component_names": [
+    "skill"
+  ],
+  "candidates": [
+    {
+      "components": {
+        "skill": "---\nname: optimize-anything\ndescription: Use when optimizing any text artifact \u2014 prompts, code, configs, agent architectures, policies \u2014 through iterative LLM-powered search with evaluation feedback. Also use when the user mentions GEPA, optimize, evolve, or improve via search.\n---\n\n# optimize_anything\n\nOptimize any text artifact through iterative LLM-powered search with diagnostic feedback.\n\n## Core Concept\n\nIf it can be serialized to a string and its quality measured, it can be optimized. The system proposes improvements via Claude reflection on evaluation diagnostics (ASI), tracks a Pareto frontier of non-dominated solutions, and iterates until budget is exhausted.\n\n## When to Use\n\n- \"Optimize this prompt\" \u2014 prompt optimization\n- \"Make this code faster\" \u2014 code optimization with benchmarks\n- \"Find a better agent architecture\" \u2014 agent evolution\n- \"Tune this config\" \u2014 configuration optimization\n- Any task where you have a text artifact + a way to score it\n\n## Three Modes\n\n1. **Single-task**: One problem to solve. No dataset needed.\n2. **Multi-task**: Batch of related problems. Cross-transfer of insights.\n3. **Generalization**: Train + val split. Optimized artifact must transfer to unseen examples.\n\n## How to Formulate an Optimization\n\nEvery optimization needs three things:\n\n| Component | Question | Example |\n|-----------|----------|---------|\n| **Candidate** | What text are we optimizing? | `{\"system_prompt\": \"You are...\"}` |\n| **Evaluator** | How do we score it? | Python fn, shell command, or LLM judge criteria |\n| **Objective** | What are we optimizing for? | \"Maximize accuracy while minimizing verbosity\" |\n\n## Evaluator Selection Guide\n\n| Evaluator | When to Use | Example |\n|-----------|-------------|---------|\n| **Python** | Complex scoring logic, API calls, test suites | `def evaluate(c, e): return run_tests(c)` |\n| **Shell** | CLI tools, benchmarks, existing test runners | `echo '{{candidate}}' \\| python bench.py` |\n| **LLM Judge** | Subjective quality, no code needed | \"Rate clarity and specificity, SCORE: X/10\" |\n\n## Recipe 1: Optimize a System Prompt\n\n```\nCall optimize_anything MCP tool with:\n  seed_candidate: {\"system_prompt\": \"<current prompt>\"}\n  evaluator: {type: \"llm_judge\", criteria: \"Rate helpfulness, accuracy, conciseness. SCORE: X/10\"}\n  objective: \"Maximize response quality\"\n  dataset: [{\"input\": \"example query 1\"}, {\"input\": \"example query 2\"}, ...]\n  config: {max_iterations: 20}\n```\n\n## Recipe 2: Optimize Code for Performance\n\n```\nCall optimize_anything MCP tool with:\n  seed_candidate: {\"algorithm\": \"<current code>\"}\n  evaluator: {type: \"shell\", command: \"python bench.py {{candidate_file}}\", score_pattern: \"Score: ([\\\\d.]+)\"}\n  objective: \"Maximize speed while maintaining correctness\"\n  config: {max_iterations: 30}\n```\n\n## Recipe 3: Discover Agent Architecture\n\n```\nCall optimize_anything MCP tool with:\n  seed_candidate: {\"agent_code\": \"<initial harness>\"}\n  evaluator: {type: \"python\", code: \"def evaluate(c, e): ...run agent, return score...\"}\n  objective: \"Maximize task completion accuracy\"\n  dataset: [<train_tasks>]\n  valset: [<held_out_tasks>]\n  config: {max_iterations: 50}\n```\n\n## Recipe 4: Optimize Config/Policy\n\n```\nCall optimize_anything MCP tool with:\n  seed_candidate: {\"config\": \"<yaml or json>\"}\n  evaluator: {type: \"shell\", command: \"deploy_and_test.sh {{candidate_file}}\", score_pattern: \"metric: ([\\\\d.]+)\"}\n  objective: \"Minimize cost while maintaining SLA\"\n  dataset: [<scenarios>]\n  config: {max_iterations: 25}\n```\n\n## Workflow\n\n1. Identify the artifact to optimize and decompose into components\n2. Choose the right evaluator type\n3. Define objective and any background context\n4. Call `optimize_anything` MCP tool \u2014 returns a run_id\n5. Poll with `check_optimization` to monitor progress\n6. Retrieve results with `get_best_candidate`\n7. Apply the optimized artifact\n\n## Key Concepts\n\n- **ASI (Actionable Side Information)**: Diagnostic feedback from evaluator (errors, traces, scores) that helps the proposer make targeted improvements\n- **Pareto Frontier**: Tracks non-dominated solutions across multiple objectives/examples\n- **Reflective Mutation**: Claude reads ASI, diagnoses issues, proposes targeted fixes \u2014 not blind evolution\n- **Minibatch Reflection**: Each iteration focuses on a subset of examples, rotating coverage over time\n"
+      },
+      "parent_ids": [],
+      "tag": ""
+    },
+    {
+      "components": {
+        "skill": "---\nname: optimize-anything\ndescription: Run the optimize_anything tool (GEPA-style search) to iteratively improve a text artifact (prompt, code, regex, config, policy, agent harness, multi-file text) against an evaluator. Use when the request has (1) an artifact that is text, (2) a success signal that can score candidates: metric, tests, labeled or expected outputs, benchmark script, or a rubric, and (3) a wish for repeated propose-evaluate cycles (\"optimize/evolve/search/keep improving until it passes the tests or benchmark\"). Also use when the user names GEPA or optimize_anything. Do NOT use for one-shot edits, rewrites or critiques with no evaluator; building an eval set or judge; writing tests; profiling or speeding up one query by hand; fine-tuning model weights; numeric hyperparameter tuning (Optuna, grid search); or questions about how the method works.\n---\n\n# optimize_anything\n\nThe tool proposes edits to a text candidate, scores each edit with your evaluator, reflects on the evaluator's diagnostics (ASI), and keeps a Pareto frontier until the budget runs out. Your job is to emit one sound tool call, or to ask for clarification when you cannot build one.\n\n## When to clarify instead of calling\n\nReply with `CLARIFY:` and numbered questions only for blocking gaps:\n- no artifact (nothing to seed);\n- no success signal (no tests, labels, benchmark or criteria);\n- no data when the goal depends on inputs.\n\nFor each question, say what the answer unlocks, e.g. \"Share 10 labeled examples \u2192 lets me score accuracy with a python evaluator.\"\n\nIf the gap is non-blocking, make a reasonable assumption, state it, and call the tool.\n\n## Tool arguments (one JSON object)\n\n| Field | Rule |\n|---|---|\n| `seed_candidate` | Dict of component name \u2192 full current text. One key per file or part being changed, with the actual contents copied in, not a placeholder. |\n| `evaluator` | `python`, `shell`, or `llm_judge` (see below), plus a `timeout` in seconds of at least 2-3\u00d7 one evaluation's runtime. |\n| `objective` | Specific and measurable. Name the metric, any numeric target, and the hard constraints (signature, correctness, length, no deps). |\n| `background` | Facts the proposer needs: how scoring works, what the data looks like, constraints. Do not dictate the solution. |\n| `dataset` | List of example dicts. Omit it for single-task runs. |\n| `valset` | Held-out examples, disjoint from `dataset`. |\n| `config` | Always set both `max_metric_calls` and `max_iterations`. |\n\n## Choosing the evaluator\n\n- **Verifiable signal** (labels, expected outputs, tests, benchmark) \u2192 `python` or `shell`, never `llm_judge`.\n- **Existing script, test runner or benchmark** \u2192 `shell`.\n- **Labeled examples, or logic you write yourself** \u2192 `python`.\n- **Subjective target only** (tone, clarity) \u2192 `llm_judge`. Give concrete, anchored criteria, e.g. \"10 = \u2026, 5 = \u2026, 0 = \u2026\", ending in `SCORE: X/10`.\n\nThe score must measure exactly what the user asked for. Do not add extra terms, such as order-sensitive exact match when the user only cares about set membership, or length penalties nobody requested. Gate on correctness: a wrong output scores 0 or near it, however fast it is.\n\n## Python evaluator rules\n\n- Stdlib only. It runs in a subprocess, so put test data in `dataset`/`valset` rather than reading files.\n- Define `evaluate(candidate, example)`.\n- Accept `candidate` as a str or a dict.\n- Handle `example=None` by scoring a small inline sample of train cases, never val cases.\n- Return `(score, info)`, where `score` is a float in [0,1] and `info` is a JSON-serializable dict.\n- Catch exceptions (bad regex, syntax errors, exec failures) and return 0 with the error message in the ASI. Never crash.\n- Rich ASI is what drives improvement. Include the input, expected vs got, missing and extra items, failing checks, and parse or exec errors. With several components, make it clear which component likely caused each failure.\n\nTemplate:\n\n```python\nimport json, re\n\nSAMPLE = [{\"input\": \"...\", \"expected\": \"...\"}]  # a few train cases, for example=None\n\ndef as_dict(candidate):\n    if isinstance(candidate, dict):\n        return candidate\n    return {\"main\": str(candidate)}\n\ndef score_one(c, ex):\n    try:\n        got = run(c, ex[\"input\"])           # apply candidate to the input\n    except Exception as err:\n        return 0.0, {\"input\": ex[\"input\"], \"error\": repr(err)}\n    exp = ex[\"expected\"]\n    s = metric(got, exp)                    # matches the user's notion of success, in [0,1]\n    return s, {\"input\": ex[\"input\"], \"expected\": exp, \"got\": got,\n               \"failing_checks\": diff(got, exp)}\n\ndef evaluate(candidate, example=None):\n    c = as_dict(candidate)\n    if example is None:\n        results = [score_one(c, ex) for ex in SAMPLE]\n        mean = sum(s for s, _ in results) / len(results)\n        return mean, {\"cases\": [info for _, info in results]}\n    return score_one(c, example)\n```\n\n## Shell evaluator rules\n\n- Pass the candidate via `{{candidate_file}}`. Never inline `{{candidate}}`, which is unquoted injection. For a dict candidate, the file holds the component text, so use a single component when a script expects one file.\n- The command must print a score already in [0,1], matched by `score_pattern` (e.g. `\"Score: ([\\\\d.]+)\"`). If the script reports raw time or counts, normalize them in a small wrapper.\n- Examples reach the command only via `{{example_file}}` or `{{example_json}}`. Without one of these, the run is single-task.\n- Stdout and stderr become the ASI. Append `2>&1`, and prefer a verbose mode or wrapper that prints per-case pass/fail, inputs, expected vs got, and timings, not just one number.\n\n## Modes and splits\n\n- **Single-task:** one problem, no `dataset`. Typical for a benchmark script that fixes its own inputs.\n- **Multi-task:** `dataset` of examples, so insights transfer across cases.\n- **Generalization:** `dataset` plus a disjoint `valset`. Use it when the user cares about unseen inputs or has enough data, roughly 20+ examples, holding out about 20-30%. Never copy val examples into `dataset`, `background`, the seed or the evaluator's sample.\n\n## Budget\n\n- Respect any budget the user states, translated into `max_metric_calls`.\n- Cheap, deterministic evaluations (under 1s): `max_metric_calls` 150-400, `max_iterations` 20-40.\n- Expensive evaluations (LLM calls, judge, builds over 10s): `max_metric_calls` 30-100, `max_iterations` 10-20.\n- Each iteration costs about minibatch size plus validation calls, so scale `max_metric_calls` with dataset size.\n\n## Example call (multi-component, labeled data)\n\n```json\n{\n  \"seed_candidate\": {\"split.txt\": \"<file text>\", \"stopwords.txt\": \"<file text>\"},\n  \"evaluator\": {\"type\": \"python\", \"timeout\": 30, \"code\": \"<follows template; set-F1 vs expected; ASI lists missing/extra tokens>\"},\n  \"objective\": \"Maximize mean keyword F1 vs expected keywords; split.txt must remain a valid Python regex.\",\n  \"background\": \"Tokens come from re.split(split, title.lower()) minus stopwords. Punctuation is handled by the split pattern, function words by stopwords.\",\n  \"dataset\": [{\"text\": \"...\", \"keywords\": [\"...\"]}],\n  \"config\": {\"max_metric_calls\": 200, \"max_iterations\": 25}\n}\n```\n\n## After the call\n\nThe call returns a `run_id`. Monitor progress with `check_optimization`, fetch the winner with `get_best_candidate`, then apply it and verify it against the user's original tests."
+      },
+      "parent_ids": [
+        0
+      ],
+      "tag": "reflective_mutation"
+    },
+    {
+      "components": {
+        "skill": "---\nname: optimize-anything\ndescription: Run the optimize_anything tool (GEPA-style search) to iteratively improve a text artifact (prompt, code, regex, config, policy, agent harness, multi-file text) against an evaluator. Use when the request has (1) an artifact that is text, (2) a success signal that can score candidates: metric, tests, labeled or expected outputs, benchmark script, or a rubric, and (3) a wish for repeated propose-evaluate cycles (\"optimize/evolve/search/keep improving until it passes the tests or benchmark\"). Also use when the user names GEPA or optimize_anything. Do NOT use for one-shot edits, rewrites or critiques with no evaluator; building an eval set or judge; writing tests; profiling or speeding up one query by hand; fine-tuning model weights; numeric hyperparameter tuning (Optuna, grid search); or questions about how the method works.\n---\n\n# optimize_anything\n\nThe tool proposes edits to a text candidate, scores each edit with your evaluator, reflects on the evaluator's diagnostics (ASI), and keeps a Pareto frontier until the budget runs out. Your job is to emit one sound tool call, or to ask for clarification when you cannot build one.\n\n## When to clarify instead of calling\n\nReply with `CLARIFY:` and numbered questions only for blocking gaps:\n- no artifact (nothing to seed);\n- no success signal (no tests, labels, benchmark or criteria);\n- no data when the goal depends on inputs.\n\nFor each question, say what the answer unlocks, e.g. \"Share 10 labeled examples \u2192 lets me score accuracy with a python evaluator.\"\n\nIf the gap is non-blocking, make a reasonable assumption, state it, and call the tool.\n\n## Tool arguments (one JSON object)\n\n| Field | Rule |\n|---|---|\n| `seed_candidate` | Dict of component name \u2192 full current text. One key per file or part being changed, with the actual contents copied in, not a placeholder. |\n| `evaluator` | `python`, `shell`, or `llm_judge` (see below), plus a `timeout` in seconds of at least 2-3\u00d7 one evaluation's runtime. |\n| `objective` | Specific and measurable. Name the metric, any numeric target, and the hard constraints (signature, correctness, length, no deps). |\n| `background` | Facts the proposer needs: how scoring works, what the data looks like, constraints. Do not dictate the solution. |\n| `dataset` | List of example dicts. Omit it for single-task runs. |\n| `valset` | Held-out examples, disjoint from `dataset`. |\n| `config` | Always set both `max_metric_calls` and `max_iterations`. |\n\n## Choosing the evaluator\n\n- **Verifiable signal** (labels, expected outputs, tests, benchmark) \u2192 `python` or `shell`, never `llm_judge`.\n- **Existing script, test runner or benchmark** \u2192 `shell`.\n- **Labeled examples, or logic you write yourself** \u2192 `python`.\n- **Subjective target only** (tone, clarity, readability) \u2192 `llm_judge`.\n\nThe score must measure exactly what the user asked for. Do not add extra terms, such as order-sensitive exact match when the user only cares about set membership, or length penalties nobody requested. Gate on correctness: a wrong output scores 0 or near it, however fast it is.\n\n## llm_judge rules\n\n- Write a few concrete, checkable criteria, such as \"names at least 2 next steps\" or \"no jargon\". Avoid vague goals like \"is good\".\n- Turn each hard constraint into an explicit score cap, e.g. \"over 90 words \u2192 max 4\" or \"missing a link home \u2192 max 5\". Put the same constraints in `objective`.\n- Anchor the scale: \"10 = \u2026, 7 = \u2026, 4 = \u2026, 0 = \u2026\".\n- For ASI, require the judge to output, before the score, one line per criterion: a 0-10 sub-score, the quoted offending text, and one specific fix.\n- End the criteria text with: \"Finish with `SCORE: X/10`.\"\n\n## Python evaluator rules\n\n- Stdlib only. It runs in a subprocess, so put test data in `dataset`/`valset` rather than reading files.\n- Define `evaluate(candidate, example)`.\n- Accept `candidate` as a str or a dict.\n- Handle `example=None` by scoring a small inline sample of train cases, never val cases.\n- Return `(score, info)`, where `score` is a float in [0,1] and `info` is a JSON-serializable dict.\n- Catch exceptions (bad regex, syntax errors, exec failures) and return 0 with the error message in the ASI. Never crash.\n- Rich ASI is what drives improvement. Include the input, expected vs got, missing and extra items, failing checks, and parse or exec errors. With several components, make it clear which component likely caused each failure.\n\nTemplate:\n\n```python\nimport json, re\n\nSAMPLE = [{\"input\": \"...\", \"expected\": \"...\"}]  # a few train cases, for example=None\n\ndef as_dict(candidate):\n    if isinstance(candidate, dict):\n        return candidate\n    return {\"main\": str(candidate)}\n\ndef score_one(c, ex):\n    try:\n        got = run(c, ex[\"input\"])           # apply candidate to the input\n    except Exception as err:\n        return 0.0, {\"input\": ex[\"input\"], \"error\": repr(err)}\n    exp = ex[\"expected\"]\n    s = metric(got, exp)                    # matches the user's notion of success, in [0,1]\n    return s, {\"input\": ex[\"input\"], \"expected\": exp, \"got\": got,\n               \"failing_checks\": diff(got, exp)}\n\ndef evaluate(candidate, example=None):\n    c = as_dict(candidate)\n    if example is None:\n        results = [score_one(c, ex) for ex in SAMPLE]\n        mean = sum(s for s, _ in results) / len(results)\n        return mean, {\"cases\": [info for _, info in results]}\n    return score_one(c, example)\n```\n\n## Shell evaluator rules\n\n- Pass the candidate via `{{candidate_file}}`. Never inline `{{candidate}}`, which is unquoted injection. For a dict candidate, the file holds the component text, so use a single component when a script expects one file.\n- The command must print a score already in [0,1], matched by `score_pattern` (e.g. `\"Score: ([\\\\d.]+)\"`). If the script reports raw time or counts, normalize them in a small wrapper.\n- Examples reach the command only via `{{example_file}}` or `{{example_json}}`. Without one of these, the run is single-task.\n- Stdout and stderr become the ASI. Append `2>&1`, and prefer a verbose mode or wrapper that prints per-case pass/fail, inputs, expected vs got, and timings, not just one number.\n\n## Modes and splits\n\n- **Single-task:** one problem, no `dataset`. Typical for a benchmark script that fixes its own inputs, or for polishing one document with a judge.\n- **Multi-task:** `dataset` of examples, so insights transfer across cases.\n- **Generalization:** `dataset` plus a disjoint `valset`. Use it when the user cares about unseen inputs or has enough data, roughly 20+ examples, holding out about 20-30%. Never copy val examples into `dataset`, `background`, the seed or the evaluator's sample.\n\n## Budget\n\n- Respect any budget the user states, translated into `max_metric_calls`.\n- Cheap, deterministic evaluations (under 1s): `max_metric_calls` 150-400, `max_iterations` 20-40.\n- Expensive evaluations (LLM calls, builds over 10s): `max_metric_calls` 30-100, `max_iterations` 10-20.\n- llm_judge on a single artifact: keep it small, with `max_metric_calls` 15-30 and `max_iterations` 6-10. Each call costs money and the gains plateau quickly.\n- Each iteration costs about minibatch size plus validation calls, so scale `max_metric_calls` with dataset size.\n\n## Example call (multi-component, labeled data)\n\n```json\n{\n  \"seed_candidate\": {\"split.txt\": \"<file text>\", \"stopwords.txt\": \"<file text>\"},\n  \"evaluator\": {\"type\": \"python\", \"timeout\": 30, \"code\": \"<follows template; set-F1 vs expected; ASI lists missing/extra tokens>\"},\n  \"objective\": \"Maximize mean keyword F1 vs expected keywords; split.txt must remain a valid Python regex.\",\n  \"background\": \"Tokens come from re.split(split, title.lower()) minus stopwords. Punctuation is handled by the split pattern, function words by stopwords.\",\n  \"dataset\": [{\"text\": \"...\", \"keywords\": [\"...\"]}],\n  \"config\": {\"max_metric_calls\": 200, \"max_iterations\": 25}\n}\n```\n\nFor a subjective single document, use `{\"type\": \"llm_judge\", \"timeout\": 120, \"criteria\": \"<checkable criteria; caps for hard limits; per-criterion sub-score + fix; SCORE: X/10>\"}`, no `dataset`, and `config` `{\"max_metric_calls\": 16, \"max_iterations\": 8}`.\n\n## After the call\n\nThe call returns a `run_id`. Monitor progress with `check_optimization`, fetch the winner with `get_best_candidate`, then apply it and verify it against the user's original tests."
+      },
+      "parent_ids": [
+        1
+      ],
+      "tag": "reflective_mutation"
+    },
+    {
+      "components": {
+        "skill": "---\nname: optimize-anything\ndescription: Run the optimize_anything tool (GEPA-style search) to iteratively improve a text artifact (prompt, agent instructions, code, regex, config, policy, agent harness, multi-file text) against an evaluator. Use when the request has (1) an artifact that is text, (2) a success signal that can score candidates: metric, tests, labeled or expected outputs, benchmark script, checkable constraints, or a rubric, and (3) a wish for repeated propose-evaluate cycles (\"optimize/tune/evolve/keep improving until it passes the tests or benchmark, make it generalize\"). Also use when the user names GEPA or optimize_anything. Do NOT use for one-shot edits, rewrites or critiques with no evaluator; building an eval set or judge; writing tests; profiling or speeding up one query by hand; fine-tuning model weights; numeric hyperparameter tuning (Optuna, grid search); or questions about how the method works.\n---\n\n# optimize_anything\n\nThe tool proposes edits to a text candidate, scores each edit with your evaluator, reflects on the evaluator's diagnostics (ASI), and keeps a Pareto frontier until the budget runs out. Your job is to emit one sound tool call, or to ask for clarification only when no sound call is possible.\n\n## Call or clarify\n\n**Default to calling.** Reply with `CLARIFY:` only for blocking gaps:\n- no artifact (nothing to seed);\n- no success signal (no tests, labels, expected outputs, benchmark, checkable constraints or criteria);\n- no data when the goal depends on inputs.\n\nThese are NOT blocking. Assume, state the assumption in one line, and call:\n- **The artifact is a prompt or instructions that a model must run.** The python evaluator calls an LLM API with stdlib `urllib`. It reads the key and model name from environment variables with a default, and returns 0 with the error in the ASI if the key is missing.\n- **The dataset is small.** With 5 or more examples you can still split (e.g. 3/2, or 7/3).\n- **A detail is ambiguous** (basename or path, exact format). Pick the reading that best fits the files and say so.\n\nIn a clarify reply, give numbered questions. For each one, say what the answer unlocks, e.g. \"Share 10 labeled examples \u2192 lets me score accuracy with a python evaluator.\" Then add a **default plan** you will run once the answers arrive: the artifact as seed, the evaluator type and metric, the ASI contents, the mode and split, the objective, and a budget. A typical default for \"improve our agent\": optimize the system prompt against a task suite with pass/fail checks, a python evaluator, a generalization split, and 100 metric calls.\n\n## Tool arguments (one JSON object)\n\n| Field | Rule |\n|---|---|\n| `seed_candidate` | Dict of component name \u2192 full current text. One key per file or part being changed, with the actual contents copied in, not a placeholder. |\n| `evaluator` | `python`, `shell`, or `llm_judge` (see below), plus a `timeout` in seconds of at least 2-3\u00d7 one evaluation's runtime. |\n| `objective` | Specific and measurable. Name the metric, any numeric target, and the hard constraints (format, length, signature, no deps). |\n| `background` | Facts the proposer needs: how scoring works, what the data looks like, constraints. Do not dictate the solution. |\n| `dataset` | List of example dicts. Omit it for single-task runs. |\n| `valset` | Held-out examples, disjoint from `dataset`. |\n| `config` | Always set both `max_metric_calls` and `max_iterations`. |\n\n## Choosing the evaluator\n\n- **Verifiable signal** (labels, expected outputs, tests, benchmark, constraints checkable in code such as regex format or length limits) \u2192 `python` or `shell`, never `llm_judge`.\n- **Existing script, test runner or benchmark** \u2192 `shell`.\n- **Labeled examples, checkable rules, or logic you write yourself** \u2192 `python`.\n- **Subjective target only** (tone, clarity, readability) \u2192 `llm_judge`.\n\nThe score must measure exactly what the user asked for. Do not add extra terms, such as order-sensitive exact match when only set membership matters, or length penalties nobody requested. With several hard requirements, check each one in code and score their mean or product. Gate on correctness: a wrong output scores 0 or near it, however fast it is.\n\n## llm_judge rules\n\n- Write a few concrete, checkable criteria, such as \"names at least 2 next steps\" or \"no jargon\". Avoid vague goals like \"is good\".\n- Turn each hard constraint into an explicit score cap, e.g. \"over 90 words \u2192 max 4\". Put the same constraints in `objective`.\n- Anchor the scale: \"10 = \u2026, 7 = \u2026, 4 = \u2026, 0 = \u2026\".\n- For ASI, require the judge to output, before the score, one line per criterion: a 0-10 sub-score, the quoted offending text, and one specific fix.\n- End the criteria text with: \"Finish with `SCORE: X/10`.\"\n\n## Python evaluator rules\n\n- Stdlib only. It runs in a subprocess, so put test data in `dataset`/`valset` rather than reading files.\n- Define `evaluate(candidate, example)`, accept `candidate` as a str or a dict, and handle `example=None`.\n- For `example=None`, score a few cases copied verbatim from `dataset`. Never use val cases or invented ones.\n- Return `(score, info)`, where `score` is a float in [0,1] and `info` is a JSON-serializable dict.\n- Catch every exception (bad regex, syntax errors, API or network errors, missing key) and return 0 with the error in the ASI. Never crash.\n- Rich, case-specific ASI drives improvement. Include:\n  - the input, expected vs got, and missing and extra items;\n  - a per-check boolean dict (e.g. `{\"format_ok\": true, \"type_ok\": false, \"len_ok\": true}`);\n  - the raw model output and any parse errors.\n\n  With several components, say which component likely caused each failure.\n\nTemplate:\n\n```python\nimport json, os, re, urllib.request\n\nSAMPLE = [...]  # 2-3 examples copied from dataset (train only), for example=None\n\ndef as_dict(candidate):\n    return candidate if isinstance(candidate, dict) else {\"main\": str(candidate)}\n\ndef call_llm(prompt):  # only when the candidate is a prompt a model must run\n    key = os.environ.get(\"ANTHROPIC_API_KEY\")  # or the provider the user names\n    if not key:\n        raise RuntimeError(\"API key env var not set\")\n    model = os.environ.get(\"EVAL_MODEL\", \"<small default model>\")\n    ...  # urllib POST, temperature 0, return text\n\ndef score_one(c, ex):\n    try:\n        got = run(c, ex)                    # apply candidate (maybe via call_llm)\n    except Exception as err:\n        return 0.0, {\"input\": ex, \"error\": repr(err)}\n    checks = {\"correct\": ..., \"format_ok\": ..., \"len_ok\": ...}\n    s = sum(checks.values()) / len(checks)  # or gate: 0 if not checks[\"correct\"]\n    return s, {\"input\": ex, \"expected\": ex.get(\"expected\"), \"got\": got,\n               \"checks\": checks, \"failed\": [k for k, v in checks.items() if not v]}\n\ndef evaluate(candidate, example=None):\n    c = as_dict(candidate)\n    if example is None:\n        res = [score_one(c, ex) for ex in SAMPLE]\n        return sum(s for s, _ in res) / len(res), {\"cases\": [i for _, i in res]}\n    return score_one(c, example)\n```\n\n## Shell evaluator rules\n\n- Pass the candidate via `{{candidate_file}}`. Never inline `{{candidate}}`, which is unquoted injection. For a dict candidate, use a single component when the script expects one file.\n- The command must print a score already in [0,1], matched by `score_pattern` (e.g. `\"Score: ([\\\\d.]+)\"`). If the script reports raw time or counts, normalize them in a small wrapper.\n- Examples reach the command only via `{{example_file}}` or `{{example_json}}`. Without one of these, the run is single-task.\n- Stdout and stderr become the ASI. Append `2>&1`, and prefer a verbose mode that prints per-case pass/fail, inputs, expected vs got, and timings.\n\n## Modes and splits\n\n- **Single-task:** one problem, no `dataset`. Typical for a benchmark script with fixed inputs, or for polishing one document with a judge.\n- **Multi-task:** a `dataset` of examples, so insights transfer across cases.\n- **Generalization:** `dataset` plus a disjoint `valset`. Use it whenever the user says \"generalize\", \"unseen\" or \"new inputs\", even with only 5-10 examples. Hold out about 30-40%, and cover each label in both sets where possible. Never copy val examples into `dataset`, `background`, the seed or the evaluator's sample.\n\n## Budget\n\n- Respect any budget the user states, translated into `max_metric_calls`.\n- Cheap, deterministic evaluations (under 1s): `max_metric_calls` 150-400, `max_iterations` 20-40.\n- LLM-backed evaluations or builds over 10s: `max_metric_calls` 40-100, `max_iterations` 10-20.\n- llm_judge on a single artifact: `max_metric_calls` 15-30, `max_iterations` 6-10.\n- Each iteration costs about minibatch size plus validation calls, so scale `max_metric_calls` with dataset size.\n\n## Example call (multi-component, labeled data)\n\n```json\n{\n  \"seed_candidate\": {\"split.txt\": \"<file text>\", \"stopwords.txt\": \"<file text>\"},\n  \"evaluator\": {\"type\": \"python\", \"timeout\": 30, \"code\": \"<follows template; set-F1 vs expected; ASI lists missing/extra tokens>\"},\n  \"objective\": \"Maximize mean keyword F1 vs expected keywords; split.txt must remain a valid Python regex.\",\n  \"background\": \"Tokens come from re.split(split, title.lower()) minus stopwords.\",\n  \"dataset\": [{\"text\": \"...\", \"keywords\": [\"...\"]}],\n  \"config\": {\"max_metric_calls\": 200, \"max_iterations\": 25}\n}\n```\n\nFor a subjective single document, use `{\"type\": \"llm_judge\", \"timeout\": 120, \"criteria\": \"<checkable criteria; caps; per-criterion sub-score + fix; SCORE: X/10>\"}`, no `dataset`, and `config` `{\"max_metric_calls\": 16, \"max_iterations\": 8}`.\n\n## After the call\n\nThe call returns a `run_id`. Monitor progress with `check_optimization`, fetch the winner with `get_best_candidate`, then apply it and verify it against the user's original tests."
+      },
+      "parent_ids": [
+        2
+      ],
+      "tag": "reflective_mutation"
+    }
+  ],
+  "scores": [
+    {
+      "ex_0": 1.0,
+      "ex_1": 1.0,
+      "ex_2": 1.0,
+      "ex_3": 0.48571428571428565,
+      "ex_4": 0.9357142857142857,
+      "ex_5": 0.4535714285714286,
+      "ex_6": 0.8714285714285714,
+      "ex_7": 0.9357142857142857,
+      "ex_8": 0.9035714285714285,
+      "ex_9": 0.8392857142857143,
+      "ex_10": 0.775,
+      "ex_11": 0.9678571428571429,
+      "ex_12": 0.8714285714285714
+    },
+    {
+      "ex_0": 1.0,
+      "ex_1": 1.0,
+      "ex_2": 1.0,
+      "ex_3": 0.48571428571428565,
+      "ex_4": 0.9357142857142857,
+      "ex_5": 0.9678571428571429,
+      "ex_6": 0.9678571428571429,
+      "ex_7": 0.4535714285714286,
+      "ex_8": 0.9357142857142857,
+      "ex_9": 0.8714285714285714,
+      "ex_10": 1.0,
+      "ex_11": 0.9035714285714285,
+      "ex_12": 0.9357142857142857
+    },
+    {
+      "ex_0": 1.0,
+      "ex_1": 1.0,
+      "ex_2": 1.0,
+      "ex_3": 0.5178571428571429,
+      "ex_4": 0.9357142857142857,
+      "ex_5": 0.9678571428571429,
+      "ex_6": 0.9678571428571429,
+      "ex_7": 0.9678571428571429,
+      "ex_8": 0.9678571428571429,
+      "ex_9": 0.9357142857142857,
+      "ex_10": 0.9678571428571429,
+      "ex_11": 0.9357142857142857,
+      "ex_12": 0.9678571428571429
+    },
+    {
+      "ex_0": 1.0,
+      "ex_1": 1.0,
+      "ex_2": 1.0,
+      "ex_3": 0.9678571428571429,
+      "ex_4": 0.9357142857142857,
+      "ex_5": 0.9035714285714285,
+      "ex_6": 0.9678571428571429,
+      "ex_7": 0.9357142857142857,
+      "ex_8": 1.0,
+      "ex_9": 0.9678571428571429,
+      "ex_10": 0.9357142857142857,
+      "ex_11": 0.9357142857142857,
+      "ex_12": 0.9357142857142857
+    }
+  ],
+  "agg_scores": [
+    0.8491758241758242,
+    0.8813186813186813,
+    0.9332417582417583,
+    0.9604395604395605
+  ],
+  "frontier": {
+    "front": {
+      "ex_0": 1.0,
+      "ex_1": 1.0,
+      "ex_2": 1.0,
+      "ex_3": 0.9678571428571429,
+      "ex_4": 0.9357142857142857,
+      "ex_5": 0.9678571428571429,
+      "ex_6": 0.9678571428571429,
+      "ex_7": 0.9678571428571429,
+      "ex_8": 1.0,
+      "ex_9": 0.9678571428571429,
+      "ex_10": 1.0,
+      "ex_11": 0.9678571428571429,
+      "ex_12": 0.9678571428571429
+    },
+    "programs": {
+      "ex_0": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "ex_1": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "ex_2": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "ex_3": [
+        3
+      ],
+      "ex_4": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "ex_5": [
+        1,
+        2
+      ],
+      "ex_6": [
+        1,
+        2,
+        3
+      ],
+      "ex_7": [
+        2
+      ],
+      "ex_8": [
+        3
+      ],
+      "ex_9": [
+        3
+      ],
+      "ex_10": [
+        1
+      ],
+      "ex_11": [
+        0
+      ],
+      "ex_12": [
+        2
+      ]
+    }
+  },
+  "iteration": 5,
+  "total_evals": 82,
+  "failed_evals": 9,
+  "cache_hits": 0,
+  "prescreen_skips": 0,
+  "skipped_perfect": 0,
+  "halving_rejects": 0,
+  "halving_evals_saved": 0,
+  "promotions_blocked": 2,
+  "operator_counts": {
+    "rewrite": 4
+  },
+  "component_cursor": {
+    "0": 2,
+    "1": 1,
+    "2": 1,
+    "3": 0
+  },
+  "cost": {
+    "total_usd": 2.3450237,
+    "calls": 130,
+    "by_role": {
+      "propose": {
+        "usd": 0.5659719999999999,
+        "calls": 4,
+        "input_tokens": 27873,
+        "output_tokens": 17151,
+        "cache_read_tokens": 0
+      },
+      "router": {
+        "usd": 0.017995299999999995,
+        "calls": 44,
+        "input_tokens": 89188,
+        "output_tokens": 333,
+        "cache_read_tokens": 0
+      },
+      "agent": {
+        "usd": 0.9858544000000001,
+        "calls": 42,
+        "input_tokens": 70404,
+        "output_tokens": 69048,
+        "cache_read_tokens": 139264
+      },
+      "judge": {
+        "usd": 0.7752020000000002,
+        "calls": 40,
+        "input_tokens": 171888,
+        "output_tokens": 8781,
+        "cache_read_tokens": 0
+      }
+    },
+    "cache_hits": {
+      "router": 75,
+      "agent": 30,
+      "judge": 30
+    }
+  },
+  "seed_score": 0.8491758241758242,
+  "best_idx": 2,
+  "test_evals": 0,
+  "operator_unsupported": 0,
+  "edit_size_rejects": 0
+}

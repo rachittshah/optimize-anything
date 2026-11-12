@@ -1,0 +1,93 @@
+{
+  "stop_reason": "no_improvement",
+  "iterations": 5,
+  "candidates": 4,
+  "failed_evals": 9,
+  "total_evals": 82,
+  "cache_hits_engine": 0,
+  "best_candidate_idx": 2,
+  "best_val_proxy": 0.9332417582417583,
+  "seed_val_proxy": 0.8491758241758242,
+  "val_best_history": [
+    0.8491758241758242,
+    0.8813186813186813,
+    0.9332417582417583,
+    0.9604395604395605,
+    0.9604395604395605,
+    0.9604395604395605
+  ],
+  "official": {
+    "seed_train": {
+      "weighted": 0.8312662337662338,
+      "trigger_f1": 0.9696969696969697,
+      "formulation_validity": 0.75,
+      "formulation_quality": 0.7178571428571427,
+      "brevity": 1.0
+    },
+    "seed_val": {
+      "weighted": 0.8692857142857142,
+      "trigger_f1": 1.0,
+      "formulation_validity": 0.8,
+      "formulation_quality": 0.7642857142857142,
+      "brevity": 1.0
+    },
+    "best_train": {
+      "weighted": 0.8392857142857142,
+      "trigger_f1": 1.0,
+      "formulation_validity": 0.75,
+      "formulation_quality": 0.7142857142857143,
+      "brevity": 1.0
+    },
+    "best_val": {
+      "weighted": 0.9421428571428572,
+      "trigger_f1": 1.0,
+      "formulation_validity": 0.9,
+      "formulation_quality": 0.9071428571428571,
+      "brevity": 1.0
+    }
+  },
+  "cross_counts": {
+    "seed_train": {
+      "valid_low_quality": [],
+      "invalid_high_quality": [
+        "f09",
+        "f25",
+        "f26",
+        "f29"
+      ]
+    },
+    "seed_val": {
+      "valid_low_quality": [],
+      "invalid_high_quality": [
+        "f03",
+        "f07"
+      ]
+    },
+    "best_train": {
+      "valid_low_quality": [],
+      "invalid_high_quality": []
+    },
+    "best_val": {
+      "valid_low_quality": [],
+      "invalid_high_quality": [
+        "f03"
+      ]
+    }
+  },
+  "leakage_pct": {
+    "seed": 0.0,
+    "best": 0.036
+  },
+  "leakage_flag": {
+    "seed": false,
+    "best": false
+  },
+  "total_usd": 2.3450237,
+  "wall_s": 435.4895598888397,
+  "weights": {
+    "trigger_f1": 0.3,
+    "formulation_validity": 0.3,
+    "formulation_quality": 0.3,
+    "brevity": 0.1
+  }
+}

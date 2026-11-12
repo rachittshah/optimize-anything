@@ -1,8 +1,8 @@
 {
   "mcpServers": {
     "optimize-anything": {
-      "command": "node",
-      "args": ["/Users/rshah/optimize-anything/mcp-server/dist/index.js"]
+      "command": "bash",
+      "args": ["mcp-server/start-server.sh"]
     }
   }
 }

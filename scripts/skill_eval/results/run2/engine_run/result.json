@@ -1,0 +1,68 @@
+{
+  "best_candidate": {
+    "skill": "---\nname: optimize-anything\ndescription: Use when a text artifact (prompt, code, regex, config, policy, agent harness, page copy) should be improved through repeated propose-evaluate cycles with the optimize_anything tool, scored by a metric, tests, labeled examples, a benchmark, or a rubric/LLM judge. Also use when the user mentions GEPA, evolving, or optimizing via search. Not for one-shot edits or critiques with no evaluation loop, building evals or writing tests, fine-tuning model weights, numeric hyperparameter tuning (e.g. Optuna), profiling or speeding up a single query, or questions about how the method works.\n---\n\n# optimize_anything\n\nThe tool iteratively improves any text artifact. Each cycle it proposes a candidate, scores it with your evaluator, reads the diagnostics (ASI) and retries until the budget runs out, keeping a Pareto frontier of the best candidates.\n\n## Output contract\n\nEmit ONE JSON object holding the tool arguments. Emit `CLARIFY:` plus questions instead only if no sound call is possible (see section 5).\n\n```json\n{\n  \"seed_candidate\": {\"<component>\": \"<full current text>\"},\n  \"evaluator\": {\"type\": \"python|shell|llm_judge\", \"...\": \"...\"},\n  \"objective\": \"specific, measurable goal + hard constraints\",\n  \"background\": \"domain facts, constraints, assumptions you made, what must not change\",\n  \"dataset\": [{\"input\": \"...\", \"expected\": \"...\"}],\n  \"valset\": [{\"input\": \"...\", \"expected\": \"...\"}],\n  \"config\": {\"max_metric_calls\": 60, \"max_iterations\": 15}\n}\n```\n\nField rules:\n- **seed_candidate:** use the real current text from the user's files, never a summary. Use one key per independently editable part.\n- **Omit unneeded fields:** leave out `dataset` and `valset` in single-task mode.\n\n## 1. Pick the evaluator from the signal\n\n| Signal available | Evaluator |\n|---|---|\n| Labels, expected outputs, tests, a benchmark script, a measurable property | `python` (stdlib) or `shell` |\n| Purely subjective target (tone, readability) with no verifiable signal | `llm_judge` |\n\nIf any verifiable signal exists, do not use `llm_judge`.\n\n### Python evaluator\n```python\nimport json, re\ndef evaluate(candidate, example):\n    text = candidate if isinstance(candidate, str) else next(iter(candidate.values()), \"\")\n    if example is None:              # single-task / seed sanity call\n        example = {\"input\": \"\", \"expected\": \"\"}\n    try:\n        got = run(text, example[\"input\"])  # your stdlib-only logic\n    except Exception as e:\n        return 0.0, {\"input\": example[\"input\"], \"error\": repr(e)}\n    ok = got == example[\"expected\"]\n    return (1.0 if ok else 0.0), {\n        \"input\": example[\"input\"], \"expected\": example[\"expected\"],\n        \"got\": got, \"failing_checks\": [] if ok else [\"exact_match\"]}\n```\nRules:\n- **Stdlib only.** It runs in a subprocess.\n- **Signature:** define `evaluate(candidate, example)`.\n- **Inputs:** accept the candidate as a `str` OR a `dict` (multi-component), and handle `example=None`.\n- **Return value:** `(score, info)`, with the score a float in [0,1] and `info` JSON-serializable.\n- **No file reads:** put test data in `dataset`/`valset`.\n- **Never raise:** wrap exec, compile, parse and network calls in try/except, and return 0 with the error in the ASI.\n- **Rich ASI:** include input, expected vs got, failed checks, errors and partial-credit parts. Thin ASI gives the proposer nothing to fix.\n- **Partial credit:** prefer a fraction of checks passed over a bare 0/1.\n\n### Prompts and agent instructions (model in the loop)\nWhen the artifact is text a model consumes (system prompt, AGENTS.md/GEMINI.md/CLAUDE.md, classifier or extractor prompt) and labels exist, run the model inside the evaluator. Do not clarify about how to invoke it.\n\nWrite the python evaluator as follows:\n- **Request:** send the candidate as the system message and `example[\"input\"]` as the user message to an OpenAI-compatible chat endpoint via `urllib.request`.\n- **Config:** read the key, base URL and model from environment variables, with defaults (e.g. `OPENAI_API_KEY`, `OPENAI_BASE_URL`, `MODEL`).\n- **Scoring:** score the reply deterministically against the labels: keyword or line hit, exact match, JSON fields.\n- **Anti-gaming:** if a candidate could win by flagging or listing everything, include a precision or false-positive penalty, e.g. credit only if the target is found and the extra findings are few.\n- **Timeouts:** set a request timeout, and catch HTTP and timeout errors, returning 0 plus the error.\n- **State assumptions:** record the endpoint and env-var assumptions in `background`.\n\nA shell evaluator calling the user's agent CLI also works when the user names the command.\n\n### Shell evaluator\n```json\n{\"type\": \"shell\",\n \"command\": \"python3 bench.py --candidate {{candidate_file}} --example {{example_file}}\",\n \"score_pattern\": \"SCORE: ([0-9.]+)\", \"timeout\": 120}\n```\nRules:\n- **Candidate from a file:** use `{{candidate_file}}`, never inline `{{candidate}}`, which is an unquoted injection risk.\n- **Score range:** print a score already in [0,1] that `score_pattern` matches. Convert raw metrics, e.g. with a `python3 -c` wrapper computing `baseline/time` capped at 1.\n- **Examples:** they reach the command only via `{{example_file}}` or `{{example_json}}`. Without those placeholders the run is single-task.\n- **Diagnostics:** print failures, stderr and timings as ASI.\n- **Files:** context files sit in the working directory, so use relative paths.\n\n### LLM judge (subjective only)\n- **Anchored criteria:** make them concrete, with hard limits (word cap, required elements, forbidden content).\n- **Score anchors:** e.g. \"10 = all met; 7 = one minor miss; 4 = hard constraint violated; 1 = off-task\".\n- **Structured feedback:** ask for violations as a list (criterion -> issue -> fix).\n- **Ending:** the criteria must end with `SCORE: X/10`.\n\n## 2. Choose mode and split\n\n| Mode | Use when | Fields |\n|---|---|---|\n| Single-task | One artifact, one goal (a solver, page copy) | no dataset |\n| Multi-task | Several cases, all of which must improve | `dataset` |\n| Generalization | Must work on unseen inputs (prompts, classifiers, extractors, agent instructions) | `dataset` + disjoint `valset` |\n\nSplit rules:\n- **Unseen inputs:** if the user says \"unseen\", \"held-out\", \"new inputs\" or \"not tuned on\", use generalization even with little data. Hold out about 20\u201330%, at least 1\u20132 examples (e.g. 6 examples gives a 4/2 split), and note the noise in `background`.\n- **Small data otherwise:** with fewer than about 6 examples and no generalization request, use multi-task.\n- **No leakage:** val examples must never appear in `dataset`, the seed or `background`.\n\n## 3. Write the objective\n\nName the metric, the target and every hard constraint, including any anti-gaming penalty. For example: \"Maximize the planted-bug hit rate on held-out snippets, penalizing false positives; keep the file under 400 words.\" Avoid \"make it better\".\n\n## 4. Size the budget\n\nSet `config.max_metric_calls` (it bounds cost) and optionally `max_iterations`:\n- **Respect the user:** honor any budget or time limit they state.\n- **Cheap python evaluators:** 100\u2013300 calls.\n- **Slow benchmarks, test suites or model-in-the-loop evaluators:** 30\u201380 calls, with a `timeout` 2\u20133x one evaluation's runtime.\n- **llm_judge:** 20\u201340 calls.\n- **Dataset size:** budget roughly (dataset size + valset size) \u00d7 the number of iterations you want.\n\n## 5. Clarify only when blocked\n\nOutput `CLARIFY:` only if a sound call is impossible:\n- **No artifact:** there is nothing to optimize and no seed can be written.\n- **No success signal:** a goal needs one, but there are no labels, tests or metric.\n- **No data:** generalization is needed, but there are no examples at all.\n\nFor each question, say what the answer unlocks, e.g. \"Share 10\u201320 labeled tickets \u2192 enables an exact-match evaluator with a held-out valset.\"\n\nDo NOT clarify in these cases; assume a default and state it in `background`:\n- **Subjective signal:** use an anchored judge.\n- **Unknown invocation:** you don't know exactly how the user runs their model or agent. Use the model-in-the-loop pattern.\n- **Small but present data:** split it anyway.\n- **Missing defaults:** budget, split ratio, component names, length limits.\n\n## Safety checklist before emitting\n- **Valid JSON:** evaluator code is a valid string with escaped quotes and newlines.\n- **Python evaluator:** stdlib only, handles `str`/`dict`/`None`, never raises, returns a [0,1] score plus a dict.\n- **Shell evaluator:** uses `{{candidate_file}}`, prints a normalized score, the pattern matches and a timeout is set.\n- **No destructive actions:** no deploys or destructive commands. Network use only for a needed model call.\n- **Seed:** it runs through the evaluator without errors.\n\n## After the call\nThe tool returns a run_id. Monitor progress, fetch the best candidate, show the diff and score gain, and apply it only with the user's agreement."
+  },
+  "best_score": 0.9802197802197803,
+  "total_iterations": 9,
+  "total_evals": 158,
+  "seed_score": 0.8491758241758242,
+  "total_cost_usd": 6.251607099999999,
+  "cost_per_point": 0.47706184159329107,
+  "cost": {
+    "total_usd": 6.251607099999999,
+    "calls": 299,
+    "by_role": {
+      "propose": {
+        "usd": 1.307848,
+        "calls": 9,
+        "input_tokens": 66935,
+        "output_tokens": 38622,
+        "cache_read_tokens": 0
+      },
+      "router": {
+        "usd": 0.03136110000000001,
+        "calls": 78,
+        "input_tokens": 155436,
+        "output_tokens": 579,
+        "cache_read_tokens": 0
+      },
+      "agent": {
+        "usd": 2.79297,
+        "calls": 106,
+        "input_tokens": 184579,
+        "output_tokens": 201907,
+        "cache_read_tokens": 360080
+      },
+      "judge": {
+        "usd": 2.119427999999999,
+        "calls": 106,
+        "input_tokens": 475053,
+        "output_tokens": 21964,
+        "cache_read_tokens": 0
+      }
+    },
+    "cache_hits": {
+      "router": 116,
+      "agent": 30,
+      "judge": 30
+    }
+  },
+  "run_dir": "~/Projects/optimize-anything/scripts/skill_eval/results/run2/engine_run",
+  "failed_evals": 0,
+  "cache_hits": 0,
+  "seed_test": null,
+  "best_test": null,
+  "val_test_gap": null,
+  "test_evals": 0,
+  "prescreen_skips": 0,
+  "halving_rejects": 0,
+  "halving_evals_saved": 0,
+  "promotions_blocked": 2,
+  "operator_counts": {
+    "rewrite": 9
+  },
+  "operator_unsupported": 0,
+  "skipped_perfect": 0,
+  "edit_size_rejects": 0,
+  "stop_reason": "no_improvement"
+}

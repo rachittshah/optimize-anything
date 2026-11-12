@@ -1,6 +1,8 @@
 # engine/src/optimize_anything/evaluators/shell_eval.py
 from __future__ import annotations
+import json
 import re
+import shlex
 import subprocess
 import tempfile
 from pathlib import Path
@@ -18,16 +20,40 @@ class ShellEvaluator:
         self.score_pattern = score_pattern
         self.timeout = timeout
 
+    def cache_identity(self) -> str:
+        return json.dumps(["shell", self.command, self.score_pattern])
+
     def evaluate(
         self, candidate: str, example: dict[str, Any] | None = None
     ) -> tuple[float, dict[str, Any]]:
-        # Write candidate to temp file for safe access
-        with tempfile.NamedTemporaryFile(mode="w", suffix=".txt", delete=False) as f:
-            f.write(candidate)
-            candidate_file = f.name
+        # Placeholders:
+        #   {{candidate}}       raw candidate text
+        #   {{candidate_file}}  path to a temp file holding the candidate
+        #   {{example_file}}    path to a temp file holding the example as JSON
+        #   {{example_json}}    the example as JSON, shell-quoted (one argument; don't add quotes)
+        # All are substituted in one pass, so placeholder-like text inside a value is left alone.
+        temp_files: list[str] = []
 
-        cmd = self.command.replace("{{candidate}}", candidate)
-        cmd = cmd.replace("{{candidate_file}}", candidate_file)
+        def _temp(text: str, suffix: str) -> str:
+            with tempfile.NamedTemporaryFile(mode="w", suffix=suffix, delete=False) as f:
+                f.write(text)
+            temp_files.append(f.name)
+            return f.name
+
+        example_json = json.dumps(example, default=str)
+        values: dict[str, str] = {}
+        if "{{candidate}}" in self.command:
+            values["candidate"] = candidate
+        if "{{candidate_file}}" in self.command:
+            values["candidate_file"] = _temp(candidate, ".txt")
+        if "{{example_file}}" in self.command:
+            values["example_file"] = _temp(example_json, ".json")
+        if "{{example_json}}" in self.command:
+            values["example_json"] = shlex.quote(example_json)
+        cmd = re.sub(
+            r"\{\{(candidate|candidate_file|example_file|example_json)\}\}",
+            lambda m: values[m.group(1)], self.command,
+        )
 
         try:
             result = subprocess.run(
@@ -47,4 +73,5 @@ class ShellEvaluator:
         except subprocess.TimeoutExpired:
             return 0.0, {"error": f"Timeout after {self.timeout}s"}
         finally:
-            Path(candidate_file).unlink(missing_ok=True)
+            for path in temp_files:
+                Path(path).unlink(missing_ok=True)

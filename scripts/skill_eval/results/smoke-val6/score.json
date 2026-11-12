@@ -1,0 +1,128 @@
+{
+  "val": {
+    "components": {
+      "trigger_f1": 1.0,
+      "formulation_validity": 1.0,
+      "formulation_quality": 0.7619047619047619,
+      "brevity": 1.0
+    },
+    "weighted": 0.9285714285714285,
+    "n_trigger": 6,
+    "n_formulation": 6,
+    "failed": [],
+    "flags": [],
+    "trigger_confusion": {
+      "tp": 2,
+      "fp": 0,
+      "fn": 0,
+      "tn": 4
+    },
+    "misrouted": [],
+    "valid_low_quality": [],
+    "invalid_high_quality": [],
+    "formulations": [
+      {
+        "id": "f19",
+        "validity": 1.0,
+        "quality": 0.6428571428571429,
+        "mode": "call",
+        "validity_reason": "ran: seed scored without evaluator errors",
+        "criteria": {
+          "evaluator_fits_signal": 0,
+          "asi_richness": 1,
+          "mode_and_split": 2,
+          "objective": 2,
+          "budget": 1,
+          "clarify_when_needed": 2,
+          "safety_and_runnability": 1
+        },
+        "critique": "The evaluator is an llm_judge even though labeled expected outputs exist, so it should be a python evaluator that actually runs the model and checks the tool call. Simulating the agent inside a judge is unreliable. ASI is limited to the judge's rationale, with no structured expected-vs-got. The split is clean and the objective is specific. The budget only sets max_iterations, with no metric-call cap. The call is runnable, but the judge's scoring is fragile."
+      },
+      {
+        "id": "f27",
+        "validity": 1.0,
+        "quality": 0.9285714285714286,
+        "mode": "call",
+        "validity_reason": "ran: seed scored without evaluator errors",
+        "criteria": {
+          "evaluator_fits_signal": 2,
+          "asi_richness": 1,
+          "mode_and_split": 2,
+          "objective": 2,
+          "budget": 2,
+          "clarify_when_needed": 2,
+          "safety_and_runnability": 2
+        },
+        "critique": "Shell evaluator on the real simulator with a score regex is the right choice. ASI is limited to the single regex-extracted score; the throughput/cost line from sim_sched.py never reaches the proposer in structured form, hence 1 on criterion 2. Budget handling is good: max_metric_calls=15 and timeout 600 exceeds the 2-minute run. max_iterations=14 is a bit high given about 2 evals per iteration, but metric calls bound the run. Bounds are included in the background. Uses 'python' rather than 'python3', which is a minor portability risk."
+      },
+      {
+        "id": "f22",
+        "validity": 1.0,
+        "quality": 0.5,
+        "mode": "clarify",
+        "validity_reason": "clarified (gold is clarify)",
+        "criteria": {
+          "evaluator_fits_signal": 1,
+          "asi_richness": 1,
+          "mode_and_split": 1,
+          "objective": 1,
+          "budget": 1,
+          "clarify_when_needed": 1,
+          "safety_and_runnability": 1
+        },
+        "critique": "The reply correctly clarifies instead of inventing a prompt, and it asks for the artifact, the metric and examples. But it never says what each answer unlocks, so it doesn't explain that labels lead to a Python evaluator and no labels to an LLM judge, and it doesn't surface proxy trade-offs. It also lacks a conditional plan, and it omits which model runs the prompt. Asking about budget and purpose is slightly unnecessary at this stage."
+      },
+      {
+        "id": "f05",
+        "validity": 1.0,
+        "quality": 0.8571428571428571,
+        "mode": "call",
+        "validity_reason": "ran: seed scored without evaluator errors",
+        "criteria": {
+          "evaluator_fits_signal": 2,
+          "asi_richness": 1,
+          "mode_and_split": 2,
+          "objective": 2,
+          "budget": 1,
+          "clarify_when_needed": 2,
+          "safety_and_runnability": 2
+        },
+        "critique": "ASI is limited to what the bench prints (time and a failure message). The agent did not wrap it to add per-example diagnostics, which is acceptable for a reused bench but only partial credit. The budget has max_iterations only, with no max_metric_calls, so it is slightly under-specified. The formulation reuses the bench through {{candidate_file}} and the Score regex, and the objective keeps the tie-break constraint. One minor risk is that `python` may not resolve on every system, where `python3` is safer."
+      },
+      {
+        "id": "f14",
+        "validity": 1.0,
+        "quality": 0.8571428571428571,
+        "mode": "call",
+        "validity_reason": "ran: seed scored without evaluator errors",
+        "criteria": {
+          "evaluator_fits_signal": 2,
+          "asi_richness": 1,
+          "mode_and_split": 2,
+          "objective": 2,
+          "budget": 1,
+          "clarify_when_needed": 2,
+          "safety_and_runnability": 2
+        },
+        "critique": "The evaluator is a shell call to the real simulator, which is correct. ASI is limited to the stdout line the simulator prints (hit_rate, size, policy), and the agent adds no diagnostics of its own, so that scores 1. Budget gives max_iterations 10 but no max_metric_calls, which is loose for a 2-parameter space. The `-I` flag is harmless here. Objective and background are clear and specific."
+      },
+      {
+        "id": "f18",
+        "validity": 1.0,
+        "quality": 0.7857142857142857,
+        "mode": "call",
+        "validity_reason": "ran: seed scored without evaluator errors",
+        "criteria": {
+          "evaluator_fits_signal": 2,
+          "asi_richness": 1,
+          "mode_and_split": 2,
+          "objective": 1,
+          "budget": 1,
+          "clarify_when_needed": 2,
+          "safety_and_runnability": 2
+        },
+        "critique": "The objective names no measurable metric or hard constraint (e.g. a word limit, a score target) and is only a loose description of a 'good tagline'. The budget sets max_iterations of 30 with no max_metric_calls, which is generous for a cheap judge but unbounded in calls. The judge criteria are decent but have no anchored score bands. The seed is already strong, which leaves little room to improve, and the judge gives no per-criterion diagnostics."
+      }
+    ]
+  }
+}

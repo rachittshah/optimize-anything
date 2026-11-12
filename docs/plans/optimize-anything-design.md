@@ -133,7 +133,8 @@ result = optimize_anything(
     background="Domain context...", # domain knowledge
     config=Config(
         max_iterations=100,
-        model="claude-opus-4-6",    # proposer model
+        preset="default",           # default | cheap | quality (llm/models.py)
+        proposer_model=None,        # optional override, e.g. "claude-opus-5-5"
         checkpoint_interval=5,
         run_dir="~/.optimize-anything/runs/",
     ),
@@ -179,11 +180,14 @@ shell_config = {
 judge_config = {
     "type": "llm_judge",
     "criteria": "Rate clarity, specificity, completeness. Score 0-10.",
-    "model": "claude-sonnet-4-6",
+    "judge_model": "claude-sonnet-5-5",  # optional; defaults to the preset's judge
+    "rubric": None,  # optional: criteria with 0-2 anchors; code computes the total
 }
 ```
 
-Returns normalized score [0,1] + judge's reasoning as ASI.
+Returns normalized score [0,1] + a concise critique as ASI. The candidate is wrapped in
+`<candidate>` delimiters as data; API errors are retried and persistent failures raise
+`EvaluationError` (recorded as a failed eval, never scored 0).
 
 ## Component 3: TypeScript MCP Server
 
@@ -254,9 +258,10 @@ Mode: Multi-task (multiple scenarios)
 
 ## Tech Stack
 
-- **Python engine**: uv, anthropic SDK, pydantic for config
+- **Python engine**: uv, anthropic + openai SDKs, pydantic for config
+- **LLM backends**: anthropic, openai (OpenRouter-compatible), claude-cli, codex-cli, mock (`engine/src/optimize_anything/llm/`)
 - **TypeScript MCP**: @modelcontextprotocol/sdk, child_process for subprocess
-- **Claude models**: Opus 4.6 for proposer, Sonnet 4.6 for LLM-judge evaluator
+- **Claude models** (preset `default`): Opus 5.5 proposer (effort medium), Sonnet 5.5 LLM judge (effort low); `cheap` = Sonnet 5.5 + Haiku 5.5; `quality` = Fable 5.2 proposer. No `temperature` (rejected by current models); effort instead. All IDs and pricing live in `llm/models.py`
 - **Storage**: JSON files on disk for state/checkpoints
 
 ## Non-Goals (v1)

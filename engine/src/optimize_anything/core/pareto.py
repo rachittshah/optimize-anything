@@ -40,22 +40,58 @@ class ParetoFrontier:
                 scores.append(self._front[key])
         return sum(scores) / len(scores) if scores else 0.0
 
+    def keys_of(self, candidate_idx: int) -> set[str]:
+        return {k for k, progs in self._programs.items() if candidate_idx in progs}
+
+    def pruned_fronts(self, scores: list[float] | dict[int, float] | None = None
+                      ) -> dict[str, set[int]]:
+        """Per-key fronts with dominated programs removed: exact port of GEPA's
+        remove_dominated_programs (gepa-ai/gepa@ce5b0d6, src/gepa/gepa_utils.py#L54-L135).
+
+        Programs are visited in ascending aggregate score (stable: ties keep first-seen order
+        over the fronts). A program is dominated iff every front it is on still has another
+        survivor; removing it decrements those fronts' survivor counts. Every non-empty front
+        keeps at least one program. scores=None treats all programs as equal (GEPA default).
+        """
+        fronts = self._programs
+        program_fronts: dict[int, list[str]] = {}
+        remaining: dict[str, int] = {}
+        for key, front in fronts.items():
+            remaining[key] = len(front)
+            for p in front:
+                program_fronts.setdefault(p, []).append(key)
+        programs = list(program_fronts)
+        score_of = (lambda p: 1) if scores is None else (lambda p: scores[p])
+        programs = sorted(programs, key=score_of)
+        dominated: set[int] = set()
+        for y in programs:
+            keys = program_fronts[y]
+            if all(remaining[k] > 1 for k in keys):
+                dominated.add(y)
+                for k in keys:
+                    remaining[k] -= 1
+        survivors = {p for p in programs if p not in dominated}
+        pruned = {key: {p for p in front if p in survivors} for key, front in fronts.items()}
+        assert all(pruned[k] for k, front in fronts.items() if front)
+        return pruned
+
+    def remove_dominated(self, scores: list[float] | dict[int, float] | None = None) -> set[int]:
+        """Programs left on any front after GEPA dominance pruning (see pruned_fronts)."""
+        out: set[int] = set()
+        for front in self.pruned_fronts(scores).values():
+            out |= front
+        return out
+
     def select_candidate(self, all_scores: list[float]) -> int:
-        freq: dict[int, int] = defaultdict(int)
-        for programs in self._programs.values():
-            for pid in programs:
-                freq[pid] += 1
-
-        if not freq:
+        """GEPA select_program_candidate_from_pareto_front: frequency-weighted sampling over
+        the pruned fronts (list in first-seen order, each program repeated once per front)."""
+        freq: dict[int, int] = {}
+        for front in self.pruned_fronts(all_scores).values():
+            for pid in front:
+                freq[pid] = freq.get(pid, 0) + 1
+        sampling_list = [pid for pid, n in freq.items() for _ in range(n)]
+        if not sampling_list:
             return 0
-
-        # Remove dominated: a program is dominated if for every key it appears in,
-        # there's another program also in that key
-        # Simplified: just do frequency-weighted sampling
-        sampling_list = []
-        for pid, count in freq.items():
-            sampling_list.extend([pid] * count)
-
         return self._rng.choice(sampling_list)
 
     def to_dict(self) -> dict:

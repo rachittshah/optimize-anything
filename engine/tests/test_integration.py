@@ -14,7 +14,7 @@ def test_e2e_single_task():
         found = sum(1 for w in words if w in candidate)
         return found / len(words), {"found": found, "total": len(words)}
 
-    with patch("optimize_anything.api.ClaudeProposer") as MockP:
+    with patch("optimize_anything.api.ReflectiveProposer") as MockP:
         mock = MagicMock()
         responses = ["hello there", "hello world", "hello world foo", "hello world foo bar"]
         mock.propose.side_effect = lambda **kw: responses[min(mock.propose.call_count - 1, len(responses) - 1)]
@@ -39,7 +39,7 @@ def test_e2e_with_dataset():
             return (1.0 if match else 0.0), {"target": example["target"], "matched": match}
         return 0.5, {}
 
-    with patch("optimize_anything.api.ClaudeProposer") as MockP:
+    with patch("optimize_anything.api.ReflectiveProposer") as MockP:
         mock = MagicMock()
         mock.propose.return_value = "I contain apple and banana"
         MockP.return_value = mock

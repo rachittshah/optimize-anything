@@ -1,0 +1,368 @@
+{
+ "train": [
+  {
+   "id": "dt17",
+   "input": "05/03/2024",
+   "expected": "2024-03-05",
+   "split": "train"
+  },
+  {
+   "id": "dt06",
+   "input": "2010-1-9",
+   "expected": "2010-01-09",
+   "split": "train"
+  },
+  {
+   "id": "dt18",
+   "input": "31/12/1999",
+   "expected": "1999-12-31",
+   "split": "train"
+  },
+  {
+   "id": "dt22",
+   "input": "15.08.1947",
+   "expected": "1947-08-15",
+   "split": "train"
+  },
+  {
+   "id": "dt08",
+   "input": "2019.08.15",
+   "expected": "2019-08-15",
+   "split": "train"
+  },
+  {
+   "id": "dt45",
+   "input": "22nd Feb 1900",
+   "expected": "1900-02-22",
+   "split": "train"
+  },
+  {
+   "id": "dt29",
+   "input": "5th March 2024",
+   "expected": "2024-03-05",
+   "split": "train"
+  },
+  {
+   "id": "dt24",
+   "input": "29/02/2000",
+   "expected": "2000-02-29",
+   "split": "train"
+  },
+  {
+   "id": "dt37",
+   "input": "Tuesday, March 5, 2024",
+   "expected": "2024-03-05",
+   "split": "train"
+  },
+  {
+   "id": "dt42",
+   "input": "  aug 1 1985",
+   "expected": "1985-08-01",
+   "split": "train"
+  },
+  {
+   "id": "dt57",
+   "input": "2016/2/29",
+   "expected": "2016-02-29",
+   "split": "train"
+  },
+  {
+   "id": "dt03",
+   "input": "2024-02-29",
+   "expected": "2024-02-29",
+   "split": "train"
+  },
+  {
+   "id": "dt32",
+   "input": "Sept 22, 2021",
+   "expected": "2021-09-22",
+   "split": "train"
+  },
+  {
+   "id": "dt02",
+   "input": "2000-02-29",
+   "expected": "2000-02-29",
+   "split": "train"
+  },
+  {
+   "id": "dt07",
+   "input": "2022/11/30",
+   "expected": "2022-11-30",
+   "split": "train"
+  },
+  {
+   "id": "dt44",
+   "input": "Nov 31 2022",
+   "expected": "INVALID",
+   "split": "train"
+  },
+  {
+   "id": "dt38",
+   "input": "June 31, 2021",
+   "expected": "INVALID",
+   "split": "train"
+  },
+  {
+   "id": "dt55",
+   "input": "2024-03-05-01",
+   "expected": "INVALID",
+   "split": "train"
+  },
+  {
+   "id": "dt09",
+   "input": "2023-02-29",
+   "expected": "INVALID",
+   "split": "train"
+  },
+  {
+   "id": "dt43",
+   "input": "Febtember 3, 2020",
+   "expected": "INVALID",
+   "split": "train"
+  },
+  {
+   "id": "dt13",
+   "input": "2021-00-10",
+   "expected": "INVALID",
+   "split": "train"
+  },
+  {
+   "id": "dt34",
+   "input": "February 29, 2023",
+   "expected": "INVALID",
+   "split": "train"
+  },
+  {
+   "id": "dt11",
+   "input": "2021-04-31",
+   "expected": "INVALID",
+   "split": "train"
+  },
+  {
+   "id": "dt10",
+   "input": "1900-02-29",
+   "expected": "INVALID",
+   "split": "train"
+  }
+ ],
+ "val": [
+  {
+   "id": "dt28",
+   "input": "5 March 2024",
+   "expected": "2024-03-05",
+   "split": "val"
+  },
+  {
+   "id": "dt27",
+   "input": "Mar 5 2024",
+   "expected": "2024-03-05",
+   "split": "val"
+  },
+  {
+   "id": "dt40",
+   "input": "2 May 1990",
+   "expected": "1990-05-02",
+   "split": "val"
+  },
+  {
+   "id": "dt01",
+   "input": "1999-12-31",
+   "expected": "1999-12-31",
+   "split": "val"
+  },
+  {
+   "id": "dt59",
+   "input": "Thursday 1 January 1970",
+   "expected": "1970-01-01",
+   "split": "val"
+  },
+  {
+   "id": "dt26",
+   "input": "March 5, 2024",
+   "expected": "2024-03-05",
+   "split": "val"
+  },
+  {
+   "id": "dt35",
+   "input": "DECEMBER 25, 2020",
+   "expected": "2020-12-25",
+   "split": "val"
+  },
+  {
+   "id": "dt21",
+   "input": "1/2/2020",
+   "expected": "2020-02-01",
+   "split": "val"
+  },
+  {
+   "id": "dt46",
+   "input": "20240305",
+   "expected": "2024-03-05",
+   "split": "val"
+  },
+  {
+   "id": "dt05",
+   "input": "2024-03-05T10:30:00",
+   "expected": "2024-03-05",
+   "split": "val"
+  },
+  {
+   "id": "dt41",
+   "input": "Oct 09, 2023",
+   "expected": "2023-10-09",
+   "split": "val"
+  },
+  {
+   "id": "dt14",
+   "input": "2021-06-00",
+   "expected": "INVALID",
+   "split": "val"
+  },
+  {
+   "id": "dt52",
+   "input": "not a date",
+   "expected": "INVALID",
+   "split": "val"
+  },
+  {
+   "id": "dt53",
+   "input": "2024",
+   "expected": "INVALID",
+   "split": "val"
+  },
+  {
+   "id": "dt25",
+   "input": "32/01/2020",
+   "expected": "INVALID",
+   "split": "val"
+  },
+  {
+   "id": "dt47",
+   "input": "19991301",
+   "expected": "INVALID",
+   "split": "val"
+  },
+  {
+   "id": "dt50",
+   "input": "Mar 5 '24",
+   "expected": "INVALID",
+   "split": "val"
+  },
+  {
+   "id": "dt51",
+   "input": "",
+   "expected": "INVALID",
+   "split": "val"
+  }
+ ],
+ "test": [
+  {
+   "id": "dt23",
+   "input": "07-10-2018",
+   "expected": "2018-10-07",
+   "split": "test"
+  },
+  {
+   "id": "dt48",
+   "input": "20000229",
+   "expected": "2000-02-29",
+   "split": "test"
+  },
+  {
+   "id": "dt39",
+   "input": "Jun. 3, 2019",
+   "expected": "2019-06-03",
+   "split": "test"
+  },
+  {
+   "id": "dt31",
+   "input": "1st Jan 2000",
+   "expected": "2000-01-01",
+   "split": "test"
+  },
+  {
+   "id": "dt04",
+   "input": " 2021-07-04 ",
+   "expected": "2021-07-04",
+   "split": "test"
+  },
+  {
+   "id": "dt30",
+   "input": "March 5th, 2024",
+   "expected": "2024-03-05",
+   "split": "test"
+  },
+  {
+   "id": "dt56",
+   "input": "Fri, 13 Sep 2019",
+   "expected": "2019-09-13",
+   "split": "test"
+  },
+  {
+   "id": "dt36",
+   "input": "23rd of October 2015",
+   "expected": "2015-10-23",
+   "split": "test"
+  },
+  {
+   "id": "dt33",
+   "input": "february 29, 2024",
+   "expected": "2024-02-29",
+   "split": "test"
+  },
+  {
+   "id": "dt00",
+   "input": "2024-03-05",
+   "expected": "2024-03-05",
+   "split": "test"
+  },
+  {
+   "id": "dt15",
+   "input": "2024-02-30",
+   "expected": "INVALID",
+   "split": "test"
+  },
+  {
+   "id": "dt58",
+   "input": "31.04.2021",
+   "expected": "INVALID",
+   "split": "test"
+  },
+  {
+   "id": "dt54",
+   "input": "March 2024",
+   "expected": "INVALID",
+   "split": "test"
+  },
+  {
+   "id": "dt16",
+   "input": "0999-01-01",
+   "expected": "INVALID",
+   "split": "test"
+  },
+  {
+   "id": "dt12",
+   "input": "2021-13-01",
+   "expected": "INVALID",
+   "split": "test"
+  },
+  {
+   "id": "dt20",
+   "input": "12/31/2024",
+   "expected": "INVALID",
+   "split": "test"
+  },
+  {
+   "id": "dt19",
+   "input": "29/02/2023",
+   "expected": "INVALID",
+   "split": "test"
+  },
+  {
+   "id": "dt49",
+   "input": "05/03/24",
+   "expected": "INVALID",
+   "split": "test"
+  }
+ ]
+}

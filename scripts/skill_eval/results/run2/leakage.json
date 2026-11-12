@@ -1,0 +1,220 @@
+{
+  "seed": {
+    "trigger_prompts": {
+      "pct": 0.0,
+      "n_items": 36,
+      "hits": []
+    },
+    "formulation_requests": {
+      "pct": 0.0,
+      "n_items": 20,
+      "hits": []
+    },
+    "gold_json": {
+      "pct": 0.0,
+      "n_items": 20,
+      "hits": []
+    },
+    "all_train_items": {
+      "pct": 0.0,
+      "n_items": 56,
+      "hits": []
+    },
+    "flag": false,
+    "flag_threshold": 0.2
+  },
+  "best": {
+    "trigger_prompts": {
+      "pct": 0.0,
+      "n_items": 36,
+      "hits": []
+    },
+    "formulation_requests": {
+      "pct": 0.0,
+      "n_items": 20,
+      "hits": []
+    },
+    "gold_json": {
+      "pct": 0.6,
+      "n_items": 20,
+      "hits": [
+        {
+          "id": "f01",
+          "shared": [
+            "except exception e return 0",
+            "exception e return 0 0",
+            "input example input expected example"
+          ],
+          "n_shared": 3
+        },
+        {
+          "id": "f02",
+          "shared": [
+            "except exception e return 0",
+            "exception e return 0 0"
+          ],
+          "n_shared": 2
+        },
+        {
+          "id": "f08",
+          "shared": [
+            "0 0 input example input",
+            "e ok got example expected",
+            "e return 0 0 input"
+          ],
+          "n_shared": 12
+        },
+        {
+          "id": "f09",
+          "shared": [
+            "re def evaluate candidate example"
+          ],
+          "n_shared": 1
+        },
+        {
+          "id": "f11",
+          "shared": [
+            "except exception e return 0",
+            "exception e return 0 0",
+            "input example input expected example"
+          ],
+          "n_shared": 3
+        },
+        {
+          "id": "f15",
+          "shared": [
+            "except exception e return 0",
+            "exception e return 0 0"
+          ],
+          "n_shared": 2
+        },
+        {
+          "id": "f20",
+          "shared": [
+            "except exception e return 0",
+            "exception e return 0 0"
+          ],
+          "n_shared": 2
+        },
+        {
+          "id": "f21",
+          "shared": [
+            "except exception e return 0",
+            "exception e return 0 0"
+          ],
+          "n_shared": 2
+        },
+        {
+          "id": "f25",
+          "shared": [
+            "except exception e return 0",
+            "exception e return 0 0",
+            "input example input expected example"
+          ],
+          "n_shared": 3
+        },
+        {
+          "id": "f26",
+          "shared": [
+            "example input expected example expected",
+            "except exception e return 0",
+            "exception e return 0 0"
+          ],
+          "n_shared": 5
+        }
+      ]
+    },
+    "all_train_items": {
+      "pct": 0.214,
+      "n_items": 56,
+      "hits": [
+        {
+          "id": "f01",
+          "shared": [
+            "except exception e return 0",
+            "exception e return 0 0",
+            "input example input expected example"
+          ],
+          "n_shared": 3
+        },
+        {
+          "id": "f02",
+          "shared": [
+            "except exception e return 0",
+            "exception e return 0 0"
+          ],
+          "n_shared": 2
+        },
+        {
+          "id": "f08",
+          "shared": [
+            "0 0 input example input",
+            "e ok got example expected",
+            "e return 0 0 input"
+          ],
+          "n_shared": 12
+        },
+        {
+          "id": "f09",
+          "shared": [
+            "re def evaluate candidate example"
+          ],
+          "n_shared": 1
+        },
+        {
+          "id": "f11",
+          "shared": [
+            "except exception e return 0",
+            "exception e return 0 0",
+            "input example input expected example"
+          ],
+          "n_shared": 3
+        },
+        {
+          "id": "f15",
+          "shared": [
+            "except exception e return 0",
+            "exception e return 0 0"
+          ],
+          "n_shared": 2
+        },
+        {
+          "id": "f20",
+          "shared": [
+            "except exception e return 0",
+            "exception e return 0 0"
+          ],
+          "n_shared": 2
+        },
+        {
+          "id": "f21",
+          "shared": [
+            "except exception e return 0",
+            "exception e return 0 0"
+          ],
+          "n_shared": 2
+        },
+        {
+          "id": "f25",
+          "shared": [
+            "except exception e return 0",
+            "exception e return 0 0",
+            "input example input expected example"
+          ],
+          "n_shared": 3
+        },
+        {
+          "id": "f26",
+          "shared": [
+            "example input expected example expected",
+            "except exception e return 0",
+            "exception e return 0 0"
+          ],
+          "n_shared": 5
+        }
+      ]
+    },
+    "flag": true,
+    "flag_threshold": 0.2
+  }
+}

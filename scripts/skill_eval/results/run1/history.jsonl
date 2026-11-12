@@ -1,0 +1,24 @@
+{"t": 1794413635.035617, "type": "iteration_start", "iteration": 0, "candidate_idx": 0, "cost_usd": 0}
+{"t": 1794413635.035779, "type": "evaluation_complete", "candidate_idx": 0, "score": 0.9571428571428572, "asi": {}}
+{"t": 1794413674.969121, "type": "proposal_complete", "iteration": 0, "component_name": "skill", "cost_usd": 0.129668}
+{"t": 1794413733.811292, "type": "promotion_blocked", "iteration": 0, "candidate_idx": 1, "incumbent_idx": 0, "mean_gain": 0.03214285714285714, "se": 0.05958055902833346}
+{"t": 1794413733.811383, "type": "candidate_rejected", "iteration": 0, "reason": "promotion", "candidate_idx": 1}
+{"t": 1794413733.81143, "type": "frontier_updated", "frontier_size": 2}
+{"t": 1794413748.358078, "type": "iteration_start", "iteration": 1, "candidate_idx": 1, "cost_usd": 0.6707519000000001}
+{"t": 1794413748.358222, "type": "evaluation_complete", "candidate_idx": 1, "score": 0.9785714285714286, "asi": {}}
+{"t": 1794413777.5872772, "type": "proposal_complete", "iteration": 1, "component_name": "skill", "cost_usd": 0.7925559000000001}
+{"t": 1794413826.869193, "type": "new_best_found", "candidate_idx": 2, "score": 0.9332417582417583, "cost_usd": 1.2435749}
+{"t": 1794413826.8696902, "type": "frontier_updated", "frontier_size": 3}
+{"t": 1794413856.029456, "type": "iteration_start", "iteration": 2, "candidate_idx": 2, "cost_usd": 1.3576466}
+{"t": 1794413856.029942, "type": "evaluation_complete", "candidate_idx": 2, "score": 0.6785714285714285, "asi": {}}
+{"t": 1794413895.305875, "type": "proposal_complete", "iteration": 2, "component_name": "skill", "cost_usd": 1.5130866}
+{"t": 1794413959.432149, "type": "promotion_blocked", "iteration": 2, "candidate_idx": 3, "incumbent_idx": 2, "mean_gain": 0.027197802197802188, "se": 0.03600054340853003}
+{"t": 1794413959.433978, "type": "candidate_rejected", "iteration": 2, "reason": "promotion", "candidate_idx": 3}
+{"t": 1794413959.434088, "type": "frontier_updated", "frontier_size": 4}
+{"t": 1794413959.4388201, "type": "iteration_start", "iteration": 3, "candidate_idx": 0, "cost_usd": 2.1079897000000005}
+{"t": 1794413959.4396632, "type": "evaluation_complete", "candidate_idx": 0, "score": 0.7000000000000001, "asi": {}}
+{"t": 1794414010.915076, "type": "proposal_complete", "iteration": 3, "component_name": "skill", "cost_usd": 2.2670497000000003}
+{"t": 1794414032.55845, "type": "candidate_rejected", "iteration": 3, "reason": "minibatch", "operator": "rewrite"}
+{"t": 1794414037.463888, "type": "iteration_start", "iteration": 4, "candidate_idx": 1, "cost_usd": 2.3450237}
+{"t": 1794414045.2281952, "type": "iteration_start", "iteration": 5, "candidate_idx": 2, "cost_usd": 2.3450237}
+{"t": 1794414045.230564, "type": "optimization_complete", "best_score": 0.9332417582417583, "total_iterations": 6, "total_evals": 82, "total_cost_usd": 2.3450237, "seed_score": 0.8491758241758242, "stop_reason": "no_improvement"}
