@@ -13,3 +13,4 @@ mcp-server/dist/
 scripts/skill_eval/.cache/
 scripts/bench/results/**/logs/
 scripts/bench/results/**/*.tmp
+.DS_Store
