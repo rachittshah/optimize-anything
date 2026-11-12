@@ -1,12 +1,13 @@
 {
   "name": "optimize-anything-mcp",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "type": "module",
   "main": "dist/index.js",
   "scripts": {
     "build": "tsc",
     "dev": "tsc --watch",
-    "start": "node dist/index.js"
+    "start": "node dist/index.js",
+    "test": "npm run build && node --test test/*.test.mjs"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.20.0",
@@ -15,5 +16,8 @@
   "devDependencies": {
     "@types/node": "^22.0.0",
     "typescript": "^5.5.0"
+  },
+  "engines": {
+    "node": ">=18"
   }
 }
