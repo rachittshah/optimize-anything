@@ -34,6 +34,11 @@
 
 ## 2. Engine: before and after
 
+<p align="center"><picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/figures/results-engine-dark.svg">
+  <img alt="Held-out test score by task: mean 0.874 for the original engine, 0.889 for the new engine, at 0.73 times the cost." src="docs/figures/results-engine-light.svg" width="760">
+</picture></p>
+
 **Benchmark.** Three tasks, each with train/validation/test splits; test is never shown to the optimizer:
 - `regex_emails`: write a regex.
 - `parse_dates`: write a date parser.
@@ -55,6 +60,11 @@ Each configuration ran 5 seeds per task. Every run had the same budget of 300 ev
 Reproduce with `scripts/bench/ab_rounds.sh 1` and `scripts/bench/ab_rounds.sh 2`, then summarize with `python3 scripts/bench/summarize.py --baseline main <files>`. Raw runs are in `scripts/bench/results/`.
 
 ## 3. Upgrades tried: adopted and rejected
+
+<p align="center"><picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/figures/results-upgrades-dark.svg">
+  <img alt="Change in held-out test score for each engine upgrade against the original, with 95 percent intervals." src="docs/figures/results-upgrades-light.svg" width="760">
+</picture></p>
 
 Each idea came from the research grid (`docs/research/sota-2026.md`: 7 independent expert reviews, 20 design axes, 61 candidates). Each one was built behind a flag and measured against the original engine (Δ = change in mean test score):
 
@@ -79,6 +89,11 @@ Rejected on evidence, without building:
 The reasons and citations are in the research doc.
 
 ## 4. Skill: before and after
+
+<p align="center"><picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/figures/results-skill-dark.svg">
+  <img alt="Skill score before and after optimization: held-out total 0.869 to 0.974." src="docs/figures/results-skill-light.svg" width="760">
+</picture></p>
 
 The skill (`skill/SKILL.md`) was optimized with this engine. It was scored on four parts:
 

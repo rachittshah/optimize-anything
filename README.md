@@ -4,6 +4,13 @@ Give it a piece of text (a prompt, a regex, a config, agent instructions, a smal
 
 Each round, an LLM reads why the current version lost points (failing cases, errors, judge comments), proposes a fix, and keeps it only if it scores better. The method is inspired by [GEPA](https://arxiv.org/abs/2507.19457).
 
+<p align="center"><picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/figures/loop-dark.svg">
+  <img alt="One round of optimization drawn as a small bench machine: a card (your text) is picked from a rack (the pool), scored by probes (the evaluator), rewritten by an engraving head (the LLM proposer), scored again, and kept only if it beats the old best." src="docs/figures/loop-light.svg" width="760">
+</picture></p>
+
+*One round, start to finish. The card is your text. It is picked from the pool (1), scored on a few examples (2), rewritten by an LLM that reads what failed (3), scored again (2), and kept only if it beats the old best (4). The engine repeats this until the budget runs out.*
+
 **You need:** macOS or Linux, Node 18+, [uv](https://docs.astral.sh/uv/), and either a Claude/ChatGPT subscription logged in to `claude` / `codex`, or an `ANTHROPIC_API_KEY` / `OPENAI_API_KEY`.
 
 ## Install (one command)
@@ -117,6 +124,16 @@ Every run records spend per role, priced as if billed through the API: in `resul
 Experimental options, off by default because they didn't help on our benchmark: `val_eval="halving"`, `counterexample_mining`, `operator_bandit`, `mutation_operator="section_edit"`, `proposal_memory`, `max_edit_ratio`. [RESULTS.md](RESULTS.md) has the numbers.
 
 ## Results
+
+<p align="center"><picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/figures/results-engine-dark.svg">
+  <img alt="Held-out test score by task: mean 0.874 for the original engine, 0.889 for the new engine, at 0.73 times the cost." src="docs/figures/results-engine-light.svg" width="760">
+</picture></p>
+
+<p align="center"><picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/figures/results-skill-dark.svg">
+  <img alt="Skill score before and after optimization: held-out total 0.869 to 0.974." src="docs/figures/results-skill-light.svg" width="760">
+</picture></p>
 
 [RESULTS.md](RESULTS.md) has the before/after numbers for the engine (a 3-task benchmark) and for the skill (it was optimized with this engine), the cost, and every upgrade we tried and rejected. The research behind the upgrades is in [docs/research/sota-2026.md](docs/research/sota-2026.md).
 
