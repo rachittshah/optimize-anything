@@ -1,0 +1,574 @@
+{
+  "train": {
+    "components": {
+      "trigger_f1": 0.9696969696969697,
+      "formulation_validity": 0.75,
+      "formulation_quality": 0.7178571428571427,
+      "brevity": 1.0
+    },
+    "weighted": 0.8312662337662338,
+    "n_trigger": 36,
+    "n_formulation": 20,
+    "failed": [],
+    "flags": [],
+    "trigger_confusion": {
+      "tp": 16,
+      "fp": 0,
+      "fn": 1,
+      "tn": 19
+    },
+    "misrouted": [
+      {
+        "id": "t03",
+        "kind": "positive",
+        "pick": "performance-profiling"
+      }
+    ],
+    "valid_low_quality": [],
+    "invalid_high_quality": [
+      "f09",
+      "f25",
+      "f26",
+      "f29"
+    ],
+    "formulations": [
+      {
+        "id": "f01",
+        "validity": 1.0,
+        "quality": 0.5714285714285714,
+        "mode": "call",
+        "validity_reason": "ran: seed scored without evaluator errors",
+        "criteria": {
+          "evaluator_fits_signal": 0,
+          "asi_richness": 1,
+          "mode_and_split": 2,
+          "objective": 2,
+          "budget": 1,
+          "clarify_when_needed": 1,
+          "safety_and_runnability": 1
+        },
+        "critique": "The evaluator is an llm_judge even though exact labels exist, so a python evaluator could check them verifiably; the stated reason (no classifier endpoint) is wrong, since the gold calls the API from python. The judge cannot reliably run the candidate prompt, and its ASI is only prose. The split is fine (6 train, 4 val, disjoint). The budget has only max_iterations, with no metric-call or timeout cap. Nothing is unsafe, but the evaluator is fragile because it assumes the judge simulates the classifier."
+      },
+      {
+        "id": "f02",
+        "validity": 1.0,
+        "quality": 0.5714285714285714,
+        "mode": "call",
+        "validity_reason": "ran: seed scored without evaluator errors",
+        "criteria": {
+          "evaluator_fits_signal": 0,
+          "asi_richness": 1,
+          "mode_and_split": 2,
+          "objective": 1,
+          "budget": 1,
+          "clarify_when_needed": 2,
+          "safety_and_runnability": 1
+        },
+        "critique": "Used llm_judge where a verifiable signal exists (gold expected JSON), so a Python F1 evaluator was warranted. The judge's feedback is only free text, with no structured per-key missing/extra diff. The objective names exact-match accuracy but states no constraint. Budget sets only max_iterations, with no max_metric_calls. The split is sound with no overlap. The judge criteria also leak gold-specific rules into the evaluator, such as dropping 'The' and keeping 'Dr.'."
+      },
+      {
+        "id": "f04",
+        "validity": 1.0,
+        "quality": 0.8571428571428571,
+        "mode": "call",
+        "validity_reason": "ran: seed scored without evaluator errors",
+        "criteria": {
+          "evaluator_fits_signal": 2,
+          "asi_richness": 1,
+          "mode_and_split": 2,
+          "objective": 2,
+          "budget": 1,
+          "clarify_when_needed": 2,
+          "safety_and_runnability": 2
+        },
+        "critique": "The shell evaluator reuses bench.py, whose output is only the correctness/time line and a score. That gives the proposer thin diagnostics, with no per-case detail beyond the first failure, and the agent added nothing to enrich it. The budget sets max_iterations to 15 but no max_metric_calls, so it is looser than needed for such a cheap function. Otherwise the formulation is sound: the objective is specific and the command uses {{candidate_file}}."
+      },
+      {
+        "id": "f06",
+        "validity": 1.0,
+        "quality": 0.8571428571428571,
+        "mode": "call",
+        "validity_reason": "ran: seed scored without evaluator errors",
+        "criteria": {
+          "evaluator_fits_signal": 2,
+          "asi_richness": 1,
+          "mode_and_split": 2,
+          "objective": 2,
+          "budget": 1,
+          "clarify_when_needed": 2,
+          "safety_and_runnability": 2
+        },
+        "critique": "The evaluator is right (shell running the benchmark, regex score, timeout 60). ASI is limited to the benchmark's stdout lines ('time: ...', 'wrong grouping'), with no per-example detail. The budget sets only max_iterations: 15 and no max_metric_calls, though evals are cheap. The background gives the solution away with a hash-map hint, which is harmless. The objective could state the metric and the 0.003s target more precisely."
+      },
+      {
+        "id": "f08",
+        "validity": 1.0,
+        "quality": 0.8571428571428571,
+        "mode": "call",
+        "validity_reason": "ran: seed scored without evaluator errors",
+        "criteria": {
+          "evaluator_fits_signal": 2,
+          "asi_richness": 2,
+          "mode_and_split": 1,
+          "objective": 2,
+          "budget": 1,
+          "clarify_when_needed": 2,
+          "safety_and_runnability": 2
+        },
+        "critique": "Mode: the 8 cases are hardcoded inside the evaluator rather than passed as a dataset, so the run is single-task and the evaluator never receives per-example input. Nothing is held out, and the user's \"handles them\" wording doesn't require that. Budget: max_iterations is 10 with no max_metric_calls, so metric-call spend is not capped, although each eval is cheap. Evaluator, ASI, objective, and safety are otherwise sound."
+      },
+      {
+        "id": "f09",
+        "validity": 0.0,
+        "quality": 0.7857142857142857,
+        "mode": "call",
+        "validity_reason": "runtime: evaluator errored on every seed example (6); first: Traceback (most recent call last):\n  File \"/var/folders/ln/f9ymyyh97rx6k6pf8zyj615h0000gn/T/tmpxzu4hm6j.py\", line 30, in <module>\n    _result = evaluate(_candidate, _example)\n  File \"/var/folders/ln/f9ymyyh97rx6k6pf8zyj615h0000gn/T/tmpxzu4hm6j.py\", line 8, in evaluate\n    rx = re.compile(c['regex'])\n                    ~^^^^^^^^^\nTypeError: string indices must be integers, not 'str'\n",
+        "criteria": {
+          "evaluator_fits_signal": 2,
+          "asi_richness": 2,
+          "mode_and_split": 1,
+          "objective": 2,
+          "budget": 1,
+          "clarify_when_needed": 2,
+          "safety_and_runnability": 1
+        },
+        "critique": "The evaluator does not handle example=None or a str/dict candidate, and it indexes c['regex'] directly, so it is fragile. There is no max_metric_calls, only max_iterations=15, so the budget is incomplete. The dataset is the same six samples with no valset, and only one negative case is included, so the split is weak and the run risks overfitting. The objective and ASI are strong."
+      },
+      {
+        "id": "f11",
+        "validity": 1.0,
+        "quality": 0.5714285714285714,
+        "mode": "call",
+        "validity_reason": "ran: seed scored without evaluator errors",
+        "criteria": {
+          "evaluator_fits_signal": 0,
+          "asi_richness": 1,
+          "mode_and_split": 1,
+          "objective": 2,
+          "budget": 1,
+          "clarify_when_needed": 2,
+          "safety_and_runnability": 1
+        },
+        "critique": "The evaluator is an llm_judge even though exact labels exist. A python exact-match check is the verifiable signal, so this is the most severe problem. The ASI is only the judge's free-text feedback, not structured per-example fields. The valset has just 3 items, and the 'background' text copies the held-out examples' labels, a leak: 'Never arrived, just refund me' appears there. The budget has no max_metric_calls. The candidate has a 'shots' key rather than a joined text format, and the 120s timeout is questionable."
+      },
+      {
+        "id": "f12",
+        "validity": 1.0,
+        "quality": 0.8571428571428571,
+        "mode": "call",
+        "validity_reason": "ran: seed scored without evaluator errors",
+        "criteria": {
+          "evaluator_fits_signal": 2,
+          "asi_richness": 2,
+          "mode_and_split": 2,
+          "objective": 2,
+          "budget": 1,
+          "clarify_when_needed": 2,
+          "safety_and_runnability": 1
+        },
+        "critique": "Evaluator is sound (python, execution-style F1) with rich ASI. Problems: the 0.3 exact-match term uses order-aware comparison, but the objective says to match keywords, so it adds a mismatched component. The candidate is a dict keyed by 'split.txt' and 'stopwords.txt' and the evaluator does no str-candidate handling. It also never handles example=None. No max_metric_calls is set; only max_iterations=15. No valset is used, though the user didn't ask about unseen data."
+      },
+      {
+        "id": "f13",
+        "validity": 1.0,
+        "quality": 0.7857142857142857,
+        "mode": "call",
+        "validity_reason": "ran: seed scored without evaluator errors",
+        "criteria": {
+          "evaluator_fits_signal": 2,
+          "asi_richness": 1,
+          "mode_and_split": 2,
+          "objective": 2,
+          "budget": 1,
+          "clarify_when_needed": 2,
+          "safety_and_runnability": 1
+        },
+        "critique": "ASI is returned only via print(), and evaluate returns a bare float instead of (score, dict). The proposer may not see the diagnostics, so ASI is weak. The evaluator signature `evaluate(c, e)` has no default for example=None. Scraper trace is regenerated from a claimed note rather than copied from the file, which is a small risk. Budget has max_iterations only, with no max_metric_calls. The evaluator is correct, simulator-based, and the objective is specific."
+      },
+      {
+        "id": "f15",
+        "validity": 1.0,
+        "quality": 0.8571428571428571,
+        "mode": "call",
+        "validity_reason": "ran: seed scored without evaluator errors",
+        "criteria": {
+          "evaluator_fits_signal": 2,
+          "asi_richness": 2,
+          "mode_and_split": 2,
+          "objective": 1,
+          "budget": 2,
+          "clarify_when_needed": 2,
+          "safety_and_runnability": 1
+        },
+        "critique": "Score can go negative: wait/3000 and 0.02*attempts are subtracted without clamping, so it falls outside [0,1]. The objective gives no concrete metric, such as the weighted score or the success-rate-vs-wait trade-off. Waiting time is penalized even on successful recoveries, and the weights (0.25, 0.02) are arbitrary. The 90/10 outage mix is stated as an assumption, which is good. The evaluator is a sound simulator with rich per-outage ASI."
+      },
+      {
+        "id": "f16",
+        "validity": 1.0,
+        "quality": 0.7857142857142857,
+        "mode": "call",
+        "validity_reason": "ran: seed scored without evaluator errors",
+        "criteria": {
+          "evaluator_fits_signal": 2,
+          "asi_richness": 1,
+          "mode_and_split": 2,
+          "objective": 1,
+          "budget": 1,
+          "clarify_when_needed": 2,
+          "safety_and_runnability": 2
+        },
+        "critique": "The objective names goals (friendly, useful, short) but sets no measurable constraint like a word limit or a minimum number of next steps, so it stays soft. The judge criteria are also unanchored: no word cap and no scoring anchors, though the format does end in SCORE. The budget has max_iterations only, with no max_metric_calls to bound judge cost. Judge ASI is only a brief explanation of weaknesses, with no structured diagnostics."
+      },
+      {
+        "id": "f17",
+        "validity": 1.0,
+        "quality": 0.7142857142857143,
+        "mode": "call",
+        "validity_reason": "ran: seed scored without evaluator errors",
+        "criteria": {
+          "evaluator_fits_signal": 2,
+          "asi_richness": 1,
+          "mode_and_split": 1,
+          "objective": 2,
+          "budget": 1,
+          "clarify_when_needed": 2,
+          "safety_and_runnability": 1
+        },
+        "critique": "The judge has a good anchored rubric, but the ASI is only free-text feedback. The dataset is a set of personas, which is a questionable mode for a single-task email rewrite, and there is no valset or held-out split. The budget has max_iterations=20 but no max_metric_calls. The placeholders [CTA link] and [Product] may be treated as unresolved text in the output. The judge-as-proxy caveat is noted, which is good."
+      },
+      {
+        "id": "f20",
+        "validity": 1.0,
+        "quality": 0.7142857142857143,
+        "mode": "call",
+        "validity_reason": "ran: seed scored without evaluator errors",
+        "criteria": {
+          "evaluator_fits_signal": 0,
+          "asi_richness": 1,
+          "mode_and_split": 2,
+          "objective": 2,
+          "budget": 1,
+          "clarify_when_needed": 2,
+          "safety_and_runnability": 2
+        },
+        "critique": "The evaluator is an llm_judge even though every requirement (type, 72-char limit, file mention) can be checked in code against the expected type. This is the main failure. The judge only simulates the agent, so its scores are noisy and the diagnostics are free text rather than per-check booleans. The budget has max_iterations but no max_metric_calls. The split is correct and the call is runnable."
+      },
+      {
+        "id": "f21",
+        "validity": 1.0,
+        "quality": 0.5714285714285714,
+        "mode": "call",
+        "validity_reason": "ran: seed scored without evaluator errors",
+        "criteria": {
+          "evaluator_fits_signal": 0,
+          "asi_richness": 0,
+          "mode_and_split": 2,
+          "objective": 2,
+          "budget": 1,
+          "clarify_when_needed": 2,
+          "safety_and_runnability": 1
+        },
+        "critique": "The evaluator is an llm_judge that simulates the review agent, even though the labels (bug_keyword and line) give a verifiable signal. A python evaluator that runs the model and checks line and keyword would measure this properly. The judge also never sees the real output, so the ASI is just a free-text judgment with no per-example diagnostics. Budget has no max_metric_calls. The seed key 'GEMINI.md' is plausible but unverified. The split is fine."
+      },
+      {
+        "id": "f23",
+        "validity": 1.0,
+        "quality": 0.5714285714285714,
+        "mode": "clarify",
+        "validity_reason": "clarified (gold is clarify)",
+        "criteria": {
+          "evaluator_fits_signal": 1,
+          "asi_richness": 1,
+          "mode_and_split": 1,
+          "objective": 1,
+          "budget": 1,
+          "clarify_when_needed": 2,
+          "safety_and_runnability": 1
+        },
+        "critique": "The reply correctly asks instead of guessing and covers the artifact, success signal and examples. It is only a list of questions: it gives no conditional plan and no default, such as optimizing the system prompt against a pass/fail task suite once tasks exist. It also doesn't say what each answer unlocks, doesn't ask for a minimum number of tasks, and treats the budget as a blocking question. Under the clarify rule, criteria 1-5 and 7 are capped at 1."
+      },
+      {
+        "id": "f24",
+        "validity": 0.0,
+        "quality": 0.5,
+        "mode": "call",
+        "validity_reason": "called the tool / did not clarify, but the request lacks what a sound call needs (gold is clarify)",
+        "criteria": {
+          "evaluator_fits_signal": 1,
+          "asi_richness": 1,
+          "mode_and_split": 1,
+          "objective": 1,
+          "budget": 2,
+          "clarify_when_needed": 0,
+          "safety_and_runnability": 1
+        },
+        "critique": "The gold item is a clarify case: conversion can't be measured offline. The agent called the tool anyway with an LLM-judge proxy and asked no questions on conversion data, audience, or the target action. It disclosed the proxy trade-off only in passing, after the fact. The invented personas are a weak dataset. The objective still says 'maximize conversion', which the judge can't measure. The judge's per-example feedback is minimal, and the seed_candidate is a dict while the file is plain text."
+      },
+      {
+        "id": "f25",
+        "validity": 0.0,
+        "quality": 0.7142857142857143,
+        "mode": "call",
+        "validity_reason": "runtime: evaluator errored on every seed example (6); first: Traceback (most recent call last):\n  File \"/var/folders/ln/f9ymyyh97rx6k6pf8zyj615h0000gn/T/tmpmhinh6sz.py\", line 20, in <module>\n    _result = evaluate(_candidate, _example)\n  File \"/var/folders/ln/f9ymyyh97rx6k6pf8zyj615h0000gn/T/tmpmhinh6sz.py\", line 7, in evaluate\n    prompt = candidate['sentiment_prompt'] + '\\n\\nText: ' + example['input'] + '\\n\\nAnswer with exactly one word: positive, negative, or neutral.'\n             ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^\nTypeError: string indices must be integers, not 'str'\n",
+        "criteria": {
+          "evaluator_fits_signal": 1,
+          "asi_richness": 2,
+          "mode_and_split": 2,
+          "objective": 2,
+          "budget": 2,
+          "clarify_when_needed": 1,
+          "safety_and_runnability": 0
+        },
+        "critique": "The evaluator calls an undefined `run_llm`, which nothing in the harness guarantees. It will probably return 0 on every example, so the run likely never works. Real scoring needs a direct API call like the gold's. The code also doesn't handle example=None or dict candidates robustly. Budget is reasonable (40 calls, 5 iterations), but the minibatch size and early stopping are not set. The overfit caveat is a good addition. The agent invented a harness function and called the tool anyway."
+      },
+      {
+        "id": "f26",
+        "validity": 0.0,
+        "quality": 0.8571428571428571,
+        "mode": "call",
+        "validity_reason": "runtime: evaluator errored on every seed example (6); first: TypeError(\"string indices must be integers, not 'str'\")",
+        "criteria": {
+          "evaluator_fits_signal": 2,
+          "asi_richness": 2,
+          "mode_and_split": 2,
+          "objective": 2,
+          "budget": 1,
+          "clarify_when_needed": 2,
+          "safety_and_runnability": 1
+        },
+        "critique": "Budget: the user asked for about five minutes, but the config omits timeout_seconds=300. The agent claims the tool has no wall-clock limit, which conflicts with the gold's use of timeout_seconds. Runnability: the evaluator indexes c['slugify_code'] directly, so a str candidate or example=None would raise an error, and it returns no handling for those cases. The background also spells out the solution steps, which is acceptable but leaks hints. The rest of the formulation is sound."
+      },
+      {
+        "id": "f28",
+        "validity": 1.0,
+        "quality": 0.5714285714285714,
+        "mode": "call",
+        "validity_reason": "ran: seed scored without evaluator errors",
+        "criteria": {
+          "evaluator_fits_signal": 0,
+          "asi_richness": 1,
+          "mode_and_split": 1,
+          "objective": 2,
+          "budget": 1,
+          "clarify_when_needed": 2,
+          "safety_and_runnability": 1
+        },
+        "critique": "Uses llm_judge even though word count and number retention are verifiable, so a Python check should have been used. That is the main failure. ASI is limited to judge free-text feedback. All 4 examples go into the dataset with no valset, so there is no held-out check. Budget has max_iterations but no max_metric_calls. The judge may not actually receive the summary or the 'numbers' field in a well-defined way, which makes it fragile."
+      },
+      {
+        "id": "f29",
+        "validity": 0.0,
+        "quality": 0.7857142857142857,
+        "mode": "call",
+        "validity_reason": "runtime: evaluator errored on every seed example (3); first: TypeError(\"string indices must be integers, not 'str'\")",
+        "criteria": {
+          "evaluator_fits_signal": 2,
+          "asi_richness": 2,
+          "mode_and_split": 1,
+          "objective": 2,
+          "budget": 1,
+          "clarify_when_needed": 2,
+          "safety_and_runnability": 1
+        },
+        "critique": "Evaluator is python with line-level partial credit and a diff, which fits. Weaknesses: the score is capped at 0.9 for non-exact matches, and the leftover `or True` conditional is sloppy dead code. It only accepts dict candidates (`c['table_code']`) and has no str handling or example=None handling, so it is fragile. The budget sets max_iterations but no max_metric_calls. All three examples go in the dataset with no valset, which is acceptable here because the user gave no unseen-data request. The background text leaks the examples, but that is harmless."
+      }
+    ]
+  },
+  "val": {
+    "components": {
+      "trigger_f1": 1.0,
+      "formulation_validity": 0.8,
+      "formulation_quality": 0.7642857142857142,
+      "brevity": 1.0
+    },
+    "weighted": 0.8692857142857142,
+    "n_trigger": 14,
+    "n_formulation": 10,
+    "failed": [],
+    "flags": [],
+    "trigger_confusion": {
+      "tp": 7,
+      "fp": 0,
+      "fn": 0,
+      "tn": 7
+    },
+    "misrouted": [],
+    "valid_low_quality": [],
+    "invalid_high_quality": [
+      "f03",
+      "f07"
+    ],
+    "formulations": [
+      {
+        "id": "f03",
+        "validity": 0.0,
+        "quality": 0.8571428571428571,
+        "mode": "call",
+        "validity_reason": "runtime: evaluator errored on every seed example (2); first: Traceback (most recent call last):\n  File \"/var/folders/ln/f9ymyyh97rx6k6pf8zyj615h0000gn/T/tmp017dlg61.py\", line 43, in <module>\n    _result = evaluate(_candidate, _example)\n  File \"/var/folders/ln/f9ymyyh97rx6k6pf8zyj615h0000gn/T/tmp017dlg61.py\", line 18, in evaluate\n    prompt = c['sql_prompt']\n             ~^^^^^^^^^^^^^^\nTypeError: string indices must be integers, not 'str'\n",
+        "criteria": {
+          "evaluator_fits_signal": 2,
+          "asi_richness": 2,
+          "mode_and_split": 2,
+          "objective": 2,
+          "budget": 1,
+          "clarify_when_needed": 2,
+          "safety_and_runnability": 1
+        },
+        "critique": "Evaluator uses the non-stdlib `anthropic` SDK, which is fragile if it isn't installed, and it doesn't handle example=None or str candidates (c['sql_prompt'] breaks on a string candidate). It also instantiates the client on every call. The 60s timeout is plausible, but there is no max_metric_calls, only max_iterations. Mode, split and ASI are good: execution match on rows, with generated SQL and got/expected rows in the output."
+      },
+      {
+        "id": "f05",
+        "validity": 1.0,
+        "quality": 0.8571428571428571,
+        "mode": "call",
+        "validity_reason": "ran: seed scored without evaluator errors",
+        "criteria": {
+          "evaluator_fits_signal": 2,
+          "asi_richness": 1,
+          "mode_and_split": 2,
+          "objective": 2,
+          "budget": 1,
+          "clarify_when_needed": 2,
+          "safety_and_runnability": 2
+        },
+        "critique": "ASI is limited to what the bench prints (time and a failure message). The agent did not wrap it to add per-example diagnostics, which is acceptable for a reused bench but only partial credit. The budget has max_iterations only, with no max_metric_calls, so it is slightly under-specified. The formulation reuses the bench through {{candidate_file}} and the Score regex, and the objective keeps the tie-break constraint. One minor risk is that `python` may not resolve on every system, where `python3` is safer."
+      },
+      {
+        "id": "f07",
+        "validity": 0.0,
+        "quality": 0.7857142857142857,
+        "mode": "call",
+        "validity_reason": "runtime: evaluator errored on every seed example (1); first: Traceback (most recent call last):\n  File \"/var/folders/ln/f9ymyyh97rx6k6pf8zyj615h0000gn/T/tmpqf34s306.py\", line 40, in <module>\n    _result = evaluate(_candidate, _example)\n  File \"/var/folders/ln/f9ymyyh97rx6k6pf8zyj615h0000gn/T/tmpqf34s306.py\", line 20, in evaluate\n    pattern = c[\"phone_regex\"].strip()\n              ~^^^^^^^^^^^^^^^\nTypeError: string indices must be integers, not 'str'\n",
+        "criteria": {
+          "evaluator_fits_signal": 2,
+          "asi_richness": 2,
+          "mode_and_split": 1,
+          "objective": 2,
+          "budget": 1,
+          "clarify_when_needed": 2,
+          "safety_and_runnability": 1
+        },
+        "critique": "Cases are hardcoded in the evaluator and no dataset is passed, so it runs as single-task and ignores the example argument, which is wrong for the multi-task mode the notes call for. The evaluator uses re.search instead of fullmatch, so a candidate that drops the anchors can pass cases it shouldn't. The evaluator also assumes a dict candidate, so a plain string candidate would break it. max_metric_calls is missing, and it doesn't handle example=None."
+      },
+      {
+        "id": "f10",
+        "validity": 1.0,
+        "quality": 0.7142857142857143,
+        "mode": "call",
+        "validity_reason": "ran: seed scored without evaluator errors",
+        "criteria": {
+          "evaluator_fits_signal": 2,
+          "asi_richness": 0,
+          "mode_and_split": 2,
+          "objective": 2,
+          "budget": 1,
+          "clarify_when_needed": 2,
+          "safety_and_runnability": 1
+        },
+        "critique": "The evaluator returns a bare 0/1 float with no diagnostics, so the proposer can't see which pattern fired, the predicted label or compile errors; this is the biggest weakness. Safety is fragile: it doesn't handle example=None, returns a bare float instead of (score, dict), and exc.search on an empty string is fine but str candidates aren't handled. Budget has max_iterations only, with no max_metric_calls."
+      },
+      {
+        "id": "f14",
+        "validity": 1.0,
+        "quality": 0.8571428571428571,
+        "mode": "call",
+        "validity_reason": "ran: seed scored without evaluator errors",
+        "criteria": {
+          "evaluator_fits_signal": 2,
+          "asi_richness": 1,
+          "mode_and_split": 2,
+          "objective": 2,
+          "budget": 1,
+          "clarify_when_needed": 2,
+          "safety_and_runnability": 2
+        },
+        "critique": "The evaluator is a shell call to the real simulator, which is correct. ASI is limited to the stdout line the simulator prints (hit_rate, size, policy), and the agent adds no diagnostics of its own, so that scores 1. Budget gives max_iterations 10 but no max_metric_calls, which is loose for a 2-parameter space. The `-I` flag is harmless here. Objective and background are clear and specific."
+      },
+      {
+        "id": "f18",
+        "validity": 1.0,
+        "quality": 0.7857142857142857,
+        "mode": "call",
+        "validity_reason": "ran: seed scored without evaluator errors",
+        "criteria": {
+          "evaluator_fits_signal": 2,
+          "asi_richness": 1,
+          "mode_and_split": 2,
+          "objective": 1,
+          "budget": 1,
+          "clarify_when_needed": 2,
+          "safety_and_runnability": 2
+        },
+        "critique": "The objective names no measurable metric or hard constraint (e.g. a word limit, a score target) and is only a loose description of a 'good tagline'. The budget sets max_iterations of 30 with no max_metric_calls, which is generous for a cheap judge but unbounded in calls. The judge criteria are decent but have no anchored score bands. The seed is already strong, which leaves little room to improve, and the judge gives no per-criterion diagnostics."
+      },
+      {
+        "id": "f19",
+        "validity": 1.0,
+        "quality": 0.6428571428571429,
+        "mode": "call",
+        "validity_reason": "ran: seed scored without evaluator errors",
+        "criteria": {
+          "evaluator_fits_signal": 0,
+          "asi_richness": 1,
+          "mode_and_split": 2,
+          "objective": 2,
+          "budget": 1,
+          "clarify_when_needed": 2,
+          "safety_and_runnability": 1
+        },
+        "critique": "The evaluator is an llm_judge even though labeled expected outputs exist, so it should be a python evaluator that actually runs the model and checks the tool call. Simulating the agent inside a judge is unreliable. ASI is limited to the judge's rationale, with no structured expected-vs-got. The split is clean and the objective is specific. The budget only sets max_iterations, with no metric-call cap. The call is runnable, but the judge's scoring is fragile."
+      },
+      {
+        "id": "f22",
+        "validity": 1.0,
+        "quality": 0.5,
+        "mode": "clarify",
+        "validity_reason": "clarified (gold is clarify)",
+        "criteria": {
+          "evaluator_fits_signal": 1,
+          "asi_richness": 1,
+          "mode_and_split": 1,
+          "objective": 1,
+          "budget": 1,
+          "clarify_when_needed": 1,
+          "safety_and_runnability": 1
+        },
+        "critique": "The reply correctly clarifies instead of inventing a prompt, and it asks for the artifact, the metric and examples. But it never says what each answer unlocks, so it doesn't explain that labels lead to a Python evaluator and no labels to an LLM judge, and it doesn't surface proxy trade-offs. It also lacks a conditional plan, and it omits which model runs the prompt. Asking about budget and purpose is slightly unnecessary at this stage."
+      },
+      {
+        "id": "f27",
+        "validity": 1.0,
+        "quality": 0.9285714285714286,
+        "mode": "call",
+        "validity_reason": "ran: seed scored without evaluator errors",
+        "criteria": {
+          "evaluator_fits_signal": 2,
+          "asi_richness": 1,
+          "mode_and_split": 2,
+          "objective": 2,
+          "budget": 2,
+          "clarify_when_needed": 2,
+          "safety_and_runnability": 2
+        },
+        "critique": "Shell evaluator on the real simulator with a score regex is the right choice. ASI is limited to the single regex-extracted score; the throughput/cost line from sim_sched.py never reaches the proposer in structured form, hence 1 on criterion 2. Budget handling is good: max_metric_calls=15 and timeout 600 exceeds the 2-minute run. max_iterations=14 is a bit high given about 2 evals per iteration, but metric calls bound the run. Bounds are included in the background. Uses 'python' rather than 'python3', which is a minor portability risk."
+      },
+      {
+        "id": "f30",
+        "validity": 1.0,
+        "quality": 0.7142857142857143,
+        "mode": "call",
+        "validity_reason": "ran: seed scored without evaluator errors",
+        "criteria": {
+          "evaluator_fits_signal": 2,
+          "asi_richness": 1,
+          "mode_and_split": 1,
+          "objective": 2,
+          "budget": 1,
+          "clarify_when_needed": 2,
+          "safety_and_runnability": 1
+        },
+        "critique": "The evaluator returns a bare float and only prints diagnostics, so the ASI is not a returned dict; it also never handles example=None or a str candidate. The evaluator and objective otherwise fit the task well. Budget has max_iterations only, with no max_metric_calls. No valset is used, and the agent only suggests adding one afterwards, which is acceptable given just five cases."
+      }
+    ]
+  }
+}

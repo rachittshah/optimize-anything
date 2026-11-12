@@ -1,0 +1,80 @@
+{
+  "seed": {
+    "trigger_prompts": {
+      "pct": 0.0,
+      "n_items": 36,
+      "hits": []
+    },
+    "formulation_requests": {
+      "pct": 0.0,
+      "n_items": 20,
+      "hits": []
+    },
+    "gold_json": {
+      "pct": 0.0,
+      "n_items": 20,
+      "hits": []
+    },
+    "all_train_items": {
+      "pct": 0.0,
+      "n_items": 56,
+      "hits": []
+    },
+    "flag": false,
+    "flag_threshold": 0.2
+  },
+  "best": {
+    "trigger_prompts": {
+      "pct": 0.0,
+      "n_items": 36,
+      "hits": []
+    },
+    "formulation_requests": {
+      "pct": 0.0,
+      "n_items": 20,
+      "hits": []
+    },
+    "gold_json": {
+      "pct": 0.1,
+      "n_items": 20,
+      "hits": [
+        {
+          "id": "f13",
+          "shared": [
+            "def evaluate candidate example none"
+          ],
+          "n_shared": 1
+        },
+        {
+          "id": "f15",
+          "shared": [
+            "def evaluate candidate example none"
+          ],
+          "n_shared": 1
+        }
+      ]
+    },
+    "all_train_items": {
+      "pct": 0.036,
+      "n_items": 56,
+      "hits": [
+        {
+          "id": "f13",
+          "shared": [
+            "def evaluate candidate example none"
+          ],
+          "n_shared": 1
+        },
+        {
+          "id": "f15",
+          "shared": [
+            "def evaluate candidate example none"
+          ],
+          "n_shared": 1
+        }
+      ]
+    },
+    "flag": false,
+    "flag_threshold": 0.2
+  }
+}

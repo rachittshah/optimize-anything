@@ -1,0 +1,16 @@
+[
+  {"name": "llm-eval-builder", "description": "Use when designing or building evaluations for LLM apps: golden datasets, LLM-as-judge rubrics, regression suites, CI eval jobs, or comparing prompt or model variants on an eval set. Not for automatically improving the system under test."},
+  {"name": "prompt-writing", "description": "Use when drafting, rewriting, or critiquing a prompt or system prompt by hand: structure, role, examples, output format, and common failure modes. Produces a single improved prompt with an explanation."},
+  {"name": "performance-profiling", "description": "Use when code is slow or uses too much memory: profile first (py-spy, perf, Instruments, cProfile), find the hot path, then apply targeted fixes such as better data structures, batching, caching, or removing N+1 queries."},
+  {"name": "web-performance", "description": "Use when a web frontend is slow to load or interact: bundle size, code splitting, tree-shaking, lazy loading, image optimization, Core Web Vitals, and Lighthouse audits."},
+  {"name": "code-review", "description": "Use when reviewing a diff, PR, or file for correctness bugs, security issues, readability, and maintainability. Returns prioritized findings with suggested fixes."},
+  {"name": "hyperparameter-tuning", "description": "Use when tuning numeric hyperparameters of ML models (learning rate, depth, regularization) with Optuna, Ray Tune, or grid/random/Bayesian search, including search spaces, pruning, and cross-validation."},
+  {"name": "llm-finetuning", "description": "Use when training or fine-tuning model weights: SFT, LoRA/QLoRA, DPO, dataset formatting, training configs, and evaluating checkpoints."},
+  {"name": "sql-expert", "description": "Use when writing, debugging, or speeding up SQL queries: EXPLAIN plans, indexes, joins, window functions, query rewrites, and schema design for Postgres, MySQL, and SQLite."},
+  {"name": "systematic-debugging", "description": "Use when encountering a bug, test failure, crash, or unexpected behavior: reproduce, form hypotheses, bisect, read logs and traces, and confirm the root cause before proposing a fix."},
+  {"name": "writing-editor", "description": "Use when editing prose: tightening paragraphs, fixing tone and grammar, improving resumes, cover letters, emails, blog posts, and docs for clarity and concision."},
+  {"name": "planning", "description": "Use when the user wants a plan: breaking down a project, roadmap, career or life plan, or multi-step implementation into milestones, dependencies, and next actions."},
+  {"name": "test-driven-development", "description": "Use when implementing a feature or bugfix: write failing tests first (unit, property, edge cases), then the minimal code to pass, then refactor."},
+  {"name": "dataviz", "description": "Use when creating any chart, plot, or dashboard: choosing the chart form, color palette, axes, legends, and annotations in matplotlib, plotly, d3, or Recharts."},
+  {"name": "deep-research", "description": "Use when a question needs research across multiple sources (papers, docs, blogs) and a synthesized, cited answer: comparing methods, explaining a technique, or surveying a field."}
+]

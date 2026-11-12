@@ -1,0 +1,29 @@
+{
+  "total_usd": 0.1815822,
+  "calls": 18,
+  "by_role": {
+    "router": {
+      "usd": 0.0021842000000000003,
+      "calls": 6,
+      "input_tokens": 10812,
+      "output_tokens": 46,
+      "cache_read_tokens": 0
+    },
+    "agent": {
+      "usd": 0.083898,
+      "calls": 6,
+      "input_tokens": 10568,
+      "output_tokens": 4059,
+      "cache_read_tokens": 10600
+    },
+    "judge": {
+      "usd": 0.0955,
+      "calls": 6,
+      "input_tokens": 20636,
+      "output_tokens": 1298,
+      "cache_read_tokens": 0
+    }
+  },
+  "cache_hits": {},
+  "wall_s": 16.033207654953003
+}

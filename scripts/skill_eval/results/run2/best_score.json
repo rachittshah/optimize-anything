@@ -1,0 +1,560 @@
+{
+  "train": {
+    "components": {
+      "trigger_f1": 1.0,
+      "formulation_validity": 0.95,
+      "formulation_quality": 0.9071428571428571,
+      "brevity": 1.0
+    },
+    "weighted": 0.9571428571428571,
+    "n_trigger": 36,
+    "n_formulation": 20,
+    "failed": [],
+    "flags": [],
+    "trigger_confusion": {
+      "tp": 17,
+      "fp": 0,
+      "fn": 0,
+      "tn": 19
+    },
+    "misrouted": [],
+    "valid_low_quality": [],
+    "invalid_high_quality": [],
+    "formulations": [
+      {
+        "id": "f01",
+        "validity": 1.0,
+        "quality": 0.9285714285714286,
+        "mode": "call",
+        "validity_reason": "ran: seed scored without evaluator errors",
+        "criteria": {
+          "evaluator_fits_signal": 2,
+          "asi_richness": 2,
+          "mode_and_split": 2,
+          "objective": 2,
+          "budget": 2,
+          "clarify_when_needed": 2,
+          "safety_and_runnability": 1
+        },
+        "critique": "Mostly sound. Weaknesses: the evaluator assumes an OpenAI-compatible endpoint and env vars that the user never specified, so it may not run in the user's environment. When example is None it substitutes a made-up example. The 0.7 partial credit muddies the pure exact-match accuracy metric. For multi-key dict candidates it takes only the first value. The objective's 'do not embed tickets verbatim' constraint is not enforced by the evaluator."
+      },
+      {
+        "id": "f02",
+        "validity": 1.0,
+        "quality": 0.8571428571428571,
+        "mode": "call",
+        "validity_reason": "ran: seed scored without evaluator errors",
+        "criteria": {
+          "evaluator_fits_signal": 2,
+          "asi_richness": 2,
+          "mode_and_split": 1,
+          "objective": 2,
+          "budget": 2,
+          "clarify_when_needed": 2,
+          "safety_and_runnability": 1
+        },
+        "critique": "Held-out split is only 2 examples, which is too few, and it hand-picks the 'hard' cases. The evaluator assumes an OpenAI endpoint with env vars that may not exist, so it is fragile. Its seed key `extract_prompt` is fine. The example=None fallback uses a made-up example, which is questionable. The call proceeds despite an assumed endpoint, but this is disclosed. Case-sensitive exact matching is stricter than needed."
+      },
+      {
+        "id": "f04",
+        "validity": 1.0,
+        "quality": 0.9285714285714286,
+        "mode": "call",
+        "validity_reason": "ran: seed scored without evaluator errors",
+        "criteria": {
+          "evaluator_fits_signal": 2,
+          "asi_richness": 1,
+          "mode_and_split": 2,
+          "objective": 2,
+          "budget": 2,
+          "clarify_when_needed": 2,
+          "safety_and_runnability": 2
+        },
+        "critique": "The formulation closely matches the gold. The main weakness is ASI: the shell evaluator only surfaces bench.py's stdout (the wrong-case message or timing), not a per-example dict, so the proposer gets limited diagnostics. That is a limit of the provided bench, but the agent did not add a wrapper to enrich it. Everything else is sound: a shell evaluator using {{candidate_file}}, a specific objective, and a small budget."
+      },
+      {
+        "id": "f06",
+        "validity": 1.0,
+        "quality": 0.9285714285714286,
+        "mode": "call",
+        "validity_reason": "ran: seed scored without evaluator errors",
+        "criteria": {
+          "evaluator_fits_signal": 2,
+          "asi_richness": 1,
+          "mode_and_split": 2,
+          "objective": 2,
+          "budget": 2,
+          "clarify_when_needed": 2,
+          "safety_and_runnability": 2
+        },
+        "critique": "The shell evaluator parses only 'Score: X' from the benchmark, so the proposer sees no diagnostics beyond the score. The benchmark's time line and 'wrong grouping' message are not surfaced as structured ASI, which keeps criterion 2 at 1. Otherwise the formulation is sound: it uses the shell evaluator with {{candidate_file}}, a specific objective with hard constraints, single-task mode, and a reasonable budget. The timing noise is acknowledged."
+      },
+      {
+        "id": "f08",
+        "validity": 1.0,
+        "quality": 1.0,
+        "mode": "call",
+        "validity_reason": "ran: seed scored without evaluator errors",
+        "criteria": {
+          "evaluator_fits_signal": 2,
+          "asi_richness": 2,
+          "mode_and_split": 2,
+          "objective": 2,
+          "budget": 2,
+          "clarify_when_needed": 2,
+          "safety_and_runnability": 2
+        },
+        "critique": "Minor issues only. The background states DD/MM/YYYY as the default for ambiguous slash dates, while the gold uses MM/DD. The cases don't distinguish between the two, so it's harmless but arbitrary. The evaluator takes the first value of a dict candidate rather than joining all values, which is fine for a single-file candidate. The example=None fallback is handled. Overall a sound formulation."
+      },
+      {
+        "id": "f09",
+        "validity": 1.0,
+        "quality": 1.0,
+        "mode": "call",
+        "validity_reason": "ran: seed scored without evaluator errors",
+        "criteria": {
+          "evaluator_fits_signal": 2,
+          "asi_richness": 2,
+          "mode_and_split": 2,
+          "objective": 2,
+          "budget": 2,
+          "clarify_when_needed": 2,
+          "safety_and_runnability": 2
+        },
+        "critique": "Strong formulation overall. Minor issues: the `example is None` fallback uses a hard-coded sample, which is harmless. The candidate dict handling takes the first value, fine. The objective is long but precise. The dataset has only 6 examples with no valset, which is acceptable as the user did not ask about unseen data. No significant problems."
+      },
+      {
+        "id": "f11",
+        "validity": 1.0,
+        "quality": 0.9285714285714286,
+        "mode": "call",
+        "validity_reason": "ran: seed scored without evaluator errors",
+        "criteria": {
+          "evaluator_fits_signal": 2,
+          "asi_richness": 2,
+          "mode_and_split": 2,
+          "objective": 2,
+          "budget": 2,
+          "clarify_when_needed": 2,
+          "safety_and_runnability": 1
+        },
+        "critique": "Evaluator is sound: exact-label check with rich per-example diagnostics, and train/val are disjoint. Weaknesses: it assumes an OpenAI endpoint with env vars and a default model, which may not match the environment, so it is fragile. The example=None fallback uses the key 'expected', which is consistent with the dataset. The budget of 60 calls and 6 iterations is modest but reasonable. The 3-example valset is noisy, which the agent acknowledges."
+      },
+      {
+        "id": "f12",
+        "validity": 1.0,
+        "quality": 0.9285714285714286,
+        "mode": "call",
+        "validity_reason": "ran: seed scored without evaluator errors",
+        "criteria": {
+          "evaluator_fits_signal": 2,
+          "asi_richness": 2,
+          "mode_and_split": 2,
+          "objective": 2,
+          "budget": 2,
+          "clarify_when_needed": 2,
+          "safety_and_runnability": 1
+        },
+        "critique": "Evaluator and ASI are strong (python, multiset F1 plus exact-match bonus, with got/missing/extra and failing_checks). The main flaw is runnability: the dataset uses 'input'/'expected' keys instead of the file's 'text'/'keywords'. Under the evaluator's string-candidate fallback, a plain-string candidate is treated as only the split pattern, which is fragile. The example=None placeholder then crashes on example[\"input\"] being empty-safe but is hacky. The objective's 0.8/0.2 score blend is non-standard but acceptable."
+      },
+      {
+        "id": "f13",
+        "validity": 1.0,
+        "quality": 0.8571428571428571,
+        "mode": "call",
+        "validity_reason": "ran: seed scored without evaluator errors",
+        "criteria": {
+          "evaluator_fits_signal": 2,
+          "asi_richness": 2,
+          "mode_and_split": 1,
+          "objective": 2,
+          "budget": 1,
+          "clarify_when_needed": 2,
+          "safety_and_runnability": 2
+        },
+        "critique": "Mode is wrong: the traces are fixed, so single-task was right, but the agent chose multi-task/dataset mode and the evaluator treats each trace separately. That means scores for legit and scraper traces are never combined, so the optimizer sees per-trace averages rather than the real trade-off. The scraper trace is also compressed into a generator, with the 400-point assumption unverified because the file was truncated. Budget (150 calls, 30 iterations) is excessive for a millisecond evaluator."
+      },
+      {
+        "id": "f15",
+        "validity": 1.0,
+        "quality": 0.8571428571428571,
+        "mode": "call",
+        "validity_reason": "ran: seed scored without evaluator errors on 12/13 examples",
+        "criteria": {
+          "evaluator_fits_signal": 2,
+          "asi_richness": 2,
+          "mode_and_split": 1,
+          "objective": 2,
+          "budget": 1,
+          "clarify_when_needed": 2,
+          "safety_and_runnability": 2
+        },
+        "critique": "Dataset mode is used, but a simulator with a fixed outage list is really a single-task problem, and the dataset is just synthetic points with no valset. Budget (150 calls, 12 iterations) is overkill for a microsecond evaluator and exceeds the gold's 20. The evaluator also has a quirk: the failing_checks flag for slow give-up is arbitrary. Otherwise the assumptions are stated clearly and the ASI is rich."
+      },
+      {
+        "id": "f16",
+        "validity": 1.0,
+        "quality": 0.9285714285714286,
+        "mode": "call",
+        "validity_reason": "ran: seed scored without evaluator errors",
+        "criteria": {
+          "evaluator_fits_signal": 2,
+          "asi_richness": 1,
+          "mode_and_split": 2,
+          "objective": 2,
+          "budget": 2,
+          "clarify_when_needed": 2,
+          "safety_and_runnability": 2
+        },
+        "critique": "ASI is limited to the judge's free-text violation list in 'criterion -> issue -> fix' form; nothing is structured, which keeps it at 1. The word cap of 80 is arbitrary but disclosed as an assumption. The judge criteria are heavy: many hard constraints could make scoring noisy. The seed key '404_copy' begins with a digit, which is a minor oddity. Otherwise this is a sound, well-matched formulation with a reasonable budget."
+      },
+      {
+        "id": "f17",
+        "validity": 1.0,
+        "quality": 1.0,
+        "mode": "call",
+        "validity_reason": "ran: seed scored without evaluator errors",
+        "criteria": {
+          "evaluator_fits_signal": 2,
+          "asi_richness": 2,
+          "mode_and_split": 2,
+          "objective": 2,
+          "budget": 2,
+          "clarify_when_needed": 2,
+          "safety_and_runnability": 2
+        },
+        "critique": "Minor issues only. The judge is only a proxy for conversion, which is noted. The criteria ask for 'criterion -> issue -> fix' violations, which gives usable diagnostics. The score anchors have a small gap, since 5 is undefined. The budget of 30 calls and 10 iterations is reasonable. The background tells the optimizer to use placeholders, which is sensible given the unknown product. No real weaknesses found."
+      },
+      {
+        "id": "f20",
+        "validity": 1.0,
+        "quality": 0.9285714285714286,
+        "mode": "call",
+        "validity_reason": "ran: seed scored without evaluator errors",
+        "criteria": {
+          "evaluator_fits_signal": 2,
+          "asi_richness": 2,
+          "mode_and_split": 2,
+          "objective": 2,
+          "budget": 2,
+          "clarify_when_needed": 2,
+          "safety_and_runnability": 1
+        },
+        "critique": "Evaluator and ASI are strong. Main weakness is runnability: it assumes an OpenAI endpoint, env vars, and a default model name that may not exist in the user's setup. It also silently substitutes a fake example when example is None. The mention-file check uses the full basename, which is stricter than the gold's stem match. The 3/2 split is tiny, and the held-out types are unseen in training, which makes the validation signal noisy. Otherwise the formulation is sound."
+      },
+      {
+        "id": "f21",
+        "validity": 1.0,
+        "quality": 0.8571428571428571,
+        "mode": "call",
+        "validity_reason": "ran: seed scored without evaluator errors",
+        "criteria": {
+          "evaluator_fits_signal": 2,
+          "asi_richness": 2,
+          "mode_and_split": 1,
+          "objective": 2,
+          "budget": 2,
+          "clarify_when_needed": 2,
+          "safety_and_runnability": 1
+        },
+        "critique": "Dataset items were renamed to {input, expected} rather than the original code/bug_keyword/line fields. The 4/2 split is valid but small, and the valset's two items (injection, ==) are an unrepresentative mix. The evaluator depends on OPENAI env vars and assumes a model that the user never specified, so it is fragile. The line regex only matches 'line N' or 'lN' formats. The seed key is 'GEMINI.md', and no python-stdlib issues were found otherwise."
+      },
+      {
+        "id": "f23",
+        "validity": 1.0,
+        "quality": 1.0,
+        "mode": "clarify",
+        "validity_reason": "clarified (gold is clarify)",
+        "criteria": {
+          "evaluator_fits_signal": 2,
+          "asi_richness": 2,
+          "mode_and_split": 2,
+          "objective": 2,
+          "budget": 2,
+          "clarify_when_needed": 2,
+          "safety_and_runnability": 2
+        },
+        "critique": "Strong clarification: it asks about the missing artifact, success signal, and data, and says what each answer unlocks. It offers defaults for run method and budget, and plans a held-out valset with a deterministic evaluator. Minor gaps: it does not name system prompt vs tool descriptions vs code as options, and the plan is sketched only lightly. Nothing is invented and no tool call is made."
+      },
+      {
+        "id": "f24",
+        "validity": 0.0,
+        "quality": 0.5,
+        "mode": "call",
+        "validity_reason": "called the tool / did not clarify, but the request lacks what a sound call needs (gold is clarify)",
+        "criteria": {
+          "evaluator_fits_signal": 1,
+          "asi_richness": 1,
+          "mode_and_split": 1,
+          "objective": 1,
+          "budget": 2,
+          "clarify_when_needed": 0,
+          "safety_and_runnability": 1
+        },
+        "critique": "The gold item is a clarify case. The agent skipped the clarifying questions and substituted an LLM judge for conversions, though it did disclose the proxy caveat in the background and after the call. It never asked about conversion data, A/B testing, or the audience. The objective says 'judged conversion potential', which is a proxy. ASI depends on the judge's violation list. The evaluator is llm_judge with a possibly mismatched seed format (hero key and one line). The budget is reasonable. Because it should have asked first, criteria 1-5 and 7 are capped at 1, except budget, which I scored 2 despite the cap."
+      },
+      {
+        "id": "f25",
+        "validity": 1.0,
+        "quality": 0.9285714285714286,
+        "mode": "call",
+        "validity_reason": "ran: seed scored without evaluator errors",
+        "criteria": {
+          "evaluator_fits_signal": 2,
+          "asi_richness": 2,
+          "mode_and_split": 2,
+          "objective": 2,
+          "budget": 2,
+          "clarify_when_needed": 2,
+          "safety_and_runnability": 1
+        },
+        "critique": "Minor issues: the evaluator handles example=None with a fake example, which is fine, but it uses OPENAI_API_KEY, an assumption not stated by the user, so it may be unrunnable if only Anthropic credit exists. Budget omits reflection minibatch size and no_improvement_patience, though 24 calls is reasonable. Dataset uses 'expected' rather than the 'label' key, which is harmless. Overall a strong formulation."
+      },
+      {
+        "id": "f26",
+        "validity": 1.0,
+        "quality": 0.9285714285714286,
+        "mode": "call",
+        "validity_reason": "ran: seed scored without evaluator errors",
+        "criteria": {
+          "evaluator_fits_signal": 2,
+          "asi_richness": 2,
+          "mode_and_split": 2,
+          "objective": 2,
+          "budget": 1,
+          "clarify_when_needed": 2,
+          "safety_and_runnability": 2
+        },
+        "critique": "Main problem: the user asked for about five minutes, but the config sets no timeout_seconds. The agent claims the tool has no wall-clock cap, which is unsupported, and the gold uses timeout_seconds=300. The metric-call and iteration caps are reasonable but don't enforce a time limit. Minor: partial credit by difflib similarity is a slightly noisy proxy for exact match, though it is harmless here and gives useful gradient."
+      },
+      {
+        "id": "f28",
+        "validity": 1.0,
+        "quality": 0.8571428571428571,
+        "mode": "call",
+        "validity_reason": "ran: seed scored without evaluator errors",
+        "criteria": {
+          "evaluator_fits_signal": 2,
+          "asi_richness": 2,
+          "mode_and_split": 1,
+          "objective": 2,
+          "budget": 2,
+          "clarify_when_needed": 2,
+          "safety_and_runnability": 1
+        },
+        "critique": "Evaluator calls an OpenAI endpoint with OPENAI_API_KEY, while the reference used Anthropic; environment is an unverified assumption, so runnability is fragile. The agent also altered the user's data (added 3.1%), which is defensible but unrequested. No valset with only 4 examples, which is acceptable but weakens generalization checks. The 'not_shorter_than_source' penalty is an invented extra constraint. Otherwise the deterministic checks, ASI, objective, and budget are strong."
+      },
+      {
+        "id": "f29",
+        "validity": 1.0,
+        "quality": 1.0,
+        "mode": "call",
+        "validity_reason": "ran: seed scored without evaluator errors",
+        "criteria": {
+          "evaluator_fits_signal": 2,
+          "asi_richness": 2,
+          "mode_and_split": 2,
+          "objective": 2,
+          "budget": 2,
+          "clarify_when_needed": 2,
+          "safety_and_runnability": 2
+        },
+        "critique": "Strong formulation overall. Minor issues: the dataset key is renamed from the file's 'rows' to 'input', which is fine because the evaluator is consistent with it. The 0.9 cap on partial credit is a small oddity that adds nothing. The budget of 100 calls and 20 iterations is slightly generous for a trivial evaluator, but still reasonable. The evaluator handles example=None and both str and dict candidates, and it uses only the standard library."
+      }
+    ]
+  },
+  "val": {
+    "components": {
+      "trigger_f1": 1.0,
+      "formulation_validity": 1.0,
+      "formulation_quality": 0.9428571428571428,
+      "brevity": 1.0
+    },
+    "weighted": 0.9828571428571429,
+    "n_trigger": 14,
+    "n_formulation": 10,
+    "failed": [],
+    "flags": [],
+    "trigger_confusion": {
+      "tp": 7,
+      "fp": 0,
+      "fn": 0,
+      "tn": 7
+    },
+    "misrouted": [],
+    "valid_low_quality": [],
+    "invalid_high_quality": [],
+    "formulations": [
+      {
+        "id": "f03",
+        "validity": 1.0,
+        "quality": 0.9285714285714286,
+        "mode": "call",
+        "validity_reason": "ran: seed scored without evaluator errors",
+        "criteria": {
+          "evaluator_fits_signal": 2,
+          "asi_richness": 2,
+          "mode_and_split": 2,
+          "objective": 2,
+          "budget": 2,
+          "clarify_when_needed": 2,
+          "safety_and_runnability": 1
+        },
+        "critique": "Evaluator design is sound (execution match, rich ASI, clean split). Weaknesses: it assumes an OpenAI endpoint and key, a different provider than the gold's Anthropic one, which may be unavailable, so runnability is fragile. The partial 0.2 score for wrong rows is a mild deviation from a clean 0/1 accuracy. The dataset uses 'input'/'expected' keys, which is fine. The 6-example split is acknowledged as noisy."
+      },
+      {
+        "id": "f05",
+        "validity": 1.0,
+        "quality": 0.9285714285714286,
+        "mode": "call",
+        "validity_reason": "ran: seed scored without evaluator errors",
+        "criteria": {
+          "evaluator_fits_signal": 2,
+          "asi_richness": 1,
+          "mode_and_split": 2,
+          "objective": 2,
+          "budget": 2,
+          "clarify_when_needed": 2,
+          "safety_and_runnability": 2
+        },
+        "critique": "The formulation closely matches the gold: it reuses the user's bench through {{candidate_file}}, keeps the Score regex, and states the tie-break constraint. The main weakness is ASI. It relies on the bench's own stdout, which gives only a time line and short failure messages, with no per-example expected-versus-got detail. The budget of 40 metric calls is slightly generous for a cheap eval but reasonable. The objective is a bit verbose but specific."
+      },
+      {
+        "id": "f07",
+        "validity": 1.0,
+        "quality": 0.9285714285714286,
+        "mode": "call",
+        "validity_reason": "ran: seed scored without evaluator errors",
+        "criteria": {
+          "evaluator_fits_signal": 2,
+          "asi_richness": 2,
+          "mode_and_split": 2,
+          "objective": 2,
+          "budget": 2,
+          "clarify_when_needed": 2,
+          "safety_and_runnability": 1
+        },
+        "critique": "The evaluator uses re.search rather than fullmatch. It relies on the regex anchoring itself, so a candidate dropping anchors would score falsely high on positives and negatives. It also relies on the string being anchored. The example=None fallback uses keys input/expected, which is fine. Dataset keys were renamed, which is okay. The objective adds assumptions, such as 'no lookbehind', that are a bit over-constrained. Otherwise, the setup is sound."
+      },
+      {
+        "id": "f10",
+        "validity": 1.0,
+        "quality": 1.0,
+        "mode": "call",
+        "validity_reason": "ran: seed scored without evaluator errors",
+        "criteria": {
+          "evaluator_fits_signal": 2,
+          "asi_richness": 2,
+          "mode_and_split": 2,
+          "objective": 2,
+          "budget": 2,
+          "clarify_when_needed": 2,
+          "safety_and_runnability": 2
+        },
+        "critique": "Minor issues only. The dataset renames the fields to input/expected, and the evaluator is consistent with that, so it runs. The string-candidate fallback ignores the line-order split and treats the whole string as include, which is a small robustness gap. The background has a slightly garbled sentence about 'WIN a FREE iPhone', and its hints lean toward overfitting. The objective is specific, and the budget is reasonable for a cheap evaluator."
+      },
+      {
+        "id": "f14",
+        "validity": 1.0,
+        "quality": 0.8571428571428571,
+        "mode": "call",
+        "validity_reason": "ran: seed scored without evaluator errors",
+        "criteria": {
+          "evaluator_fits_signal": 2,
+          "asi_richness": 1,
+          "mode_and_split": 2,
+          "objective": 2,
+          "budget": 1,
+          "clarify_when_needed": 2,
+          "safety_and_runnability": 2
+        },
+        "critique": "The ASI is limited: the shell evaluator only regex-extracts the score, so the proposer sees little beyond the number. The simulator's hit_rate and config-error lines may or may not be passed back, and nothing is evaluator-side. The budget of 40 metric calls and 10 iterations is generous for a 2-parameter deterministic space; 16 calls would suffice, and the agent's own note says a small budget is enough, which conflicts with its choice. Otherwise the formulation is sound: it reuses the simulator via {{candidate_file}}, and the objective is specific."
+      },
+      {
+        "id": "f18",
+        "validity": 1.0,
+        "quality": 0.9285714285714286,
+        "mode": "call",
+        "validity_reason": "ran: seed scored without evaluator errors",
+        "criteria": {
+          "evaluator_fits_signal": 2,
+          "asi_richness": 1,
+          "mode_and_split": 2,
+          "objective": 2,
+          "budget": 2,
+          "clarify_when_needed": 2,
+          "safety_and_runnability": 2
+        },
+        "critique": "The ASI is only whatever the judge's feedback produces; the criteria ask for a violations list in 'criterion -> issue -> fix' form, which is decent but still not a structured per-example dict. The seed is the full pitch text, which is over 12 words and violates the hard constraint, though that is a minor, arguably sensible starting point. The budget of 30 metric calls is somewhat generous for a cheap judge but reasonable and not a real issue."
+      },
+      {
+        "id": "f19",
+        "validity": 1.0,
+        "quality": 1.0,
+        "mode": "call",
+        "validity_reason": "ran: seed scored without evaluator errors",
+        "criteria": {
+          "evaluator_fits_signal": 2,
+          "asi_richness": 2,
+          "mode_and_split": 2,
+          "objective": 2,
+          "budget": 2,
+          "clarify_when_needed": 2,
+          "safety_and_runnability": 2
+        },
+        "critique": "Minor issues only: the evaluator depends on an OpenAI-compatible endpoint, with a default model and key from the environment, which may not be available. The valset has just 2 items, so validation is noisy, though the agent flagged this. Arg credit is gated on the tool being correct, a small deviation from the gold. The 60s timeout covers a 30s request."
+      },
+      {
+        "id": "f22",
+        "validity": 1.0,
+        "quality": 1.0,
+        "mode": "clarify",
+        "validity_reason": "clarified (gold is clarify)",
+        "criteria": {
+          "evaluator_fits_signal": 2,
+          "asi_richness": 2,
+          "mode_and_split": 2,
+          "objective": 2,
+          "budget": 2,
+          "clarify_when_needed": 2,
+          "safety_and_runnability": 2
+        },
+        "critique": "Strong clarify reply: it doesn't invent a prompt, asks for the artifact, the success criterion, examples and model, and explains what each answer unlocks (labels lead to a deterministic evaluator with a valset, subjective goals to an anchored judge). Minor nit: the default endpoint and budget assumptions are slightly presumptuous, but they are labeled optional and don't hurt the plan."
+      },
+      {
+        "id": "f27",
+        "validity": 1.0,
+        "quality": 0.8571428571428571,
+        "mode": "call",
+        "validity_reason": "ran: seed scored without evaluator errors",
+        "criteria": {
+          "evaluator_fits_signal": 2,
+          "asi_richness": 1,
+          "mode_and_split": 2,
+          "objective": 2,
+          "budget": 1,
+          "clarify_when_needed": 2,
+          "safety_and_runnability": 2
+        },
+        "critique": "Budget is mismatched: max_iterations=14 with max_metric_calls=15 is inconsistent, since each iteration costs about 2 evals, so about 7 iterations is the fit. The seed counts toward the budget, which is a reasonable assumption. ASI is limited to the simulator's stdout; the shell evaluator returns no structured diagnostics, though the score_pattern does capture the score. Otherwise strong: the timeout of 300 exceeds the 2-minute run, the bounds are in the objective, and only {{candidate_file}} is used."
+      },
+      {
+        "id": "f30",
+        "validity": 1.0,
+        "quality": 1.0,
+        "mode": "call",
+        "validity_reason": "ran: seed scored without evaluator errors",
+        "criteria": {
+          "evaluator_fits_signal": 2,
+          "asi_richness": 2,
+          "mode_and_split": 2,
+          "objective": 2,
+          "budget": 2,
+          "clarify_when_needed": 2,
+          "safety_and_runnability": 2
+        },
+        "critique": "Very close to gold. Minor issues: the dataset is the same 5 cases with no valset, which is acceptable since the user didn't ask for held-out testing. The evaluator handles example=None and both str and dict candidates, with a timeout of 30. Budget of 100 calls and 15 iterations is slightly larger than needed but fits a trivial eval. No substantive problems found."
+      }
+    ]
+  }
+}

@@ -1,0 +1,24 @@
+scoring seed (train + val)...
+                 trigF1  valid   qual   brev WEIGHT  n(trig/form) failed
+seed train        0.970  0.750  0.718  1.000  0.831  36/20       0
+seed val          1.000  0.800  0.764  1.000  0.869  14/10       0
+engine: 27 train / 13 val examples, cap $49.00 (reserve $1.00), extra config {'promotion': 'paired_se', 'eval_workers': 8, 'no_improvement_patience': 3, 'min_improvement': 0.01, 'prescreen': True, 'proposal_memory': True}
+[iter 1] val best=0.8492 spend=$0.00
+[iter 2] val best=0.8492 spend=$0.23
+[iter 3] val best=0.8962 spend=$0.95
+  new best val=0.9654  spend=$1.69
+[iter 4] val best=0.9654 spend=$1.83
+[iter 5] val best=0.9654 spend=$2.61
+[iter 6] val best=0.9654 spend=$3.24
+  new best val=0.9802  spend=$3.93
+[iter 7] val best=0.9802 spend=$4.08
+[iter 8] val best=0.9802 spend=$4.57
+[iter 9] val best=0.9802 spend=$5.46
+scoring best (train + val)...
+                 trigF1  valid   qual   brev WEIGHT  n(trig/form) failed
+seed train        0.970  0.750  0.718  1.000  0.831  36/20       0
+seed val          1.000  0.800  0.764  1.000  0.869  14/10       0
+best train        1.000  0.950  0.907  1.000  0.957  36/20       0
+best val          1.000  1.000  0.943  1.000  0.983  14/10       0
+stop: no_improvement | spend $6.68 | wall 17.0 min | leakage seed 0% best 21%
+wrote ~/Projects/optimize-anything/scripts/skill_eval/results/run2

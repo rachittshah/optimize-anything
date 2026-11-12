@@ -1,0 +1,435 @@
+{
+  "train": {
+    "components": {
+      "trigger_f1": 1.0,
+      "formulation_validity": 0.75,
+      "formulation_quality": 0.7142857142857143,
+      "brevity": 1.0
+    },
+    "weighted": 0.8392857142857142,
+    "n_trigger": 16,
+    "n_formulation": 4,
+    "failed": [
+      {
+        "id": "t02",
+        "error": "router call failed: claude -p error (exit 1): You've hit your 5-hour limit \u00b7 resets 11:20pm (Asia/Calcutta)"
+      },
+      {
+        "id": "t03",
+        "error": "router call failed: claude -p error (exit 1): You've hit your 5-hour limit \u00b7 resets 11:20pm (Asia/Calcutta)"
+      },
+      {
+        "id": "t06",
+        "error": "router call failed: claude -p error (exit 1): You've hit your 5-hour limit \u00b7 resets 11:20pm (Asia/Calcutta)"
+      },
+      {
+        "id": "t08",
+        "error": "router call failed: claude -p error (exit 1): You've hit your 5-hour limit \u00b7 resets 11:20pm (Asia/Calcutta)"
+      },
+      {
+        "id": "t11",
+        "error": "router call failed: claude -p error (exit 1): You've hit your 5-hour limit \u00b7 resets 11:20pm (Asia/Calcutta)"
+      },
+      {
+        "id": "t12",
+        "error": "router call failed: claude -p error (exit 1): You've hit your 5-hour limit \u00b7 resets 11:20pm (Asia/Calcutta)"
+      },
+      {
+        "id": "t18",
+        "error": "router call failed: claude -p error (exit 1): You've hit your 5-hour limit \u00b7 resets 11:20pm (Asia/Calcutta)"
+      },
+      {
+        "id": "t20",
+        "error": "router call failed: claude -p error (exit 1): You've hit your 5-hour limit \u00b7 resets 11:20pm (Asia/Calcutta)"
+      },
+      {
+        "id": "t22",
+        "error": "router call failed: claude -p error (exit 1): You've hit your 5-hour limit \u00b7 resets 11:20pm (Asia/Calcutta)"
+      },
+      {
+        "id": "t24",
+        "error": "router call failed: claude -p error (exit 1): You've hit your 5-hour limit \u00b7 resets 11:20pm (Asia/Calcutta)"
+      },
+      {
+        "id": "n02",
+        "error": "router call failed: claude -p error (exit 1): You've hit your 5-hour limit \u00b7 resets 11:20pm (Asia/Calcutta)"
+      },
+      {
+        "id": "n04",
+        "error": "router call failed: claude -p error (exit 1): You've hit your 5-hour limit \u00b7 resets 11:20pm (Asia/Calcutta)"
+      },
+      {
+        "id": "n08",
+        "error": "router call failed: claude -p error (exit 1): You've hit your 5-hour limit \u00b7 resets 11:20pm (Asia/Calcutta)"
+      },
+      {
+        "id": "n09",
+        "error": "router call failed: claude -p error (exit 1): You've hit your 5-hour limit \u00b7 resets 11:20pm (Asia/Calcutta)"
+      },
+      {
+        "id": "n11",
+        "error": "router call failed: claude -p error (exit 1): You've hit your 5-hour limit \u00b7 resets 11:20pm (Asia/Calcutta)"
+      },
+      {
+        "id": "n15",
+        "error": "router call failed: claude -p error (exit 1): You've hit your 5-hour limit \u00b7 resets 11:20pm (Asia/Calcutta)"
+      },
+      {
+        "id": "n18",
+        "error": "router call failed: claude -p error (exit 1): You've hit your 5-hour limit \u00b7 resets 11:20pm (Asia/Calcutta)"
+      },
+      {
+        "id": "u01",
+        "error": "router call failed: claude -p error (exit 1): You've hit your 5-hour limit \u00b7 resets 11:20pm (Asia/Calcutta)"
+      },
+      {
+        "id": "u04",
+        "error": "router call failed: claude -p error (exit 1): You've hit your 5-hour limit \u00b7 resets 11:20pm (Asia/Calcutta)"
+      },
+      {
+        "id": "u06",
+        "error": "router call failed: claude -p error (exit 1): You've hit your 5-hour limit \u00b7 resets 11:20pm (Asia/Calcutta)"
+      },
+      {
+        "id": "f02",
+        "error": "agent call failed: claude -p error (exit 1): You've hit your 5-hour limit \u00b7 resets 11:20pm (Asia/Calcutta)"
+      },
+      {
+        "id": "f04",
+        "error": "agent call failed: claude -p error (exit 1): You've hit your 5-hour limit \u00b7 resets 11:20pm (Asia/Calcutta)"
+      },
+      {
+        "id": "f06",
+        "error": "agent call failed: claude -p error (exit 1): You've hit your 5-hour limit \u00b7 resets 11:20pm (Asia/Calcutta)"
+      },
+      {
+        "id": "f08",
+        "error": "agent call failed: claude -p error (exit 1): You've hit your 5-hour limit \u00b7 resets 11:20pm (Asia/Calcutta)"
+      },
+      {
+        "id": "f09",
+        "error": "agent call failed: claude -p error (exit 1): You've hit your 5-hour limit \u00b7 resets 11:20pm (Asia/Calcutta)"
+      },
+      {
+        "id": "f11",
+        "error": "agent call failed: claude -p error (exit 1): You've hit your 5-hour limit \u00b7 resets 11:20pm (Asia/Calcutta)"
+      },
+      {
+        "id": "f12",
+        "error": "agent call failed: claude -p error (exit 1): You've hit your 5-hour limit \u00b7 resets 11:20pm (Asia/Calcutta)"
+      },
+      {
+        "id": "f13",
+        "error": "agent call failed: claude -p error (exit 1): You've hit your 5-hour limit \u00b7 resets 11:20pm (Asia/Calcutta)"
+      },
+      {
+        "id": "f15",
+        "error": "agent call failed: claude -p error (exit 1): You've hit your 5-hour limit \u00b7 resets 11:20pm (Asia/Calcutta)"
+      },
+      {
+        "id": "f17",
+        "error": "agent call failed: claude -p error (exit 1): You've hit your 5-hour limit \u00b7 resets 11:20pm (Asia/Calcutta)"
+      },
+      {
+        "id": "f21",
+        "error": "agent call failed: claude -p error (exit 1): You've hit your 5-hour limit \u00b7 resets 11:20pm (Asia/Calcutta)"
+      },
+      {
+        "id": "f24",
+        "error": "agent call failed: claude -p error (exit 1): You've hit your 5-hour limit \u00b7 resets 11:20pm (Asia/Calcutta)"
+      },
+      {
+        "id": "f25",
+        "error": "agent call failed: claude -p error (exit 1): You've hit your 5-hour limit \u00b7 resets 11:20pm (Asia/Calcutta)"
+      },
+      {
+        "id": "f26",
+        "error": "agent call failed: claude -p error (exit 1): You've hit your 5-hour limit \u00b7 resets 11:20pm (Asia/Calcutta)"
+      },
+      {
+        "id": "f28",
+        "error": "agent call failed: claude -p error (exit 1): You've hit your 5-hour limit \u00b7 resets 11:20pm (Asia/Calcutta)"
+      },
+      {
+        "id": "f29",
+        "error": "agent call failed: claude -p error (exit 1): You've hit your 5-hour limit \u00b7 resets 11:20pm (Asia/Calcutta)"
+      }
+    ],
+    "flags": [],
+    "trigger_confusion": {
+      "tp": 7,
+      "fp": 0,
+      "fn": 0,
+      "tn": 9
+    },
+    "misrouted": [],
+    "valid_low_quality": [],
+    "invalid_high_quality": [],
+    "formulations": [
+      {
+        "id": "f01",
+        "validity": 1.0,
+        "quality": 0.9285714285714286,
+        "mode": "call",
+        "validity_reason": "ran: seed scored without evaluator errors",
+        "criteria": {
+          "evaluator_fits_signal": 2,
+          "asi_richness": 2,
+          "mode_and_split": 2,
+          "objective": 2,
+          "budget": 2,
+          "clarify_when_needed": 2,
+          "safety_and_runnability": 1
+        },
+        "critique": "Mostly sound: exact-match python evaluator, no leakage, split matches the generalization request. Main weakness is runnability: the evaluator example=None path uses a SAMPLE that overlaps with the training data, and it makes network calls with a hardcoded model name. Failure ASI is somewhat templated and generic. Budget of 60 calls is fine for 7 train examples plus 3 validation examples."
+      },
+      {
+        "id": "f16",
+        "validity": 1.0,
+        "quality": 1.0,
+        "mode": "call",
+        "validity_reason": "ran: seed scored without evaluator errors",
+        "criteria": {
+          "evaluator_fits_signal": 2,
+          "asi_richness": 2,
+          "mode_and_split": 2,
+          "objective": 2,
+          "budget": 2,
+          "clarify_when_needed": 2,
+          "safety_and_runnability": 2
+        },
+        "critique": "Very close to the gold. Minor issues: the judge criteria are fairly long, with many caps that may make scoring noisy, and the seed key '404.md' is a filename rather than a descriptive key. The 120s timeout is fine. The ASI request (per-criterion lines with offending quote and fix) is rich. No significant problems."
+      },
+      {
+        "id": "f20",
+        "validity": 0.0,
+        "quality": 0.35714285714285715,
+        "mode": "clarify",
+        "validity_reason": "asked to clarify, but the request had enough to formulate a call",
+        "criteria": {
+          "evaluator_fits_signal": 1,
+          "asi_richness": 1,
+          "mode_and_split": 1,
+          "objective": 1,
+          "budget": 0,
+          "clarify_when_needed": 0,
+          "safety_and_runnability": 1
+        },
+        "critique": "The reply asks questions instead of calling the tool, but the gold shows an evaluator can be built: a python evaluator calling the API with the 5 given samples. Question 1 is needless, and question 3 is minor. No tool call means no budget, no concrete objective, and no concrete split (5 samples is enough for 3/2). It only sketches the plan, and the ASI is described only briefly."
+      },
+      {
+        "id": "f23",
+        "validity": 1.0,
+        "quality": 0.5714285714285714,
+        "mode": "clarify",
+        "validity_reason": "clarified (gold is clarify)",
+        "criteria": {
+          "evaluator_fits_signal": 1,
+          "asi_richness": 1,
+          "mode_and_split": 1,
+          "objective": 1,
+          "budget": 1,
+          "clarify_when_needed": 2,
+          "safety_and_runnability": 1
+        },
+        "critique": "The reply correctly asks instead of guessing, and each question says what the answer unlocks, which fully earns criterion 6. It is conditional only in a loose sense. It never offers a default plan (e.g. optimize the system prompt against a pass/fail task suite) and never sketches the evaluator, ASI, split, objective or budget beyond naming fields. Under the clarify rule, criteria 1-5 and 7 therefore get 1."
+      }
+    ]
+  },
+  "val": {
+    "components": {
+      "trigger_f1": 1.0,
+      "formulation_validity": 0.9,
+      "formulation_quality": 0.9071428571428571,
+      "brevity": 1.0
+    },
+    "weighted": 0.9421428571428572,
+    "n_trigger": 14,
+    "n_formulation": 10,
+    "failed": [],
+    "flags": [],
+    "trigger_confusion": {
+      "tp": 7,
+      "fp": 0,
+      "fn": 0,
+      "tn": 7
+    },
+    "misrouted": [],
+    "valid_low_quality": [],
+    "invalid_high_quality": [
+      "f03"
+    ],
+    "formulations": [
+      {
+        "id": "f03",
+        "validity": 0.0,
+        "quality": 0.9285714285714286,
+        "mode": "call",
+        "validity_reason": "runtime: evaluator errored on every seed example (6); first: generated SQL failed to execute: OperationalError('unrecognized token: \"{\"')",
+        "criteria": {
+          "evaluator_fits_signal": 2,
+          "asi_richness": 2,
+          "mode_and_split": 1,
+          "objective": 2,
+          "budget": 2,
+          "clarify_when_needed": 2,
+          "safety_and_runnability": 2
+        },
+        "critique": "No valset was held out: all 6 questions are in the dataset, even though the objective stresses generalization to any question. That is the main weakness, and the formulation admits it. The evaluator also has a hardcoded SAMPLE of 2 questions used when example is None, which are also in the dataset, a minor leak. The seed key 'sql_prompt.txt' is fine. Otherwise the formulation is strong: execution match, rich diagnostics, and a sensible budget."
+      },
+      {
+        "id": "f05",
+        "validity": 1.0,
+        "quality": 0.8571428571428571,
+        "mode": "call",
+        "validity_reason": "ran: seed scored without evaluator errors",
+        "criteria": {
+          "evaluator_fits_signal": 2,
+          "asi_richness": 1,
+          "mode_and_split": 2,
+          "objective": 2,
+          "budget": 1,
+          "clarify_when_needed": 2,
+          "safety_and_runnability": 2
+        },
+        "critique": "Budget is oversized: 150 metric calls and 20 iterations for a simple, cheap optimization, versus the gold's 20 calls and 10 iterations. ASI is only raw benchmark stdout, which is thin. The benchmark prints only time and a pass/fail message, so there are no per-example diagnostics. The seed key 'wordfreq.py' differs from the gold's 'wordfreq_py', which is minor. Otherwise the formulation is sound: it reuses the existing bench, passes the candidate via {{candidate_file}}, and keeps the tie-break constraint in the objective."
+      },
+      {
+        "id": "f07",
+        "validity": 1.0,
+        "quality": 0.9285714285714286,
+        "mode": "call",
+        "validity_reason": "ran: seed scored without evaluator errors",
+        "criteria": {
+          "evaluator_fits_signal": 2,
+          "asi_richness": 2,
+          "mode_and_split": 2,
+          "objective": 1,
+          "budget": 2,
+          "clarify_when_needed": 2,
+          "safety_and_runnability": 2
+        },
+        "critique": "The evaluator uses re.search instead of fullmatch, which is a real weakness. The regex is already anchored, but a candidate could drop the anchors and match substrings, so the optimizer could game the score (for example, '555-010-99999' would be accepted by an unanchored pattern). The objective also names 're.search' only in the background, not as a fullmatch constraint. The embedded SAMPLE in the evaluator is only a fallback for example=None and is minor. Otherwise the ASI, mode, and budget are good."
+      },
+      {
+        "id": "f10",
+        "validity": 1.0,
+        "quality": 0.9285714285714286,
+        "mode": "call",
+        "validity_reason": "ran: seed scored without evaluator errors",
+        "criteria": {
+          "evaluator_fits_signal": 2,
+          "asi_richness": 2,
+          "mode_and_split": 2,
+          "objective": 2,
+          "budget": 2,
+          "clarify_when_needed": 2,
+          "safety_and_runnability": 1
+        },
+        "critique": "Mostly sound. Main weakness is runnability: the evaluator's example=None branch uses a hardcoded 3-item SAMPLE, so full evaluation scores only a partial set. A string candidate also falls back to include-only with an empty exclude, whereas the gold falls back to line order. Candidate keys 'include.txt' and 'exclude.txt' are fine. Otherwise the evaluator, ASI, objective and budget are good."
+      },
+      {
+        "id": "f14",
+        "validity": 1.0,
+        "quality": 0.9285714285714286,
+        "mode": "call",
+        "validity_reason": "ran: seed scored without evaluator errors",
+        "criteria": {
+          "evaluator_fits_signal": 2,
+          "asi_richness": 1,
+          "mode_and_split": 2,
+          "objective": 2,
+          "budget": 2,
+          "clarify_when_needed": 2,
+          "safety_and_runnability": 2
+        },
+        "critique": "The formulation closely matches the gold: it runs sim_cache.py as a shell evaluator on {{candidate_file}} with a Score regex. ASI is limited to the simulator's printed line (hit_rate, size, policy, penalty) because 2>&1 merges the streams, so there is no structured per-example dict. The budget of 40 calls is somewhat more than a two-parameter space needs, but it is harmless for such a cheap evaluation."
+      },
+      {
+        "id": "f18",
+        "validity": 1.0,
+        "quality": 0.9285714285714286,
+        "mode": "call",
+        "validity_reason": "ran: seed scored without evaluator errors",
+        "criteria": {
+          "evaluator_fits_signal": 2,
+          "asi_richness": 1,
+          "mode_and_split": 2,
+          "objective": 2,
+          "budget": 2,
+          "clarify_when_needed": 2,
+          "safety_and_runnability": 2
+        },
+        "critique": "ASI is limited to what the llm_judge's per-criterion output provides (quoted offending text plus a fix). That is reasonably actionable but not a structured per-example dict, so it earns 1. The seed is already strong, which leaves little room for improvement. The 12-word cap is an assumption the agent stated openly, and it differs from the gold's 10. Minor: max_metric_calls of 24 is slightly generous, though acceptable."
+      },
+      {
+        "id": "f19",
+        "validity": 1.0,
+        "quality": 0.8571428571428571,
+        "mode": "call",
+        "validity_reason": "ran: seed scored without evaluator errors",
+        "criteria": {
+          "evaluator_fits_signal": 2,
+          "asi_richness": 2,
+          "mode_and_split": 0,
+          "objective": 2,
+          "budget": 2,
+          "clarify_when_needed": 2,
+          "safety_and_runnability": 2
+        },
+        "critique": "The main flaw is the split. The user said they will judge on unseen tasks, yet all 8 examples went into `dataset` with no `valset`. Eight examples can be split (the gold uses 5/3), so the claim that it's too few is weak. This invites overfitting to the training tasks and gives no held-out signal. The evaluator itself is sound: it checks the real tool call and returns rich per-example diagnostics. The budget is reasonable."
+      },
+      {
+        "id": "f22",
+        "validity": 1.0,
+        "quality": 0.9285714285714286,
+        "mode": "clarify",
+        "validity_reason": "clarified (gold is clarify)",
+        "criteria": {
+          "evaluator_fits_signal": 2,
+          "asi_richness": 2,
+          "mode_and_split": 2,
+          "objective": 2,
+          "budget": 1,
+          "clarify_when_needed": 2,
+          "safety_and_runnability": 2
+        },
+        "critique": "Strong clarification: it asks for the artifact, the success metric and examples, and explains what each answer unlocks (labels lead to a python evaluator, a rubric leads to an LLM judge, examples allow a train/held-out split). Minor gaps: it never raises budget or iteration limits, and it only mentions the target model as an aside inside a bundled question."
+      },
+      {
+        "id": "f27",
+        "validity": 1.0,
+        "quality": 0.8571428571428571,
+        "mode": "call",
+        "validity_reason": "ran: seed scored without evaluator errors",
+        "criteria": {
+          "evaluator_fits_signal": 2,
+          "asi_richness": 1,
+          "mode_and_split": 2,
+          "objective": 2,
+          "budget": 1,
+          "clarify_when_needed": 2,
+          "safety_and_runnability": 2
+        },
+        "critique": "The budget is only partly right. max_metric_calls=15 matches the user's limit and the timeout of 300 exceeds the 2-minute run. However, max_iterations=10 is too high: each iteration costs about 2 evals, so about 7 is the right value. The ASI is the raw simulator stdout (throughput and cost lines) with no structured per-example dict, so it gives only modest diagnostics. The background gives the bounds, which is good. The seed key 'sched.json' is fine."
+      },
+      {
+        "id": "f30",
+        "validity": 1.0,
+        "quality": 0.9285714285714286,
+        "mode": "call",
+        "validity_reason": "ran: seed scored without evaluator errors",
+        "criteria": {
+          "evaluator_fits_signal": 2,
+          "asi_richness": 2,
+          "mode_and_split": 2,
+          "objective": 2,
+          "budget": 2,
+          "clarify_when_needed": 2,
+          "safety_and_runnability": 1
+        },
+        "critique": "The embedded SAMPLE list in the evaluator contains only 3 of the 5 cases, so the example=None path scores on a different set than the dataset and omits the pipe and quoted-field cases. This is a real inconsistency. The evaluator also uses exec on the candidate, which is acceptable here. The budget of 150 calls and 20 iterations is somewhat generous for a trivial evaluator. Otherwise the formulation is strong: exact-match python evaluator, rich ASI, and an objective that is specific."
+      }
+    ]
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "total_usd": 6.6762019,
+  "calls": 334,
+  "by_role": {
+    "propose": {
+      "usd": 1.307848,
+      "calls": 9,
+      "input_tokens": 66935,
+      "output_tokens": 38622,
+      "cache_read_tokens": 0
+    },
+    "router": {
+      "usd": 0.0372009,
+      "calls": 93,
+      "input_tokens": 184415,
+      "output_tokens": 673,
+      "cache_read_tokens": 0
+    },
+    "agent": {
+      "usd": 3.0123070000000007,
+      "calls": 116,
+      "input_tokens": 192618,
+      "output_tokens": 220200,
+      "cache_read_tokens": 402990
+    },
+    "judge": {
+      "usd": 2.3188459999999993,
+      "calls": 116,
+      "input_tokens": 519435,
+      "output_tokens": 24157,
+      "cache_read_tokens": 0
+    }
+  },
+  "cache_hits": {
+    "router": 127,
+    "agent": 30,
+    "judge": 30
+  },
+  "phases_usd": {
+    "seed_scoring": 0,
+    "engine": 6.251607099999999,
+    "final_scoring": 0.4245948000000004
+  },
+  "cap_usd": 50.0,
+  "wall_s": 1020.9597110748291
+}

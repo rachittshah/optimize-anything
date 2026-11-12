@@ -1,0 +1,170 @@
+{
+  "trigger_prompts": {
+    "pct": 0.0,
+    "n_items": 36,
+    "hits": []
+  },
+  "formulation_requests": {
+    "pct": 0.0,
+    "n_items": 20,
+    "hits": []
+  },
+  "gold_json": {
+    "pct": 0.55,
+    "n_items": 20,
+    "hits": [
+      {
+        "id": "f04",
+        "shared": [
+          "bench py candidate_file score_pattern score",
+          "py candidate_file score_pattern score d"
+        ],
+        "n_shared": 2
+      },
+      {
+        "id": "f06",
+        "shared": [
+          "py candidate_file score_pattern score d"
+        ],
+        "n_shared": 1
+      },
+      {
+        "id": "f08",
+        "shared": [
+          "evaluator type python code def"
+        ],
+        "n_shared": 1
+      },
+      {
+        "id": "f09",
+        "shared": [
+          "evaluator type python code def"
+        ],
+        "n_shared": 1
+      },
+      {
+        "id": "f13",
+        "shared": [
+          "evaluator type python code def"
+        ],
+        "n_shared": 1
+      },
+      {
+        "id": "f15",
+        "shared": [
+          "evaluator type python code def"
+        ],
+        "n_shared": 1
+      },
+      {
+        "id": "f16",
+        "shared": [
+          "evaluator type llm_judge criteria rate",
+          "score x 10 objective maximize"
+        ],
+        "n_shared": 2
+      },
+      {
+        "id": "f17",
+        "shared": [
+          "score x 10 objective maximize"
+        ],
+        "n_shared": 1
+      },
+      {
+        "id": "f24",
+        "shared": [
+          "evaluator type llm_judge criteria rate"
+        ],
+        "n_shared": 1
+      },
+      {
+        "id": "f26",
+        "shared": [
+          "evaluator type python code def"
+        ],
+        "n_shared": 1
+      }
+    ]
+  },
+  "all_train_items": {
+    "pct": 0.196,
+    "n_items": 56,
+    "hits": [
+      {
+        "id": "f04",
+        "shared": [
+          "bench py candidate_file score_pattern score",
+          "py candidate_file score_pattern score d"
+        ],
+        "n_shared": 2
+      },
+      {
+        "id": "f06",
+        "shared": [
+          "py candidate_file score_pattern score d"
+        ],
+        "n_shared": 1
+      },
+      {
+        "id": "f08",
+        "shared": [
+          "evaluator type python code def"
+        ],
+        "n_shared": 1
+      },
+      {
+        "id": "f09",
+        "shared": [
+          "evaluator type python code def"
+        ],
+        "n_shared": 1
+      },
+      {
+        "id": "f13",
+        "shared": [
+          "evaluator type python code def"
+        ],
+        "n_shared": 1
+      },
+      {
+        "id": "f15",
+        "shared": [
+          "evaluator type python code def"
+        ],
+        "n_shared": 1
+      },
+      {
+        "id": "f16",
+        "shared": [
+          "evaluator type llm_judge criteria rate",
+          "score x 10 objective maximize"
+        ],
+        "n_shared": 2
+      },
+      {
+        "id": "f17",
+        "shared": [
+          "score x 10 objective maximize"
+        ],
+        "n_shared": 1
+      },
+      {
+        "id": "f24",
+        "shared": [
+          "evaluator type llm_judge criteria rate"
+        ],
+        "n_shared": 1
+      },
+      {
+        "id": "f26",
+        "shared": [
+          "evaluator type python code def"
+        ],
+        "n_shared": 1
+      }
+    ]
+  },
+  "flag": false,
+  "flag_threshold": 0.2
+}

@@ -1,0 +1,96 @@
+{
+  "stop_reason": "no_improvement",
+  "iterations": 8,
+  "candidates": 8,
+  "incomplete": false,
+  "quota_error": null,
+  "failed_evals": 0,
+  "total_evals": 158,
+  "cache_hits_engine": 0,
+  "best_candidate_idx": 5,
+  "best_val_proxy": 0.9802197802197803,
+  "seed_val_proxy": 0.8491758241758242,
+  "val_best_history": [
+    0.8491758241758242,
+    0.8491758241758242,
+    0.8961538461538462,
+    0.9653846153846154,
+    0.9653846153846154,
+    0.9653846153846154,
+    0.9802197802197803,
+    0.9802197802197803,
+    0.9802197802197803
+  ],
+  "official": {
+    "seed_train": {
+      "weighted": 0.8312662337662338,
+      "trigger_f1": 0.9696969696969697,
+      "formulation_validity": 0.75,
+      "formulation_quality": 0.7178571428571427,
+      "brevity": 1.0
+    },
+    "seed_val": {
+      "weighted": 0.8692857142857142,
+      "trigger_f1": 1.0,
+      "formulation_validity": 0.8,
+      "formulation_quality": 0.7642857142857142,
+      "brevity": 1.0
+    },
+    "best_train": {
+      "weighted": 0.9571428571428571,
+      "trigger_f1": 1.0,
+      "formulation_validity": 0.95,
+      "formulation_quality": 0.9071428571428571,
+      "brevity": 1.0
+    },
+    "best_val": {
+      "weighted": 0.9828571428571429,
+      "trigger_f1": 1.0,
+      "formulation_validity": 1.0,
+      "formulation_quality": 0.9428571428571428,
+      "brevity": 1.0
+    }
+  },
+  "cross_counts": {
+    "seed_train": {
+      "valid_low_quality": [],
+      "invalid_high_quality": [
+        "f09",
+        "f25",
+        "f26",
+        "f29"
+      ]
+    },
+    "seed_val": {
+      "valid_low_quality": [],
+      "invalid_high_quality": [
+        "f03",
+        "f07"
+      ]
+    },
+    "best_train": {
+      "valid_low_quality": [],
+      "invalid_high_quality": []
+    },
+    "best_val": {
+      "valid_low_quality": [],
+      "invalid_high_quality": []
+    }
+  },
+  "leakage_pct": {
+    "seed": 0.0,
+    "best": 0.214
+  },
+  "leakage_flag": {
+    "seed": false,
+    "best": true
+  },
+  "total_usd": 6.6762019,
+  "wall_s": 1020.9597110748291,
+  "weights": {
+    "trigger_f1": 0.3,
+    "formulation_validity": 0.3,
+    "formulation_quality": 0.3,
+    "brevity": 0.1
+  }
+}
