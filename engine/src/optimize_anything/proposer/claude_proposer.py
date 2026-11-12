@@ -1,44 +1,22 @@
+"""Backward-compatible alias. Prefer ReflectiveProposer with an explicit LLMClient."""
 from __future__ import annotations
-from typing import Any
 
-import anthropic
+from optimize_anything.llm.base import LLMClient
+from optimize_anything.llm.models import resolve_model
+from optimize_anything.proposer.reflective import ReflectiveProposer
 
-from optimize_anything.proposer.prompts import build_reflection_prompt, extract_candidate
 
-
-class ClaudeProposer:
+class ClaudeProposer(ReflectiveProposer):
     def __init__(
         self,
-        model: str = "claude-opus-4-6",
+        model: str | None = None,
         max_tokens: int = 8192,
-        temperature: float = 1.0,
+        temperature: float | None = None,  # deprecated, ignored
+        llm: LLMClient | None = None,
+        effort: str | None = "high",
     ):
-        self.model = model
-        self.max_tokens = max_tokens
-        self.temperature = temperature
-        self.client = anthropic.Anthropic()
-
-    def propose(
-        self,
-        current_text: str,
-        component_name: str,
-        objective: str,
-        asi_entries: list[dict[str, Any]],
-        background: str | None = None,
-    ) -> str:
-        prompt = build_reflection_prompt(
-            current_text=current_text,
-            component_name=component_name,
-            objective=objective,
-            asi_entries=asi_entries,
-            background=background,
-        )
-
-        response = self.client.messages.create(
-            model=self.model,
-            max_tokens=self.max_tokens,
-            temperature=self.temperature,
-            messages=[{"role": "user", "content": prompt}],
-        )
-
-        return extract_candidate(response.content[0].text)
+        if llm is None:
+            from optimize_anything.llm.anthropic_backend import AnthropicLLM
+            llm = AnthropicLLM()  # lazy: no client until first call
+        super().__init__(llm, model=model or resolve_model("proposer", "anthropic"),
+                         effort=effort, max_tokens=max_tokens)

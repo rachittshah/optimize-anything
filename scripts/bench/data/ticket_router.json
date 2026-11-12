@@ -1,0 +1,428 @@
+{
+ "train": [
+  {
+   "id": "tk14",
+   "input": "Subject: 2FA codes | My 2FA codes stopped working after I changed phones.",
+   "queue": "account",
+   "priority": "P3",
+   "split": "train"
+  },
+  {
+   "id": "tk15",
+   "input": "Subject: Change username | How do I change my username?",
+   "queue": "account",
+   "priority": "P3",
+   "split": "train"
+  },
+  {
+   "id": "tk23",
+   "input": "Subject: Security alert | Got a security alert about a login from another country. Was that you?",
+   "queue": "account",
+   "priority": "P1",
+   "split": "train"
+  },
+  {
+   "id": "tk21",
+   "input": "Subject: locked out of admin | Our only admin is locked out, urgent, nobody can manage users.",
+   "queue": "account",
+   "priority": "P2",
+   "split": "train"
+  },
+  {
+   "id": "tk13",
+   "input": "Subject: Locked out | I'm locked out after too many attempts and have a demo in an hour.",
+   "queue": "account",
+   "priority": "P2",
+   "split": "train"
+  },
+  {
+   "id": "tk19",
+   "input": "Subject: Two-factor | Can I turn off two-factor for my team members?",
+   "queue": "account",
+   "priority": "P3",
+   "split": "train"
+  },
+  {
+   "id": "tk04",
+   "input": "Subject: Payment failed | Payment failed when I tried to upgrade, card is valid.",
+   "queue": "billing",
+   "priority": "P3",
+   "split": "train"
+  },
+  {
+   "id": "tk06",
+   "input": "Subject: Double charged after password reset | I reset my password and then got double charged for the month.",
+   "queue": "billing",
+   "priority": "P2",
+   "split": "train"
+  },
+  {
+   "id": "tk08",
+   "input": "Subject: URGENT refund | Urgent: I need the refund for the duplicate order processed today.",
+   "queue": "billing",
+   "priority": "P2",
+   "split": "train"
+  },
+  {
+   "id": "tk07",
+   "input": "Subject: Billed wrong amount | I was billed for 10 seats but we only have 6.",
+   "queue": "billing",
+   "priority": "P3",
+   "split": "train"
+  },
+  {
+   "id": "tk58",
+   "input": "Subject: Hacked & charged | My account was hacked and someone charged my card twice.",
+   "queue": "billing",
+   "priority": "P1",
+   "split": "train"
+  },
+  {
+   "id": "tk00",
+   "input": "Subject: Refund request | I cancelled within the trial but still see the subscription fee. Please refund.",
+   "queue": "billing",
+   "priority": "P3",
+   "split": "train"
+  },
+  {
+   "id": "tk54",
+   "input": "Subject: Docs typo | There's a typo on your pricing page FAQ.",
+   "queue": "general",
+   "priority": "P3",
+   "split": "train"
+  },
+  {
+   "id": "tk51",
+   "input": "Subject: Urgent question | Urgent question: do you offer discounts for nonprofits?",
+   "queue": "general",
+   "priority": "P3",
+   "split": "train"
+  },
+  {
+   "id": "tk46",
+   "input": "Subject: Feature request | Would love a dark mode!",
+   "queue": "general",
+   "priority": "P3",
+   "split": "train"
+  },
+  {
+   "id": "tk49",
+   "input": "Subject: Office hours | What are your support hours on weekends?",
+   "queue": "general",
+   "priority": "P3",
+   "split": "train"
+  },
+  {
+   "id": "tk32",
+   "input": "Subject: Courier lost it | The courier lost my parcel, it never arrived. Need a replacement.",
+   "queue": "shipping",
+   "priority": "P2",
+   "split": "train"
+  },
+  {
+   "id": "tk25",
+   "input": "Subject: Never arrived | Order #5521 never arrived, courier says delivered.",
+   "queue": "shipping",
+   "priority": "P2",
+   "split": "train"
+  },
+  {
+   "id": "tk30",
+   "input": "Subject: Tracking number | I never got a tracking number for my order.",
+   "queue": "shipping",
+   "priority": "P3",
+   "split": "train"
+  },
+  {
+   "id": "tk39",
+   "input": "Subject: Bug in export | Found a bug: CSV export drops the last row.",
+   "queue": "technical",
+   "priority": "P3",
+   "split": "train"
+  },
+  {
+   "id": "tk36",
+   "input": "Subject: Data loss after sync | After the last sync half of my notes are gone. This is data loss!",
+   "queue": "technical",
+   "priority": "P1",
+   "split": "train"
+  },
+  {
+   "id": "tk45",
+   "input": "Subject: Integration down | The Slack integration is down for us.",
+   "queue": "technical",
+   "priority": "P3",
+   "split": "train"
+  },
+  {
+   "id": "tk34",
+   "input": "Subject: API 500 errors | The API returns 500 errors on every POST to /orders.",
+   "queue": "technical",
+   "priority": "P3",
+   "split": "train"
+  },
+  {
+   "id": "tk43",
+   "input": "Subject: Urgent bug | Urgent: a bug in the scheduler sends reminders twice to customers.",
+   "queue": "technical",
+   "priority": "P2",
+   "split": "train"
+  }
+ ],
+ "val": [
+  {
+   "id": "tk20",
+   "input": "Subject: Sign in loop | Every time I sign in it sends me back to the sign in page.",
+   "queue": "account",
+   "priority": "P3",
+   "split": "val"
+  },
+  {
+   "id": "tk18",
+   "input": "Subject: Delete my account | Please delete my account and all my data per GDPR.",
+   "queue": "account",
+   "priority": "P3",
+   "split": "val"
+  },
+  {
+   "id": "tk22",
+   "input": "Subject: SSO login | Login via Google SSO shows a blank page for me.",
+   "queue": "account",
+   "priority": "P3",
+   "split": "val"
+  },
+  {
+   "id": "tk57",
+   "input": "Subject: Login error | Login fails with error code 403 since the update.",
+   "queue": "account",
+   "priority": "P3",
+   "split": "val"
+  },
+  {
+   "id": "tk03",
+   "input": "Subject: Overcharged | I was overcharged by $40 compared to my plan price.",
+   "queue": "billing",
+   "priority": "P2",
+   "split": "val"
+  },
+  {
+   "id": "tk11",
+   "input": "Subject: Tax on receipt | The receipt is missing our VAT number.",
+   "queue": "billing",
+   "priority": "P3",
+   "split": "val"
+  },
+  {
+   "id": "tk09",
+   "input": "Subject: Annual invoice | Please change the company name on the annual invoice.",
+   "queue": "billing",
+   "priority": "P3",
+   "split": "val"
+  },
+  {
+   "id": "tk56",
+   "input": "Subject: Refund for outage | Your outage last week cost us a day, we want a refund for that month.",
+   "queue": "billing",
+   "priority": "P1",
+   "split": "val"
+  },
+  {
+   "id": "tk48",
+   "input": "Subject: Thanks | Just wanted to say the new update is great.",
+   "queue": "general",
+   "priority": "P3",
+   "split": "val"
+  },
+  {
+   "id": "tk52",
+   "input": "Subject: Job application | Are you hiring designers?",
+   "queue": "general",
+   "priority": "P3",
+   "split": "val"
+  },
+  {
+   "id": "tk53",
+   "input": "Subject: Roadmap | Is there an Android tablet version planned?",
+   "queue": "general",
+   "priority": "P3",
+   "split": "val"
+  },
+  {
+   "id": "tk27",
+   "input": "Subject: Change shipping address | Can I change the shipping address on an order that hasn't shipped?",
+   "queue": "shipping",
+   "priority": "P3",
+   "split": "val"
+  },
+  {
+   "id": "tk29",
+   "input": "Subject: Wrong item shipped | You shipped me the blue model instead of the black one.",
+   "queue": "shipping",
+   "priority": "P3",
+   "split": "val"
+  },
+  {
+   "id": "tk31",
+   "input": "Subject: Urgent delivery | Urgent: our package with event badges must arrive by Friday.",
+   "queue": "shipping",
+   "priority": "P2",
+   "split": "val"
+  },
+  {
+   "id": "tk37",
+   "input": "Subject: Webhook timeout | Webhooks to our endpoint time out with a timeout error after 10s.",
+   "queue": "technical",
+   "priority": "P3",
+   "split": "val"
+  },
+  {
+   "id": "tk35",
+   "input": "Subject: App crash | The iOS app crashes when I open settings.",
+   "queue": "technical",
+   "priority": "P3",
+   "split": "val"
+  },
+  {
+   "id": "tk44",
+   "input": "Subject: Security vulnerability | I found an XSS security hole in your comment widget.",
+   "queue": "technical",
+   "priority": "P1",
+   "split": "val"
+  },
+  {
+   "id": "tk41",
+   "input": "Subject: Slow sync | Sync takes 20 minutes now instead of 1.",
+   "queue": "technical",
+   "priority": "P3",
+   "split": "val"
+  }
+ ],
+ "test": [
+  {
+   "id": "tk16",
+   "input": "Subject: Password reset email | The password reset email never shows up.",
+   "queue": "account",
+   "priority": "P3",
+   "split": "test"
+  },
+  {
+   "id": "tk17",
+   "input": "Subject: Account hacked | I think my account was hacked, someone changed my email address on my account.",
+   "queue": "account",
+   "priority": "P1",
+   "split": "test"
+  },
+  {
+   "id": "tk12",
+   "input": "Subject: Cannot log in | I can't log in since this morning, it says invalid credentials.",
+   "queue": "account",
+   "priority": "P3",
+   "split": "test"
+  },
+  {
+   "id": "tk02",
+   "input": "Subject: Invoice copy | Can you send a PDF receipt for my last payment? Need it for taxes.",
+   "queue": "billing",
+   "priority": "P3",
+   "split": "test"
+  },
+  {
+   "id": "tk10",
+   "input": "Subject: Card charged after cancel | I deleted my account last week but my card was charged again.",
+   "queue": "billing",
+   "priority": "P3",
+   "split": "test"
+  },
+  {
+   "id": "tk01",
+   "input": "Subject: Charged twice | My credit card was charged twice for the March invoice.",
+   "queue": "billing",
+   "priority": "P2",
+   "split": "test"
+  },
+  {
+   "id": "tk05",
+   "input": "Subject: Fraud?? | There are three purchases on my card I never made. Possible fraud on my account.",
+   "queue": "billing",
+   "priority": "P1",
+   "split": "test"
+  },
+  {
+   "id": "tk59",
+   "input": "Subject: Package and invoice | The package arrived fine but I need an invoice with my address.",
+   "queue": "billing",
+   "priority": "P3",
+   "split": "test"
+  },
+  {
+   "id": "tk55",
+   "input": "Subject: Conference | Will you be at the SaaS summit in May?",
+   "queue": "general",
+   "priority": "P3",
+   "split": "test"
+  },
+  {
+   "id": "tk50",
+   "input": "Subject: Press inquiry | I'm a journalist writing about productivity tools.",
+   "queue": "general",
+   "priority": "P3",
+   "split": "test"
+  },
+  {
+   "id": "tk47",
+   "input": "Subject: Partnership | We'd like to discuss a reseller partnership.",
+   "queue": "general",
+   "priority": "P3",
+   "split": "test"
+  },
+  {
+   "id": "tk24",
+   "input": "Subject: Where is my package | My package was supposed to arrive Monday, tracking hasn't updated.",
+   "queue": "shipping",
+   "priority": "P3",
+   "split": "test"
+  },
+  {
+   "id": "tk26",
+   "input": "Subject: Damaged | The box arrived damaged and the device screen is cracked.",
+   "queue": "shipping",
+   "priority": "P3",
+   "split": "test"
+  },
+  {
+   "id": "tk28",
+   "input": "Subject: Delivery time | How long does delivery to Canada take?",
+   "queue": "shipping",
+   "priority": "P3",
+   "split": "test"
+  },
+  {
+   "id": "tk38",
+   "input": "Subject: Page not loading | The reports page is not loading in Firefox.",
+   "queue": "technical",
+   "priority": "P3",
+   "split": "test"
+  },
+  {
+   "id": "tk42",
+   "input": "Subject: Error on upload | Uploading a 2MB file gives 'unknown error'.",
+   "queue": "technical",
+   "priority": "P3",
+   "split": "test"
+  },
+  {
+   "id": "tk33",
+   "input": "Subject: Outage | Your dashboard is down for all users in our org, total outage since 9am.",
+   "queue": "technical",
+   "priority": "P1",
+   "split": "test"
+  },
+  {
+   "id": "tk40",
+   "input": "Subject: Production is down | Production is down, our checkout depends on your API!",
+   "queue": "technical",
+   "priority": "P1",
+   "split": "test"
+  }
+ ]
+}

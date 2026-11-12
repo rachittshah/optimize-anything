@@ -17,6 +17,15 @@ class State:
     frontier: ParetoFrontier = field(default_factory=ParetoFrontier)
     iteration: int = -1
     total_evals: int = 0
+    failed_evals: int = 0
+    cache_hits: int = 0
+    # Flag-gated upgrade counters (stay 0 / empty under defaults)
+    prescreen_skips: int = 0
+    skipped_perfect: int = 0  # parent minibatches skipped because every score was perfect
+    halving_rejects: int = 0
+    halving_evals_saved: int = 0
+    promotions_blocked: int = 0
+    operator_counts: dict[str, int] = field(default_factory=dict)
     component_cursor: dict[int, int] = field(default_factory=dict)  # per-candidate round-robin
 
     def add_candidate(
@@ -58,7 +67,8 @@ class State:
         self.component_cursor[candidate_idx] = cursor + 1
         return name
 
-    def save(self, path: Path):
+    def save(self, path: Path, extra: dict | None = None):
+        """Atomically write state; `extra` keys (e.g. cost) are added alongside."""
         data = {
             "component_names": self.component_names,
             "candidates": [
@@ -70,10 +80,22 @@ class State:
             "frontier": self.frontier.to_dict(),
             "iteration": self.iteration,
             "total_evals": self.total_evals,
+            "failed_evals": self.failed_evals,
+            "cache_hits": self.cache_hits,
+            "prescreen_skips": self.prescreen_skips,
+            "skipped_perfect": self.skipped_perfect,
+            "halving_rejects": self.halving_rejects,
+            "halving_evals_saved": self.halving_evals_saved,
+            "promotions_blocked": self.promotions_blocked,
+            "operator_counts": dict(self.operator_counts),
             "component_cursor": {str(k): v for k, v in self.component_cursor.items()},
         }
+        if extra:
+            data.update(extra)
         path.parent.mkdir(parents=True, exist_ok=True)
-        path.write_text(json.dumps(data, indent=2))
+        tmp = path.with_suffix(path.suffix + ".tmp")
+        tmp.write_text(json.dumps(data, indent=2))
+        tmp.replace(path)
 
     @classmethod
     def load(cls, path: Path) -> State:
@@ -88,5 +110,11 @@ class State:
         state.frontier = ParetoFrontier.from_dict(data["frontier"])
         state.iteration = data["iteration"]
         state.total_evals = data["total_evals"]
+        state.failed_evals = data.get("failed_evals", 0)
+        state.cache_hits = data.get("cache_hits", 0)
+        for name in ("prescreen_skips", "skipped_perfect", "halving_rejects", "halving_evals_saved",
+                     "promotions_blocked"):
+            setattr(state, name, data.get(name, 0))
+        state.operator_counts = dict(data.get("operator_counts", {}))
         state.component_cursor = {int(k): v for k, v in data["component_cursor"].items()}
         return state

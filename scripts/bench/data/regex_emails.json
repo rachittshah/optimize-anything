@@ -1,0 +1,428 @@
+{
+ "train": [
+  {
+   "id": "em52",
+   "input": "user@123.456.789.0",
+   "label": false,
+   "hint": "numeric TLD / IP-like domain",
+   "split": "train"
+  },
+  {
+   "id": "em39",
+   "input": ".leadingdot@example.com",
+   "label": false,
+   "hint": "local part cannot start with a dot",
+   "split": "train"
+  },
+  {
+   "id": "em41",
+   "input": "double..dot@example.com",
+   "label": false,
+   "hint": "consecutive dots in local part",
+   "split": "train"
+  },
+  {
+   "id": "em43",
+   "input": "user@enddash-.com",
+   "label": false,
+   "hint": "domain label cannot end with hyphen",
+   "split": "train"
+  },
+  {
+   "id": "em40",
+   "input": "trailingdot.@example.com",
+   "label": false,
+   "hint": "local part cannot end with a dot",
+   "split": "train"
+  },
+  {
+   "id": "em47",
+   "input": "user@domain.c",
+   "label": false,
+   "hint": "TLD must be at least 2 letters",
+   "split": "train"
+  },
+  {
+   "id": "em51",
+   "input": "user@domain_underscore.com",
+   "label": false,
+   "hint": "underscore not allowed in domain",
+   "split": "train"
+  },
+  {
+   "id": "em55",
+   "input": " user@domain.com",
+   "label": false,
+   "hint": "leading whitespace",
+   "split": "train"
+  },
+  {
+   "id": "em37",
+   "input": "missingdomain@",
+   "label": false,
+   "hint": "empty domain",
+   "split": "train"
+  },
+  {
+   "id": "em35",
+   "input": "plainaddress",
+   "label": false,
+   "hint": "missing @",
+   "split": "train"
+  },
+  {
+   "id": "em59",
+   "input": "x@dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd.com",
+   "label": false,
+   "hint": "domain label longer than 63 chars",
+   "split": "train"
+  },
+  {
+   "id": "em12",
+   "input": "_leading.underscore@ok.org",
+   "label": true,
+   "hint": "local part may start with underscore",
+   "split": "train"
+  },
+  {
+   "id": "em14",
+   "input": "k@a-b.c-d.museum",
+   "label": true,
+   "hint": "hyphenated labels, long TLD",
+   "split": "train"
+  },
+  {
+   "id": "em32",
+   "input": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa@example.com",
+   "label": true,
+   "hint": "local part of exactly 64 chars is allowed",
+   "split": "train"
+  },
+  {
+   "id": "em25",
+   "input": "ti%@x.io",
+   "label": true,
+   "hint": "% at end of local part",
+   "split": "train"
+  },
+  {
+   "id": "em10",
+   "input": "n.a.m.e@domain.travel",
+   "label": true,
+   "hint": "single dots between chars are fine; long TLD",
+   "split": "train"
+  },
+  {
+   "id": "em06",
+   "input": "john%doe@mail.example.com",
+   "label": true,
+   "hint": "% is allowed in the local part",
+   "split": "train"
+  },
+  {
+   "id": "em07",
+   "input": "UPPER@CASE.COM",
+   "label": true,
+   "hint": "uppercase TLD is valid",
+   "split": "train"
+  },
+  {
+   "id": "em34",
+   "input": "Name.Surname@Uni-Stuttgart.DE",
+   "label": true,
+   "hint": "uppercase country TLD",
+   "split": "train"
+  },
+  {
+   "id": "em28",
+   "input": "test.email+alex@leetcode.com",
+   "label": true,
+   "hint": "dot and plus in local part",
+   "split": "train"
+  },
+  {
+   "id": "em01",
+   "input": "Bob.Smith@Example.org",
+   "label": true,
+   "hint": "uppercase letters and non-.com TLD are fine",
+   "split": "train"
+  },
+  {
+   "id": "em18",
+   "input": "very.long.local.part.with.many.dots@example.com",
+   "label": true,
+   "hint": "many single dots are fine",
+   "split": "train"
+  },
+  {
+   "id": "em21",
+   "input": "z_z@zz.zz",
+   "label": true,
+   "hint": "two-letter TLD",
+   "split": "train"
+  },
+  {
+   "id": "em29",
+   "input": "admin@mailserver1.co.in",
+   "label": true,
+   "hint": "label ends with digit",
+   "split": "train"
+  }
+ ],
+ "val": [
+  {
+   "id": "em58",
+   "input": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa@example.com",
+   "label": false,
+   "hint": "local part longer than 64 chars",
+   "split": "val"
+  },
+  {
+   "id": "em50",
+   "input": "o'reilly@example.com",
+   "label": false,
+   "hint": "apostrophe is not in the allowed set",
+   "split": "val"
+  },
+  {
+   "id": "em42",
+   "input": "user@-startdash.com",
+   "label": false,
+   "hint": "domain label cannot start with hyphen",
+   "split": "val"
+  },
+  {
+   "id": "em48",
+   "input": "user@domain.c0m",
+   "label": false,
+   "hint": "TLD must be letters only",
+   "split": "val"
+  },
+  {
+   "id": "em46",
+   "input": "user@domain",
+   "label": false,
+   "hint": "domain needs at least two labels",
+   "split": "val"
+  },
+  {
+   "id": "em36",
+   "input": "@missinglocal.com",
+   "label": false,
+   "hint": "empty local part",
+   "split": "val"
+  },
+  {
+   "id": "em38",
+   "input": "two@@signs.com",
+   "label": false,
+   "hint": "two @ signs",
+   "split": "val"
+  },
+  {
+   "id": "em30",
+   "input": "A-B_C.D%E+F@g-h.ij",
+   "label": true,
+   "hint": "every allowed local-part symbol",
+   "split": "val"
+  },
+  {
+   "id": "em31",
+   "input": "-dash-first@example.com",
+   "label": true,
+   "hint": "local part may start with hyphen",
+   "split": "val"
+  },
+  {
+   "id": "em05",
+   "input": "a1b2c3@test123.net",
+   "label": true,
+   "hint": "digits allowed in local part and labels",
+   "split": "val"
+  },
+  {
+   "id": "em13",
+   "input": "100%@percent.net",
+   "label": true,
+   "hint": "% allowed, local part may be digits",
+   "split": "val"
+  },
+  {
+   "id": "em23",
+   "input": "q@localhost.localdomain",
+   "label": true,
+   "hint": "two labels, letters-only TLD",
+   "split": "val"
+  },
+  {
+   "id": "em24",
+   "input": "abc.def@mail-server01.example.net",
+   "label": true,
+   "hint": "digits+hyphen inside label",
+   "split": "val"
+  },
+  {
+   "id": "em09",
+   "input": "user+filter+more@gmail.com",
+   "label": true,
+   "hint": "multiple + allowed",
+   "split": "val"
+  },
+  {
+   "id": "em17",
+   "input": "plus+@plus.com",
+   "label": true,
+   "hint": "local part may end with +",
+   "split": "val"
+  },
+  {
+   "id": "em16",
+   "input": "a@b.cd",
+   "label": true,
+   "hint": "minimal valid address",
+   "split": "val"
+  },
+  {
+   "id": "em19",
+   "input": "sales-team@123domain.com",
+   "label": true,
+   "hint": "label may start with a digit",
+   "split": "val"
+  },
+  {
+   "id": "em04",
+   "input": "x@y.co",
+   "label": true,
+   "hint": "one-char local and domain labels are valid",
+   "split": "val"
+  }
+ ],
+ "test": [
+  {
+   "id": "em45",
+   "input": "user@domain.com.",
+   "label": false,
+   "hint": "trailing dot after domain",
+   "split": "test"
+  },
+  {
+   "id": "em54",
+   "input": "user@[192.168.0.1]",
+   "label": false,
+   "hint": "IP-literal domain not allowed",
+   "split": "test"
+  },
+  {
+   "id": "em44",
+   "input": "user@domain..com",
+   "label": false,
+   "hint": "empty domain label (consecutive dots)",
+   "split": "test"
+  },
+  {
+   "id": "em56",
+   "input": "user#hash@example.com",
+   "label": false,
+   "hint": "# not allowed",
+   "split": "test"
+  },
+  {
+   "id": "em57",
+   "input": "<user@example.com>",
+   "label": false,
+   "hint": "angle brackets not allowed",
+   "split": "test"
+  },
+  {
+   "id": "em53",
+   "input": "\"quoted\"@example.com",
+   "label": false,
+   "hint": "quotes not allowed",
+   "split": "test"
+  },
+  {
+   "id": "em49",
+   "input": "user name@example.com",
+   "label": false,
+   "hint": "whitespace not allowed",
+   "split": "test"
+  },
+  {
+   "id": "em22",
+   "input": "user-@dash.com",
+   "label": true,
+   "hint": "local part may end with hyphen (only DOMAIN labels can't)",
+   "split": "test"
+  },
+  {
+   "id": "em03",
+   "input": "user_name@my-company.io",
+   "label": true,
+   "hint": "underscore in local part, hyphen inside a domain label",
+   "split": "test"
+  },
+  {
+   "id": "em26",
+   "input": "jane.doe@company.solutions",
+   "label": true,
+   "hint": "long TLD",
+   "split": "test"
+  },
+  {
+   "id": "em00",
+   "input": "alice@example.com",
+   "label": true,
+   "hint": "simple",
+   "split": "test"
+  },
+  {
+   "id": "em27",
+   "input": "o@o.oo",
+   "label": true,
+   "hint": "short everything",
+   "split": "test"
+  },
+  {
+   "id": "em11",
+   "input": "info@xn--bcher-kva.ch",
+   "label": true,
+   "hint": "punycode label: hyphens inside a label are fine",
+   "split": "test"
+  },
+  {
+   "id": "em20",
+   "input": "contact@a.b.c.d.e.fr",
+   "label": true,
+   "hint": "many labels",
+   "split": "test"
+  },
+  {
+   "id": "em08",
+   "input": "dev-ops@ci-cd.dev",
+   "label": true,
+   "hint": "hyphens inside labels are valid",
+   "split": "test"
+  },
+  {
+   "id": "em02",
+   "input": "first.last+tag@sub.domain.co.uk",
+   "label": true,
+   "hint": "plus tags and multi-label domains are valid",
+   "split": "test"
+  },
+  {
+   "id": "em33",
+   "input": "x@ddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd.com",
+   "label": true,
+   "hint": "domain label of exactly 63 chars is allowed",
+   "split": "test"
+  },
+  {
+   "id": "em15",
+   "input": "mixed.Case_99@Sub-Domain.Example.ORG",
+   "label": true,
+   "hint": "mixed case everywhere",
+   "split": "test"
+  }
+ ]
+}

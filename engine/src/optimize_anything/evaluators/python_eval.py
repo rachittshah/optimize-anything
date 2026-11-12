@@ -9,12 +9,19 @@ from typing import Any
 
 
 class PythonEvaluator:
+    # Multi-component candidates are passed to the user's evaluate() as a dict[str, str];
+    # single-component candidates as a plain string.
+    accepts_dict = True
+
     def __init__(self, code: str, timeout: int = 30):
         self.code = code
         self.timeout = timeout
 
+    def cache_identity(self) -> str:
+        return json.dumps(["python", self.code])
+
     def evaluate(
-        self, candidate: str, example: dict[str, Any] | None = None
+        self, candidate: str | dict[str, str], example: dict[str, Any] | None = None
     ) -> tuple[float, dict[str, Any]]:
         runner = self._build_runner(candidate, example)
 
@@ -43,7 +50,7 @@ class PythonEvaluator:
         finally:
             Path(tmp_path).unlink(missing_ok=True)
 
-    def _build_runner(self, candidate: str, example: dict | None) -> str:
+    def _build_runner(self, candidate: str | dict[str, str], example: dict | None) -> str:
         return f'''
 import json
 

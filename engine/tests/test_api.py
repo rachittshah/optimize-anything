@@ -8,7 +8,7 @@ def test_api_single_task_mode():
     def simple_eval(candidate, example=None):
         return min(1.0, len(candidate) / 50), {"length": len(candidate)}
 
-    with patch("optimize_anything.api.ClaudeProposer") as MockProposer:
+    with patch("optimize_anything.api.ReflectiveProposer") as MockProposer:
         mock_instance = MagicMock()
         mock_instance.propose.return_value = "hello world this is a longer text now"
         MockProposer.return_value = mock_instance
@@ -29,7 +29,7 @@ def test_api_with_dataset():
         overlap = len(set(candidate.split()) & set(target.split()))
         return overlap / max(len(target.split()), 1), {}
 
-    with patch("optimize_anything.api.ClaudeProposer") as MockProposer:
+    with patch("optimize_anything.api.ReflectiveProposer") as MockProposer:
         mock_instance = MagicMock()
         mock_instance.propose.return_value = "hello world foo bar"
         MockProposer.return_value = mock_instance
